@@ -1,0 +1,14 @@
+package common;
+
+public enum MenuType {
+	BREAKFAST,
+	LUNCH_AND_DINNER,
+	SALADS,
+	SOUPS,
+	SMALL_BITES,
+	SIDES,
+	SNACKS,
+	JUICES,
+	DRINKS,
+	SWEETS
+}
