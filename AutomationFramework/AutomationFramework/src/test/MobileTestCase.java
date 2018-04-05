@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 
 import common.UserType;
-import framework.AbstractDriver;
 import framework.MobileDriver;
 import mobilepage.AccountHome;
 import mobilepage.SnapHome;
@@ -26,28 +25,28 @@ public class MobileTestCase extends AbstractTestCase {
 	 * If no user is specified, we will login with the default user.  
 	 * For now, that is a standard three day meal plan subscriber.
 	 */
-	public void login()
+	public String login()
 	{
-		login(ThreeDayMealPlan);
+		return login(ThreeDayMealPlan);
 	}
 	
 	/**
 	 * Login with a specific user type.  
 	 * These users are predefined and always exist in the staging environment.
 	 */
-	public void login(UserType user)
+	public String login(UserType user)
 	{
-		login(user.getUsername(), user.getPassword());
+		return login(user.getUsername(), user.getPassword());
 	}
 	
 	/**
 	 * I am putting this function here to make it easily accessible for testcases.
 	 * Always make updates to the code in SnapHome.
 	 */
-	public void login(String username, String password)
+	public String login(String username, String password)
 	{
 		SnapHome snapHome = new SnapHome();
-		snapHome.login(username, password);
+		return snapHome.login(username, password);
 	}
 	
 	/**

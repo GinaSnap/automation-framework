@@ -1,8 +1,13 @@
 package framework;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -13,9 +18,12 @@ import io.appium.java_client.ios.IOSDriver;
 public class MobileDriver extends AbstractDriver {
 	
 	public static AppiumDriver<MobileElement> instance;
+	public final static Logger LOGGER = Logger.getLogger("TestLogger");
 	
 	public static void init()
 	{
+		initializeLogger();
+		
 		//Set the Desired Capabilities
 		DesiredCapabilities caps = new DesiredCapabilities();
 		caps.setCapability("automationName", "XCUITest");
@@ -54,5 +62,27 @@ public class MobileDriver extends AbstractDriver {
 		instance.get(url);
 	}
 
+	/**
+	 * 
+	 */
+	private static void initializeLogger()
+	{
+		LOGGER.setLevel(Level.INFO);
+
+        FileHandler fileTxt;
+		try {
+			fileTxt = new FileHandler("MobileTest.log");
+	        SimpleFormatter formatterTxt = new SimpleFormatter();
+	        fileTxt.setFormatter(formatterTxt);
+	        LOGGER.addHandler(fileTxt);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 }

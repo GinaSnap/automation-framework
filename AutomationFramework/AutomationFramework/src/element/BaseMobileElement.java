@@ -85,6 +85,7 @@ public class BaseMobileElement {
 	public boolean exists()
 	{
 		try {
+			scroll("d");
 			return getMobileElement().isDisplayed();
 		}
 		catch (NoSuchElementException e) {

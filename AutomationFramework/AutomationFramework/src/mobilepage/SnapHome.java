@@ -1,5 +1,7 @@
 package mobilepage;
 
+import org.openqa.selenium.NoSuchElementException;
+
 import common.UserType;
 import element.BaseMobileElement;
 import framework.FindMethod;
@@ -12,54 +14,146 @@ public class SnapHome {
 	public BaseMobileElement sixDigitCode = new BaseMobileElement("Verification code");
 	public BaseMobileElement password = new BaseMobileElement("password");
 	public BaseMobileElement submitLogin = new BaseMobileElement("log in");
-	public BaseMobileElement thanksGotIt = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeButton[@name='Scan'][1]");
-	public BaseMobileElement alreadyHaveAccount = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeButton[@name='Scan'][2]");
+	public BaseMobileElement thanksGotIt = new BaseMobileElement("Next");
+	public BaseMobileElement alreadyHaveAccount = new BaseMobileElement("Scan");
+	public BaseMobileElement passwordAlert = new BaseMobileElement(FindMethod.XPATH,"//XCUIElementTypeAlert");
+	public BaseMobileElement pwd_resetPassword = new BaseMobileElement("reset password");
+	public BaseMobileElement pwd_tryAgain = new BaseMobileElement("try again");
 	
-	public void login(String username, String pwd)
+	public String login(String username, String pwd)
 	{
-		startLogin.click();		
-		phoneNumber.setWebValue(username);
-		next.click();
+		String status = "Success";
+		try
+		{
+			startLogin.click();	
+		}
+		catch (NoSuchElementException e)
+		{
+			status="Login Link did not exist on the start page.";
+			return status;
+		}
+			
+		try
+		{
+			phoneNumber.setWebValue(username);
+			next.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			status="User was not prompted for a phone number.";
+			return status;
+		}
 		
-		password.setWebValue(pwd);
-		submitLogin.click();
+		try
+		{
+			password.setWebValue(pwd);
+		}
+		catch (NoSuchElementException e)
+		{
+			status="User was not prompted for a password.";
+			return status;
+		}
+		try
+		{
+			if (submitLogin.isEnabled())
+			{	
+				submitLogin.click();
+			}
+			else
+			{
+				status = "The submit button was not clickable.";
+				return status;
+			}
+		}
+		catch (NoSuchElementException e)
+		{
+			status="Submit Button did not exist.";
+			return status;
+		}
+		
+		if (passwordAlert.exists())
+		{
+			status="User entered an incorrect password.";
+			return status;
+		}
+		return status;
 	}
 	
 	/**
 	 * Create a new account with a unique phone number.
-	 * This method spans multiple pages, but SnapHome seemed 
-	 * like the most logical place to keep it.
 	 * 
 	 * Returns true if the process completed.  I do not check the user account details.
+	 * @throws  
 	 */
 	public boolean createAccount(UserType user)
 	{
 		startLogin.click();
 		phoneNumber.setWebValue(user.getUsername());
-		next.click();
 		
-		//error checking needed here.
+		//If next is not enabled it means we didn't enter a valid phone number.
+		if (next.isEnabled())
+			next.click();
+		else
+		{
+			//"User did not enter a valid phone number.");
+		}
 		
-		sixDigitCode.setWebValue("222222"); //don't hardcode this
-		next.click();
+		//If the password field exists, then it means the user already exists and we cannot continue.
+		if (password.exists())
+		{
+			//throw new CreateAccountException("User did not enter a unique phone number.");
+		}
 		
-		//error checking needed here.
+		if (sixDigitCode.isEnabled())
+		{
+			sixDigitCode.setWebValue("222222"); //don't hardcode this
+		}
+		else
+		{
+			//throw new CreateAccountException("User was not prompted to enter a six digit code.");
+		}
 		
-		thanksGotIt.click();
+		//If Next isn't enabled, then again it didn't recognize our 6 digit code, or it wasn't entered properly
+		if (next.isEnabled()) 
+		{
+			next.click();
+		}
+		else
+		{
+			//throw new CreateAccountException("User did not enter a valid six digit code.");
+		}
 		
-		//Error checking needed here.
+		//We expect to be prompted to create a snap funds profile
+		if (thanksGotIt.isEnabled())
+		{
+			thanksGotIt.click();
+		}
+		else
+		{
+			//throw new CreateAccountException("User was not prompted to create a new profile.");
+		}
+		
 		//Now we switch to the create profile screen to complete the process
-		
 		CreateProfile createProfile = new CreateProfile();
-		createProfile.firstName.setWebValue(user.getFirstName());
-		createProfile.lastName.setWebValue(user.getLastName());
-		createProfile.email.setWebValue(user.getEmail());
-		createProfile.selectCity();
-		//createProfile.password.setWebValue(user.getPassword());
+		if (createProfile.firstName.exists())
+		{
+			createProfile.firstName.setWebValue(user.getFirstName());
+			createProfile.lastName.setWebValue(user.getLastName());
+			createProfile.email.setWebValue(user.getEmail());
+			createProfile.selectCity();
+			createProfile.password.setWebValue(user.getPassword());
 		
-		createProfile.done.click();
+			createProfile.done.click();
+		}
+		else
+		{
+			//throw new CreateAccountException("Create Profile Screen did not load successfully.");
+		}
 		
 		return true;
 	}
 
 }
+
+	
+	

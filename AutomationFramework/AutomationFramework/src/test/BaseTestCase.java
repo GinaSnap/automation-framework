@@ -23,22 +23,24 @@ public class BaseTestCase extends AbstractTestCase {
 		WWWDriver.quit();
 	}
 	
-	public void login()
+	public String login()
 	{
 		login(ThreeDayMealPlan);
+		return "";
 	}
 	
-	public void login(UserType user)
+	public String login(UserType user)
 	{
 		LoginPage loginPage = new LoginPage();
 		loginPage.login(user.getUsername(), user.getPassword());
+		return "";
 	}
 	
-	public void login(String phone, String pwd)
+	public String login(String phone, String pwd)
 	{
 		LoginPage loginPage = new LoginPage();
 		loginPage.login(phone, pwd);
-
+		return "";
 	}
 	
 }

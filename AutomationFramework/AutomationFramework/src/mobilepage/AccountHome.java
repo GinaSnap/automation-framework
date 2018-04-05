@@ -1,5 +1,7 @@
 package mobilepage;
 
+import org.openqa.selenium.NoSuchElementException;
+
 import element.BaseMobileElement;
 
 /**
@@ -9,13 +11,13 @@ import element.BaseMobileElement;
  */
 public class AccountHome extends BasePage {
 	
-	public BaseMobileElement menuManageMealPlan = new BaseMobileElement("manage meal plan");
-	public BaseMobileElement menuOrders = new BaseMobileElement("orders");
-	public BaseMobileElement menuPromoCode = new BaseMobileElement("add promo code");
-	public BaseMobileElement menuProfile = new BaseMobileElement("profile");
-	public BaseMobileElement menuCustomerCare = new BaseMobileElement("customer care");
-	public BaseMobileElement menuGeneralInfo = new BaseMobileElement("general info");
-	public BaseMobileElement menuLogOut = new BaseMobileElement("log out");
+	private BaseMobileElement menuManageMealPlan = new BaseMobileElement("manage meal plan");
+	private BaseMobileElement menuOrders = new BaseMobileElement("orders");
+	private BaseMobileElement menuPromoCode = new BaseMobileElement("add promo code");
+	private BaseMobileElement menuProfile = new BaseMobileElement("profile");
+	private BaseMobileElement menuCustomerCare = new BaseMobileElement("customer care");
+	private BaseMobileElement menuGeneralInfo = new BaseMobileElement("general info");
+	private BaseMobileElement menuLogOut = new BaseMobileElement("log out");
 	
 	/**
 	 * Access the Manage Meal Plan Screen, or, Meal Plan Setup if not 
@@ -27,11 +29,26 @@ public class AccountHome extends BasePage {
 	}
 	
 	/**
-	 * Access Current and Past Orders.
+	 * Click Orders from the Account Menu.
+	 * @return
+	 * Return "Success" if the user is able to access the account menu and click Orders.
+	 * Return error string if not.
 	 */
-	public void goToOrders()
+	public String goToOrders()
 	{
-		menuOrders.click();
+		String status="Success";
+		if (goToAccount().equals("Success"))
+		{
+			try {
+				menuOrders.click();
+			}
+			catch (NoSuchElementException e)
+			{
+				status="Orders button is not displayed.";
+				return status;
+			}
+		}
+		return status;
 	}
 	
 	/**

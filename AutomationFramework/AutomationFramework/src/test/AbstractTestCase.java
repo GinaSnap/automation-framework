@@ -43,10 +43,10 @@ public abstract class AbstractTestCase {
 	@After
 	public abstract void tearDown() throws Exception;
 	
-	public abstract void login();
+	public abstract String login();
 	
-	public abstract void login(UserType userType);
+	public abstract String login(UserType userType);
 	
-	public abstract void login(String username, String password);
+	public abstract String login(String username, String password);
 
 }

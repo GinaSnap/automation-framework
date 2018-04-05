@@ -36,11 +36,21 @@ public class BasePage {
 	}
 	
 	/**
-	 * Load the Shopping Cart.
+	 * Click on the Shopping Basket icon.
 	 */
-	public void goToBasket()
+	public String goToBasket()
 	{
-		navBasket.click();
+		String status = "Success";
+		try
+		{
+			navBasket.click();
+		}
+		catch (Exception e)
+		{
+			status = "Unable to find the shopping basket icon.";
+			return status;
+		}
+		return status;
 	}
 	
 	/**
@@ -54,10 +64,11 @@ public class BasePage {
 	/**
 	 * Load the Main Account Menu.
 	 */
-	public void goToAccount()
+	public String goToAccount()
 	{
 		AbstractDriver.pause(3000);
 		navAccount.click();
+		return "Success";
 	}
 	
 }

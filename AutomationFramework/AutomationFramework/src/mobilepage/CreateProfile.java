@@ -12,11 +12,11 @@ import framework.FindMethod;
 public class CreateProfile extends BasePage {
 	
 	//IDs requested.  Using XPath for now.
-	public BaseMobileElement firstName = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeTextField[@value='Quite']");
-	public BaseMobileElement lastName = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeTextField[@value='Loyal']");
-	public BaseMobileElement email = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeTextField[@value='loyal5@snapkitchen.com']");
-	public BaseMobileElement password = new BaseMobileElement(FindMethod.XPATH, "//XCUITypeSecureTextField");
-	public BaseMobileElement city = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeTextField[@value='city']");
+	public BaseMobileElement firstName = new BaseMobileElement("FirstName");
+	public BaseMobileElement lastName = new BaseMobileElement("LastName");
+	public BaseMobileElement email = new BaseMobileElement("Email");
+	public BaseMobileElement password = new BaseMobileElement("Password");
+	public BaseMobileElement city = new BaseMobileElement("City");
 	public BaseMobileElement goBack = new BaseMobileElement("Close");
 	public BaseMobileElement done = new BaseMobileElement("done");
 	public BaseMobileElement viewPassword = new BaseMobileElement("icn masked");
