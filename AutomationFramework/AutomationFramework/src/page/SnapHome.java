@@ -1,5 +1,6 @@
 package page;
 
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.NoSuchElementException;
 
 import element.BaseWebElement;
@@ -19,6 +20,9 @@ public class SnapHome extends BasePage {
 	public BaseWebElement navSearch = new BaseWebElement(FindMethod.CLASSNAME, "link--search");
 	public BaseWebElement navAccount = new BaseWebElement(FindMethod.CLASSNAME, "link--account");
 	public BaseWebElement navCart = new BaseWebElement(FindMethod.CLASSNAME, "link--basket");
+	
+	//Account Sub Menu
+	private BaseWebElement accountOrders = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_orders");
 	
 	//Buttons
 	public BaseWebElement btnMealPlans = new BaseWebElement(FindMethod.XPATH, "//a[contains(@href,'meal-plans')]");
@@ -53,6 +57,11 @@ public class SnapHome extends BasePage {
 		catch (NoSuchElementException e)
 		{
 			return false;
+		}
+		catch (ElementClickInterceptedException e)
+		{
+			navMenu.waitUntilClickable();
+			navMenu.click();
 		}
 		return true;
 	}
@@ -105,9 +114,18 @@ public class SnapHome extends BasePage {
 	/**
 	 * Navigate to the Shopping Cart
 	 */
-	public void goToShoppingCart()
+	public String goToShoppingCart()
 	{
-		navCart.click();
+		String status = "Success";
+		try {
+			navCart.click();
+			waitForPageLoadingIndicator();
+		}
+		catch (NoSuchElementException e)
+		{
+			status="Shopping cart element was not displayed.";
+		}
+		return status;
 	}
 	
 	/**
@@ -135,6 +153,13 @@ public class SnapHome extends BasePage {
 	{
 		//Later
 		return "";
+	}
+	
+	public void goToOrders()
+	{
+		navAccount.click();
+		accountOrders.waitUntilClickable();
+		accountOrders.click();
 	}
 	
 }

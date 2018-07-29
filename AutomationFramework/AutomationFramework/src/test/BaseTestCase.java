@@ -10,6 +10,7 @@ import common.Utilities;
 import framework.AbstractDriver;
 import framework.WWWDriver;
 import page.LoginPage;
+import page.SnapHome;
 
 public class BaseTestCase extends AbstractTestCase {
 	
@@ -25,7 +26,7 @@ public class BaseTestCase extends AbstractTestCase {
 	
 	public String login()
 	{
-		login(ThreeDayMealPlan);
+		login(StagingUser);
 		return "";
 	}
 	
@@ -41,6 +42,12 @@ public class BaseTestCase extends AbstractTestCase {
 		LoginPage loginPage = new LoginPage();
 		loginPage.login(phone, pwd);
 		return "";
+	}
+	
+	public String goToShoppingCart()
+	{
+		SnapHome snapHome = new SnapHome();
+		return snapHome.goToShoppingCart();
 	}
 	
 }

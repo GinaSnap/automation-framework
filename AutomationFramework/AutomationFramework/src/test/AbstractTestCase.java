@@ -9,10 +9,10 @@ import common.Utilities;
 public abstract class AbstractTestCase {
 	
 	public final long DEFAULT_TIMEOUT=5000;
-	public final String DEFAULT_PWD = "snapkit1";
-	public UserType ThreeDayMealPlan = new UserType("(111) 555-0103", "snapkit1", "ThreeDay", "MealPlan", "test3@snapkitchen.com");
-	public UserType FiveDayMealPlan = new UserType("(111) 555-0105", "snapkit1", "","","");
-	public UserType SevenDayMealPlan = new UserType("(111) 555-0107", "snapkit1","","","");
+	public final String DEFAULT_PWD = "qqqqqqqq";
+	public UserType StagingUser = new UserType("(512) 608-5335", "qqqqqqqq", "Gina", "Mitchell", "gina.l.mitchell@gmail.com");
+	public UserType ProdUser7 = new UserType("(512) 694-6161", "snapkit1", "QA", "TestUser7", "testuser7@snapkitchen.com");
+	public UserType defaultUser = ProdUser7;
 	Utilities util = new Utilities();
 
 	

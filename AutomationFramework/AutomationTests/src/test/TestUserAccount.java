@@ -9,8 +9,11 @@ import org.junit.Test;
 import common.MenuType;
 import common.UserType;
 import page.BaseMenu;
+import page.BasketPage;
+import page.CheckoutPage;
 import page.LoginPage;
 import page.MenuPopup;
+import page.OrderSubmissionPage;
 import page.ProfileHome;
 import page.SnapHome;
 
@@ -27,16 +30,16 @@ public class TestUserAccount extends BaseTestCase {
 	@Test
 	public void testLoginWithExistingAccount() {
 		
-		login(ThreeDayMealPlan);
+		login(StagingUser);
 		
 		LoginPage loginPage = new LoginPage();
 		loginPage.goToAccountProfile();
 		
 		ProfileHome profileHome = new ProfileHome();
-		assertEquals("Verify that the first name value is correct.", ThreeDayMealPlan.getFirstName(), profileHome.firstName.getValue());
-		assertEquals("Verify that the last name value is correct.", ThreeDayMealPlan.getLastName(), profileHome.lastName.getValue());
-		assertEquals("Verify that the email value is correct.", ThreeDayMealPlan.getEmail(), profileHome.email.getValue());
-		assertEquals("Verify that the phone number value is correct.", ThreeDayMealPlan.getUsername(), profileHome.phone.getValue());
+		assertEquals("Verify that the first name value is correct.", StagingUser.getFirstName(), profileHome.firstName.getValue());
+		assertEquals("Verify that the last name value is correct.", StagingUser.getLastName(), profileHome.lastName.getValue());
+		assertEquals("Verify that the email value is correct.", StagingUser.getEmail(), profileHome.email.getValue());
+		assertEquals("Verify that the phone number value is correct.", StagingUser.getUsername(), profileHome.phone.getValue());
 		
 	}
 	
@@ -67,10 +70,14 @@ public class TestUserAccount extends BaseTestCase {
 	@Test
 	public void testCreateNewOrder()
 	{
-		login(ThreeDayMealPlan);
+		login(StagingUser);
 		
 		SnapHome snapHome = new SnapHome();
 		assertTrue("Test Step:  Click on Menu in the top navigation.", snapHome.goToTopNavMenu());
+		
+		//Make sure that we are set for delivery to 9330 United Drive, so that we are using Snap HQ
+		BaseMenu baseMenu = new BaseMenu();
+		baseMenu.changeDeliveryAddress("9330 United Dr, Austin, TX 78758");
 		
 		MenuPopup menuPopup = new MenuPopup();
 		assertTrue("Test Step:  Breakfast Menu exists.", menuPopup.breakfast.exists());
@@ -82,6 +89,27 @@ public class TestUserAccount extends BaseTestCase {
 		
 		String productName = menu.addFirstItemToCart();
 		assertFalse("Test Step:  Click to add the first item in the list to the shopping cart.", productName.isEmpty());
+		
+		//Go to the shopping cart
+		assertEquals("Step:  Navigate to the shopping cart.", "Success", goToShoppingCart());
+		
+		//Go to check out
+		BasketPage basketPage = new BasketPage();
+		assertEquals("Step:  Go To Checkout.", "Success", basketPage.goToCheckout());
+		
+		//Place Order
+		CheckoutPage checkoutPage = new CheckoutPage();
+		checkoutPage.placeOrder();
+		
+		//Verify Order exists
+		//snapHome.goToOrders();
+		
+		//Cancel order
+		OrderSubmissionPage orderSubmissionPage = new OrderSubmissionPage();
+		orderSubmissionPage.cancelOrder();
+		
+		//Verify order cancelled
+		snapHome.goToOrders();
 	}
 	
 }

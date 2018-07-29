@@ -33,7 +33,7 @@ public class MenuPopup extends BasePage {
 					breakfast.click();
 					break;
 				case LUNCH_AND_DINNER:
-					breakfast.click();
+					lunchAndDinner.click();
 					break;
 				case SALADS:
 					salads.click();
@@ -43,6 +43,9 @@ public class MenuPopup extends BasePage {
 					break;
 				case SMALL_BITES:
 					smallBites.click();
+					break;
+				case SIDES:
+					sides.click();
 					break;
 				case SNACKS:
 					snacks.click();

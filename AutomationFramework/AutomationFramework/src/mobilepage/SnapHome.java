@@ -1,5 +1,8 @@
 package mobilepage;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.openqa.selenium.NoSuchElementException;
 
 import common.UserType;
@@ -79,6 +82,32 @@ public class SnapHome {
 		return status;
 	}
 	
+	public boolean createAccountViaLogin(UserType user)
+	{
+		startLogin.click();
+		return createAccount(user);
+	}
+	
+	public boolean createAccountViaMealPlanning(UserType user)
+	{
+		IntroPage introPage = new IntroPage();
+		introPage.clickNext();
+		introPage.clickNext();
+		introPage.clickNext();
+		introPage.mealPlanButtonExists();
+		introPage.menuButtonExists();
+		introPage.shopMealPlans();
+		introPage.clickNextMealPlanIntro();
+		introPage.clickNextMealPlanIntro();
+		introPage.getStarted();
+		
+		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
+		mealPlanMainPage.selectHighProtein();
+		mealPlanMainPage.letsGetStarted();
+		
+		return createAccount(user);
+	}
+	
 	/**
 	 * Create a new account with a unique phone number.
 	 * 
@@ -87,7 +116,6 @@ public class SnapHome {
 	 */
 	public boolean createAccount(UserType user)
 	{
-		startLogin.click();
 		phoneNumber.setWebValue(user.getUsername());
 		
 		//If next is not enabled it means we didn't enter a valid phone number.

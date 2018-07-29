@@ -1,8 +1,9 @@
 package mobilepage;
 
+import org.openqa.selenium.NoSuchElementException;
+
 import element.BaseMobileElement;
 import framework.AbstractDriver;
-import framework.FindMethod;
 
 /**
  * This class contains methods and variables that are common to all pages.
@@ -30,9 +31,17 @@ public class BasePage {
 	 * Load the Main Meal Plan Screen if not a meal plan subscriber.
 	 * Load the Manage Meal Plan Screen if already a subscriber.
 	 */
-	public void goToMealPlan()
+	public String goToMealPlan()
 	{
-		navMealPlan.click();
+		try
+		{
+			navMealPlan.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Could not find Meal Plan button in lower navigation.";
+		}
+		return "Success";
 	}
 	
 	/**
@@ -69,6 +78,32 @@ public class BasePage {
 		AbstractDriver.pause(3000);
 		navAccount.click();
 		return "Success";
+	}
+	
+	public void allowNotifications()
+	{
+		try
+		{
+			OrderSubmissionPage orderSubmissionPage = new OrderSubmissionPage();
+			orderSubmissionPage.allowNotifications();
+		}
+		catch (Exception e)
+		{
+			//I'm not sure if this is a must.  For now, if it's there we'll deal with it, and just ignore if not.
+		}
+	}
+	
+	public void doNotAllowNotifications()
+	{
+		try
+		{
+			OrderSubmissionPage orderSubmissionPage = new OrderSubmissionPage();
+			orderSubmissionPage.doNotAllowNotifications();
+		}
+		catch (Exception e)
+		{
+			//I'm not sure if this is a must.  For now, if it's there we'll deal with it, and just ignore if not.
+		}
 	}
 	
 }

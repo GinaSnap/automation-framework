@@ -16,7 +16,7 @@ public class WWWDriver extends AbstractDriver {
 		
 		System.setProperty("webdriver.gecko.driver", "/Users/GMitchell/AutomationFramework/Browsers/geckodriver");
 		instance=new FirefoxDriver();
-		instance.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		instance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 	}
 	

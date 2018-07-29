@@ -1,11 +1,17 @@
 package test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.After;
 import org.junit.Before;
 
 import common.UserType;
 import framework.MobileDriver;
 import mobilepage.AccountHome;
+import mobilepage.LowerNavPage;
+import mobilepage.MealPlanMainPage;
+import mobilepage.MealPlanningSubmission;
 import mobilepage.SnapHome;
 
 public class MobileTestCase extends AbstractTestCase {
@@ -27,7 +33,7 @@ public class MobileTestCase extends AbstractTestCase {
 	 */
 	public String login()
 	{
-		return login(ThreeDayMealPlan);
+		return login(StagingUser);
 	}
 	
 	/**

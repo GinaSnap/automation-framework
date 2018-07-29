@@ -3,10 +3,10 @@ package element;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import framework.FindMethod;
-import framework.WWWDriver;
 
 public class ProductCardWebElement extends BaseWebElement {
 
@@ -137,6 +137,19 @@ public class ProductCardWebElement extends BaseWebElement {
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean isPictureVisible()
+	{
+		try {
+			WebElement pictureImageElement = getWebElement().findElement(By.tagName("picture")).findElement(By.tagName("img"));
+			return pictureImageElement.isDisplayed();
+		}
+		catch (NoSuchElementException e)
+		{
+			return false;
+		}
+		
 	}
 
 }

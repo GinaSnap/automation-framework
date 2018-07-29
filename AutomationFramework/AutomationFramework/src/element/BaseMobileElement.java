@@ -2,10 +2,8 @@ package element;
 
 import java.util.HashMap;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -66,8 +64,53 @@ public class BaseMobileElement {
 	
 	public void click()
 	{
-		scroll("d");
+		displayElement();
 		getMobileElement().click();
+	}
+	
+	public void clickNew()
+	{
+		if (displayElement())
+		{
+			getMobileElement().click();
+		}
+	}
+	
+	private boolean displayElement()
+	{
+		boolean scrollDown=false;
+		boolean scrollLeft=true;
+		boolean scrollRight=true;
+		boolean scrollUp=true;
+		
+		while (!(getMobileElement().isDisplayed()) && (!scrollDown || !scrollUp || !scrollLeft || !scrollRight))
+		{
+			if (!scrollDown)
+			{
+				scroll("d");
+				scrollDown=true;
+				continue;
+			}
+			if (!scrollUp)
+			{
+				scroll("u");
+				scrollUp=true;
+				continue;
+			}
+			if (!scrollLeft)
+			{
+				scroll("l");
+				scrollLeft=true;
+				continue;
+			}
+			if (!scrollRight)
+			{
+				scroll("r");
+				scrollRight=true;
+				continue;
+			}
+		}
+		return getMobileElement().isDisplayed();
 	}
 	
 	public void setWebValue(String text)
@@ -85,7 +128,7 @@ public class BaseMobileElement {
 	public boolean exists()
 	{
 		try {
-			scroll("d");
+			displayElement();
 			return getMobileElement().isDisplayed();
 		}
 		catch (NoSuchElementException e) {
@@ -140,6 +183,15 @@ public class BaseMobileElement {
 	        } catch (Exception e) {
 	            System.out.println(e.getMessage());
 	        }
+		}
+	}
+	
+	public void scrollUntilVisible(int numScrolls)
+	{
+		int count=1;
+		while (!getMobileElement().isDisplayed() && (count <= numScrolls))
+		{
+			scroll("d");
 		}
 	}
 }

@@ -28,7 +28,7 @@ public class MobileDriver extends AbstractDriver {
 		DesiredCapabilities caps = new DesiredCapabilities();
 		caps.setCapability("automationName", "XCUITest");
 		caps.setCapability("platformName", "iOS");
-		caps.setCapability("platformVersion", "11.2");
+		caps.setCapability("platformVersion", "11.4");
 		caps.setCapability("deviceName", "iPhone Simulator");
 //		caps.setCapability("xcodeOrgId", "RDH5T872HA");
 //		caps.setCapability("xcodeSigningId", "iPhone Developer");
