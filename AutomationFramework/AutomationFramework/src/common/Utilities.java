@@ -23,15 +23,7 @@ public class Utilities {
 		return sb.toString();
 	}
 	
-	//select * from subscription order by created_at desc and grab the subscription_id
-	//select * from subscription_week where subscription_id=<>
 	
-	//UPDATE SUBSCRIPTION WEEK
-	//There will be multiple, run this query for both
-	//UPDATE subscription_week set start_date='2018-02-22 13:00' where id=1575
-	
-	//UPDATE TIME SLOT INFORMATION
-	//update subscription_fulfillment_time_slot set start_time='2018-02-15 22:00' where id=920
 
 
 }

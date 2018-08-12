@@ -133,47 +133,7 @@ public class TestMobile extends MobileTestCase {
 
 	}
 	
-	/**
-	 *   Create New User by using the Meal Planning Onboarding Screens.
-	 *   Create New Meal Plan
-	 *   3 Day, 1200 Cal, Pickup
-	 *   Verify No errors on creating subscription.
-	 */
-	@Test
-	public void testCreateNewMealPlan_3Day_1200_Pickup()
-	{
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-		System.out.println(newUser.getUsername());
-		
-		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
-		
-		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.HIGH_PROTEIN, Size.CALORIES_1200, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-		
-	}
 	
-	/**
-	 *   Create New User by using the Meal Planning Onboarding Screens.
-	 *   Create New Meal Plan
-	 *   3 Day, 1200 Cal, Pickup
-	 *   Verify No errors on creating subscription.
-	 */
-	@Test
-	public void testCreateNewMealPlan_5Day_1800_Pickup()
-	{
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-		System.out.println(newUser.getUsername());
-		
-		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
-		
-		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.HIGH_PROTEIN, Size.CALORIES_1800, DaysPerWeek.FIVE_DAYS, Fulfillment.PICKUP,DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-		
-	}
 	
 //	/**
 //	 *   Create Meal Plan Smoke Test
@@ -566,101 +526,101 @@ public class TestMobile extends MobileTestCase {
 
 	}
 	
-	/**
-	 *   Create Meal Plan Smoke Test
-	 *   Step 2:  Verify Days Per Week Option Recognized
-	 *   Test id : SQ-4
-	 */
-	@Test
-	public void testVerifyPlanDayPartsRecognized()
-	{
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-		System.out.println(newUser.getUsername());
-		
-		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
-		
-		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-		LowerNavPage lowerNav = new LowerNavPage();
-		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
-		MealPlanMenuPage mealPlanMenuPage = new MealPlanMenuPage();
-		
-		assertEquals("Step:  Click Meal Plans from Lower Navigation.", "Success", lowerNav.goToMealPlan());
-		
-		assertEquals("Step:  Select Low Carb.", "Success", mealPlanMainPage.selectPlanType(PlanType.LOW_CARB));
-		
-		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.select1200Calories());
-		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.select3Days());
-				
-		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
-		
-		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectPickup());
-		
-		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectNext());
-		
-		//Only Breakfast DayPart exists
-		assertEquals("Step:  Load Day 1.", "Success", mealPlanMenuPage.goToDayOne());
-		assertTrue("Verify:  Breakfast Day Part Exists.", mealPlanMenuPage.dayPartExists(DayParts.BREAKFAST));
-		assertFalse("Verify:  AM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.AM_SNACK));
-		assertFalse("Verify:  Lunch Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.LUNCH));
-		assertFalse("Verify:  PM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.PM_SNACK));
-		assertFalse("Verify:  Dinner Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DINNER));
-		assertFalse("Verify:  Drinks Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DRINKS));
-		
-		assertEquals("Step:  Load Day 2.", "Success",  mealPlanMenuPage.goToDayTwo());
-		assertTrue("Verify:  Breakfast Day Part Exists.", mealPlanMenuPage.dayPartExists(DayParts.BREAKFAST));
-		assertFalse("Verify:  AM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.AM_SNACK));
-		assertFalse("Verify:  Lunch Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.LUNCH));
-		assertFalse("Verify:  PM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.PM_SNACK));
-		assertFalse("Verify:  Dinner Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DINNER));
-		assertFalse("Verify:  Drinks Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DRINKS));
-		
-		assertEquals("Step: Load Day 3.", "Success",  mealPlanMenuPage.goToDayThree());
-		assertTrue("Verify:  Breakfast Day Part Exists.", mealPlanMenuPage.dayPartExists(DayParts.BREAKFAST));
-		assertFalse("Verify:  AM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.AM_SNACK));
-		assertFalse("Verify:  Lunch Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.LUNCH));
-		assertFalse("Verify:  PM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.PM_SNACK));
-		assertFalse("Verify:  Dinner Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DINNER));
-		assertFalse("Verify:  Drinks Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DRINKS));
-
-	}
+//	/**
+//	 *   Create Meal Plan Smoke Test
+//	 *   Step 2:  Verify Days Per Week Option Recognized
+//	 *   Test id : SQ-4
+//	 */
+//	@Test
+//	public void testVerifyPlanDayPartsRecognized()
+//	{
+//		String uniqueString = util.getUniqueString(7);
+//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+//		System.out.println(newUser.getUsername());
+//		
+//		SnapHome snapHome = new SnapHome();
+//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
+//		
+//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
+//		LowerNavPage lowerNav = new LowerNavPage();
+//		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
+//		MealPlanMenuPage mealPlanMenuPage = new MealPlanMenuPage();
+//		
+//		assertEquals("Step:  Click Meal Plans from Lower Navigation.", "Success", lowerNav.goToMealPlan());
+//		
+//		assertEquals("Step:  Select Low Carb.", "Success", mealPlanMainPage.selectPlanType(PlanType.LOW_CARB));
+//		
+//		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.select1200Calories());
+//		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.select3Days());
+//				
+//		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
+//		
+//		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectPickup());
+//		
+//		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectNext());
+//		
+//		//Only Breakfast DayPart exists
+//		assertEquals("Step:  Load Day 1.", "Success", mealPlanMenuPage.goToDayOne());
+//		assertTrue("Verify:  Breakfast Day Part Exists.", mealPlanMenuPage.dayPartExists(DayParts.BREAKFAST));
+//		assertFalse("Verify:  AM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.AM_SNACK));
+//		assertFalse("Verify:  Lunch Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.LUNCH));
+//		assertFalse("Verify:  PM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.PM_SNACK));
+//		assertFalse("Verify:  Dinner Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DINNER));
+//		assertFalse("Verify:  Drinks Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DRINKS));
+//		
+//		assertEquals("Step:  Load Day 2.", "Success",  mealPlanMenuPage.goToDayTwo());
+//		assertTrue("Verify:  Breakfast Day Part Exists.", mealPlanMenuPage.dayPartExists(DayParts.BREAKFAST));
+//		assertFalse("Verify:  AM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.AM_SNACK));
+//		assertFalse("Verify:  Lunch Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.LUNCH));
+//		assertFalse("Verify:  PM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.PM_SNACK));
+//		assertFalse("Verify:  Dinner Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DINNER));
+//		assertFalse("Verify:  Drinks Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DRINKS));
+//		
+//		assertEquals("Step: Load Day 3.", "Success",  mealPlanMenuPage.goToDayThree());
+//		assertTrue("Verify:  Breakfast Day Part Exists.", mealPlanMenuPage.dayPartExists(DayParts.BREAKFAST));
+//		assertFalse("Verify:  AM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.AM_SNACK));
+//		assertFalse("Verify:  Lunch Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.LUNCH));
+//		assertFalse("Verify:  PM Snack Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.PM_SNACK));
+//		assertFalse("Verify:  Dinner Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DINNER));
+//		assertFalse("Verify:  Drinks Day Part does not exist.", mealPlanMenuPage.dayPartExists(DayParts.DRINKS));
+//
+//	}
 	
-	/**
-	 *   Create Meal Plan Smoke Test
-	 *   Step 5:  Edit Day Part and Modify Quantity
-	 *   Test id : SQ-4
-	 */
-	@Test
-	public void testEditDayPartAndModifyQuantity()
-	{
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-		System.out.println(newUser.getUsername());
-		
-		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
-		
-		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-		LowerNavPage lowerNav = new LowerNavPage();
-		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
-		MealPlanMenuPage mealPlanMenuPage = new MealPlanMenuPage();
-		
-		assertEquals("Step:  Click Meal Plans from Lower Navigation.", "Success", lowerNav.goToMealPlan());
-		
-		assertEquals("Step:  Select Low Carb.", "Success", mealPlanMainPage.selectPlanType(PlanType.LOW_CARB));
-		
-		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.select1200Calories());
-		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.select3Days());
-				
-		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
-		
-		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectPickup());
-		
-		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectNext());
-		
-		assertEquals("Step:  Click Edit on the Breakfast Day Part.", "Success", mealPlanMenuPage.editDayPart(DayParts.BREAKFAST));
-		
-	}
+//	/**
+//	 *   Create Meal Plan Smoke Test
+//	 *   Step 5:  Edit Day Part and Modify Quantity
+//	 *   Test id : SQ-4
+//	 */
+//	@Test
+//	public void testEditDayPartAndModifyQuantity()
+//	{
+//		String uniqueString = util.getUniqueString(7);
+//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+//		System.out.println(newUser.getUsername());
+//		
+//		SnapHome snapHome = new SnapHome();
+//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
+//		
+//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
+//		LowerNavPage lowerNav = new LowerNavPage();
+//		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
+//		MealPlanMenuPage mealPlanMenuPage = new MealPlanMenuPage();
+//		
+//		assertEquals("Step:  Click Meal Plans from Lower Navigation.", "Success", lowerNav.goToMealPlan());
+//		
+//		assertEquals("Step:  Select Low Carb.", "Success", mealPlanMainPage.selectPlanType(PlanType.LOW_CARB));
+//		
+//		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.select1200Calories());
+//		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.select3Days());
+//				
+//		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
+//		
+//		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectPickup());
+//		
+//		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectNext());
+//		
+//		assertEquals("Step:  Click Edit on the Breakfast Day Part.", "Success", mealPlanMenuPage.editDayPart(DayParts.BREAKFAST));
+//		
+//	}
  
 }

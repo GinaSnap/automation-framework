@@ -50,7 +50,9 @@ public class TestUserAccount extends BaseTestCase {
 	public void testCreateAccount() {
 		
 		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+		String uniquePhone = getUniquePhone();
+		UserType newUser = new UserType(uniquePhone, DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+		System.out.printf("New user created:  %s", uniquePhone);
 		
 		LoginPage loginPage = new LoginPage();
 		loginPage.createAccount(newUser);

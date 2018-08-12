@@ -47,7 +47,6 @@ public class BasketPage extends BasePage {
 	
 	public String goToCheckout()
 	{
-		String status = "Success";
 		try
 		{
 			goToCheckout.click();
@@ -55,9 +54,18 @@ public class BasketPage extends BasePage {
 		}
 		catch (NoSuchElementException e)
 		{
-			status="Checkout button was not displayed.";
+			return "Checkout button was not displayed.";
 		}
-		return status;
+		
+		if (hasPopup())
+		{
+			String popupTitle = getPopupTitle();
+			if (popupTitle.contains("SNAP FUNDS"))
+			{
+				return cancelPopup();
+			}
+		}
+		return "Success";
 	}
 	
 	public int getNumItemsInCart()

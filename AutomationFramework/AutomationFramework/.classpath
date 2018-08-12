@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="libs/java-client-6.0.0-BETA2.jar"/>
 	<classpathentry kind="lib" path="libs/selenium-server-standalone-3.8.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="/Users/GMitchell/AutomationFramework/AutomationFramework/libs/javax.mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

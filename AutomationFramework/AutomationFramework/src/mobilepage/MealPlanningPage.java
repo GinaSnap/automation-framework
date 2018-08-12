@@ -3,6 +3,7 @@ package mobilepage;
 import java.util.Calendar;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriverException;
 
 import common.MealPlanOptions.DayParts;
 import common.MealPlanOptions.DaysPerWeek;
@@ -227,7 +228,7 @@ public class MealPlanningPage extends BasePage {
 		{
 			fiveDays.click();
 		}
-		catch (NoSuchElementException e)
+		catch (WebDriverException e)
 		{
 			return "Could not find Five Day Button";
 		}

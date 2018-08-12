@@ -42,8 +42,15 @@ public abstract class BasePage {
 	
 	public String getPopupTitle()
 	{
-		WebPopupConfirmation popup = new WebPopupConfirmation(FindMethod.CLASSNAME, "component-alert");
-		return popup.getTitle();
+		try
+		{
+			WebPopupConfirmation popup = new WebPopupConfirmation(FindMethod.CLASSNAME, "component-alert");
+			return popup.getTitle();
+		}
+		catch (Exception e)
+		{
+			return "";
+		}
 	}
 	
 	public String getPopupMessage()
@@ -59,10 +66,18 @@ public abstract class BasePage {
 		waitForPageLoadingIndicator();
 	}
 	
-	public void cancelPopup()
+	public String cancelPopup()
 	{
-		WebPopupConfirmation popup = new WebPopupConfirmation(FindMethod.CLASSNAME, "component-alert");
-		popup.cancelPopup();
+		try
+		{
+			WebPopupConfirmation popup = new WebPopupConfirmation(FindMethod.CLASSNAME, "component-alert");
+			popup.cancelPopup();
+			return "Success";
+		}
+		catch (Exception e)
+		{
+			return "Could not find cancel button.";
+		}
 	}
 	
 	public String waitForPageLoadingIndicator()

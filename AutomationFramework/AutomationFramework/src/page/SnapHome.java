@@ -69,9 +69,17 @@ public class SnapHome extends BasePage {
 	/**
 	 * Access the menu using the top navigation item
 	 */
-	public void goToTopNavMealPlans()
+	public String goToTopNavMealPlans()
 	{
-		navMealPlans.click();
+		try
+		{
+			navMealPlans.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Meal Plans Button is not visible.";
+		}
+		return "Success";
 	}
 	
 	/**

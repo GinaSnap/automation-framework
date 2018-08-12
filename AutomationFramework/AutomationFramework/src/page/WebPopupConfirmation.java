@@ -18,7 +18,15 @@ public class WebPopupConfirmation extends BaseWebElement {
 	
 	public boolean exists()
 	{
-		return getWebElement().isDisplayed();
+		try
+		{
+			return getWebElement().isDisplayed();
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+				
 	}
 	
 	public String getMessage()
@@ -40,9 +48,16 @@ public class WebPopupConfirmation extends BaseWebElement {
 	
 	public String cancelPopup()
 	{
-		cancelPopup.waitUntilClickable();
-		cancelPopup.click();
-		return "Success";
+		try
+		{
+			cancelPopup.waitUntilClickable();
+			cancelPopup.click();
+			return "Success";
+		}
+		catch (Exception e)
+		{
+			return "Could not find cancel button.";
+		}
 	}
 
 }
