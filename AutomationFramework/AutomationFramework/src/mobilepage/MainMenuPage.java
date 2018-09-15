@@ -1,7 +1,9 @@
 package mobilepage;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 
 import common.MenuType;
@@ -145,11 +147,12 @@ public class MainMenuPage extends BasePage {
 	 * For a given menu (breakfast, lunch&dinner...) return a MobileElement pointing to the first menu item.
 	 * @return MobileProductCardWebElement pointing to the first menu item.  Return null if element is not found.
 	 */
-	private MobileProductCardWebElement getFirstMenuItem()
+	private MobileProductCardWebElement getMenuItem(int index)
 	{
+		String xPath = String.format("//XCUIElementTypeCollectionView/XCUIElementTypeCell[%d]", index);
 		try
 		{
-			MobileProductCardWebElement menuElement = new MobileProductCardWebElement(FindMethod.XPATH, "//XCUIElementTypeCollectionView/XCUIElementTypeCell[1]");
+			MobileProductCardWebElement menuElement = new MobileProductCardWebElement(FindMethod.XPATH, xPath);
 			return menuElement;
 		}
 		catch (Exception e)
@@ -158,29 +161,42 @@ public class MainMenuPage extends BasePage {
 		}
 	}
 	
-	public String addFirstItemToCart()
+	public String addFirstAvailableItemToCart()
 	{
-		String status="Success";
-		MobileProductCardWebElement firstMenuElement = null;
+		boolean found=false;
+		int index = 1;
+		
+		MobileProductCardWebElement menuElement = null;
 		try
 		{
-			firstMenuElement = getFirstMenuItem();
+			menuElement = getMenuItem(index);
+			while ((!found) && (menuElement != null))
+			{
+				if (!menuElement.isOutOfStock())
+				{
+					found=true;
+				}
+				else
+				{
+					index++;
+					menuElement = getMenuItem(index);
+				}
+			}
 		}
 		catch (Exception e)
 		{
-			status="Could not locate first menu item.";
-			return status;
+			return "Could not locate a menu item that was in stock.";
 		}
+		
 		try
 		{
-			firstMenuElement.addToCart();
+			menuElement.addToCart();
 		}
 		catch (Exception e)
 		{
-			status="Could not locate Add To Cart button.";
-			return status;
+			return "Could not locate Add To Cart button.";
 		}
-		return status;
+		return "Success";
 	}
 	
 	/**
@@ -192,7 +208,7 @@ public class MainMenuPage extends BasePage {
 		MobileProductCardWebElement firstMenuElement = null;
 		try
 		{
-			firstMenuElement = getFirstMenuItem();
+			firstMenuElement = getMenuItem(0);
 		}
 		catch (Exception e)
 		{

@@ -16,8 +16,9 @@ public class WebMealPlanCardElement extends BaseWebElement {
 	{
 		try
 		{
-			String xPath = "//div[contains(@class,'card-balance')]/div/div/a";
-			WebElement buttonElement = WWWDriver.instance.findElement(By.xpath(xPath));
+//			String xPath = "//div[contains(@class,'card-balance')]/div/div/a";
+//			WebElement buttonElement = WWWDriver.instance.findElement(By.xpath(xPath));
+			WebElement buttonElement = getWebElement().findElement(By.tagName("a"));
 			buttonElement.click();
 		}
 		catch(Exception e)

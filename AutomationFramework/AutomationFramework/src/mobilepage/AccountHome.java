@@ -13,11 +13,12 @@ public class AccountHome extends BasePage {
 	
 	private BaseMobileElement menuManageMealPlan = new BaseMobileElement("manage meal plan");
 	private BaseMobileElement menuOrders = new BaseMobileElement("orders");
-	private BaseMobileElement menuPromoCode = new BaseMobileElement("add promo code");
+	private BaseMobileElement menuEditPayments = new BaseMobileElement("payments");
+	private BaseMobileElement menuPromoCode = new BaseMobileElement("promo");
 	private BaseMobileElement menuProfile = new BaseMobileElement("profile");
 	private BaseMobileElement menuCustomerCare = new BaseMobileElement("customer care");
 	private BaseMobileElement menuGeneralInfo = new BaseMobileElement("general info");
-	private BaseMobileElement menuLogOut = new BaseMobileElement("log out");
+	private BaseMobileElement menuLogOut = new BaseMobileElement("sign out");
 	
 	/**
 	 * Access the Manage Meal Plan Screen, or, Meal Plan Setup if not 
@@ -63,9 +64,17 @@ public class AccountHome extends BasePage {
 	 * Navigate to Account Details for User Currently
 	 * logged in.
 	 */
-	public void goToProfile()
+	public String goToProfile()
 	{
-		menuProfile.click();
+		try
+		{
+			menuProfile.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Profile Menu Element was not found.";
+		}
+		return "Success";
 	}
 	
 	/**

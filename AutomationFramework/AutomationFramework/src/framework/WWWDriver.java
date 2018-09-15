@@ -10,6 +10,7 @@ public class WWWDriver extends AbstractDriver {
 	public static WebDriver instance;
 	//public static final String RootURL = "http://www.snapkitchen.com";
 	public static final String RootURL = "http://www-stage.snapkitchen.com";
+	public static final String SUCCESS = "Success";
 	
 	public static void init()
 	{

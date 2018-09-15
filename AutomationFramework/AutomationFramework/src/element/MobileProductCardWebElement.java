@@ -93,16 +93,17 @@ public class MobileProductCardWebElement extends BaseMobileElement {
 	 */
 	public boolean addToCart()
 	{
+		MobileElement addToCartButton = null;
 		try {
 			//Click the Add To Cart Button
-			MobileElement addToCartButton = getMobileElement().findElementByAccessibilityId("Add to basket");
+			addToCartButton = getMobileElement().findElementByAccessibilityId("Add to basket");
 			addToCartButton.click();
 			
 			//selectSize();
 		}
 		catch (Exception e)
 		{
-			return false;
+			addToCartButton.click();
 		}
 		return true;
 	}
@@ -159,6 +160,22 @@ public class MobileProductCardWebElement extends BaseMobileElement {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Returns true if item is out of stock.
+	 */
+	public boolean isOutOfStock()
+	{
+		try
+		{
+			MobileElement preOrderElement = getMobileElement().findElementByAccessibilityId("sold out today");
+			return preOrderElement.isDisplayed();
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
 	}
 
 }

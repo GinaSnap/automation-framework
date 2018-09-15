@@ -29,11 +29,12 @@ public class MobileDriver extends AbstractDriver {
 		caps.setCapability("automationName", "XCUITest");
 		caps.setCapability("platformName", "iOS");
 		caps.setCapability("platformVersion", "11.4");
-		caps.setCapability("deviceName", "iPhone Simulator");
+//		caps.setCapability("deviceName", "iPhone Simulator");
+		caps.setCapability("deviceName", "iPhone 7");
 //		caps.setCapability("xcodeOrgId", "RDH5T872HA");
 //		caps.setCapability("xcodeSigningId", "iPhone Developer");
 //		caps.setCapability("bundleId","com.snapkitchen.a-SnapKitchen");
-		caps.setCapability("app", "/Users/GMitchell/Library/Developer/Xcode/DerivedData/SnapKitchen-cyadazvcvfvecxbxhinebnhduluu/Build/Products/Debug-iphonesimulator/Snap Kitchen.app");
+		caps.setCapability("app", "/Users/GMitchell/Library/Developer/Xcode/DerivedData/SnapKitchen-afugxgdjzpapsoaulupvxhadeojz/Build/Products/Debug-iphonesimulator/Snap Kitchen.app");
 		
 		//caps.setCapability("udid", "ENUL6303030010"); //Give Device ID of your mobile phone
 		//caps.setCapability("appPackage", "com.android.vending");

@@ -1,6 +1,6 @@
 package page;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 
 import common.UserType;
 import element.BaseWebElement;
@@ -91,31 +91,59 @@ public class LoginPage extends BasePage {
 	 * Create a new account with the given phone number and password.
 	 * @param user Enter a user of type UserType with all required values set.
 	 */
-	public boolean createAccount(UserType user){
+	public String createAccount(UserType user){
 		
 		goToSignUp();
 				
-		if (!enterPhoneNumber(user.getUsername()))
+		String status = enterPhoneNumber(user.getUsername());
+		if (!status.equals("Success"))
 		{
-			return false;
+			return status;
 		}
 		
-		if (!enterSMSCode("222222"))
+		status = enterSMSCode("222222");
+		if (!status.equals("Success"))
 		{
-			return false;
+			return status;
 		}
 		
-		completeMyProfile.click();
+		try
+		{
+			completeMyProfile.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Complete my Profile button was not displayed.";
+		}
 		
-		firstName.setWebValue(user.getFirstName());
-		lastName.setWebValue(user.getLastName());
-		city.selectValue("Austin");
-		email.setWebValue(user.getEmail());
-		password.setWebValue(user.getPassword());
+		try
+		{
+			firstName.setWebValue(user.getFirstName());
+			lastName.setWebValue(user.getLastName());
+			city.selectValue("Austin");
+			email.setWebValue(user.getEmail());
+			password.setWebValue(user.getPassword());
+		}
+		catch (NoSuchElementException e)
+		{
+			return "At least one field on the profile page was not displayed.";
+		}
 		
-		nextBtn.click();
+		try
+		{
+			nextBtn.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Next Button was not displayed.";
+		}
 		
-		return true;
+		if (!waitForAccountScreenClose(10000))
+		{
+			return "Account Screen did not close after submitting user data.";
+		}
+		
+		return "Success";
 		
 	}
 	
@@ -128,16 +156,31 @@ public class LoginPage extends BasePage {
 	 * @return Returns false if any error messages are received.
 	 * Otherwise return true.
 	 */
-	public boolean enterPhoneNumber(String desiredPhone)
+	public String enterPhoneNumber(String desiredPhone)
 	{
-		phoneNumber.setWebValue(desiredPhone);
-		nextBtn.click();
+		try
+		{
+			phoneNumber.setWebValue(desiredPhone);
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Phone Number field was not displayed.";
+		}
+		
+		try
+		{
+			nextBtn.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Next Button was not displayed on the Enter Phone Screen.";
+		}
 		
 		if (this.hasError())
 		{
-			return false;
+			return "Error received after entering phone number.";
 		}
-		return true;
+		return "Success";
 	}
 	
 	/**
@@ -149,16 +192,31 @@ public class LoginPage extends BasePage {
 	 * @return Returns false if any error messages were received 
 	 * after submitting.  Returns true otherwise.
 	 */
-	public boolean enterSMSCode(String code)
+	public String enterSMSCode(String code)
 	{
-		smsCode.setWebValue(code);
-		nextBtn.click();
+		try
+		{
+			smsCode.setWebValue(code);
+		}
+		catch (NoSuchElementException e)
+		{
+			return "SMS Code field was not displayed.";
+		}
+		
+		try
+		{
+			nextBtn.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Next Button was not displayed.";
+		}
 		
 		if (this.hasError())
 		{
-			return false;
+			return "Error received after submitting SMS Code.";
 		}
-		return true;
+		return "Success";
 	}
 	
 	/**
@@ -178,6 +236,18 @@ public class LoginPage extends BasePage {
 	public void goToAccountMenu()
 	{
 		accountMenu.click();
+	}
+	
+	private boolean waitForAccountScreenClose(long timeout)
+	{
+		long startTimeMili = System.currentTimeMillis();
+		long currentTimeMili = System.currentTimeMillis();
+		while (((currentTimeMili - startTimeMili) < timeout) && firstName.exists())
+		{
+			currentTimeMili = System.currentTimeMillis();
+		}
+		
+		return !firstName.exists();
 	}
 	
 	@Override

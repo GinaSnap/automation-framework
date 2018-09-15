@@ -42,10 +42,11 @@ public class WebFullfillmentDetailsElement extends BaseWebElement {
 	public String clickSave()
 	{
 		try {
-			WebElement saveElement = getWebElement().findElement(By.className("edit-button"));
+			WebElement saveElement = WWWDriver.instance.findElement(By.className("save-button"));
 			WebDriverWait wait = new WebDriverWait(WWWDriver.instance, 10);
 			wait.until(ExpectedConditions.elementToBeClickable(saveElement));
 			saveElement.click();
+			System.out.printf("Save Button class: %s", saveElement.getAttribute("class"));
 		}
 		catch (NoSuchElementException e)
 		{

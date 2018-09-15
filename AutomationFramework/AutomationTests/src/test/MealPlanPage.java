@@ -19,9 +19,17 @@ public class MealPlanPage extends BasePage {
 	private WebMealPlanCardElement campGladMealPlan = new WebMealPlanCardElement(FindMethod.CLASSNAME,"card-camp-gladiator");
 
 	
-	public void clickViewPlans()
+	public String clickViewPlans()
 	{
-		viewPlansElement.click();
+		try
+		{
+			viewPlansElement.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "View Plans button does not exist on the meal plans page.";
+		}
+		return "Success";
 	}
 
 	public String clickManageMealPlan()

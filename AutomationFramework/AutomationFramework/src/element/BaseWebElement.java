@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Sleeper;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import framework.FindMethod;
@@ -156,12 +155,27 @@ public class BaseWebElement {
 	 */
 	public boolean exists()
 	{
-		try {
-			return getWebElement().isDisplayed();
+		long startTimeMilli = System.currentTimeMillis();
+		long endTimeMilli = System.currentTimeMillis();
+		
+		while ((endTimeMilli - startTimeMilli) < 5000)
+		{
+			try 
+			{
+				return getWebElement().isDisplayed();
+			}
+			catch (NoSuchElementException e) 
+			{
+				return false;
+			}
+			catch (StaleElementReferenceException e)
+			{
+				//If this happens it just means that the element changed and we need to re-attach.
+			}
 		}
-		catch (NoSuchElementException e) {
-			return false;
-		}
+		
+		//The only time I should return true is if isDisplayedReturns true.
+		return false;
 	}
 	
 	/**

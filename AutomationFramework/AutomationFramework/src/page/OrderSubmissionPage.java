@@ -35,9 +35,12 @@ public class OrderSubmissionPage extends BasePage {
 	 * Currently:  Order Details, Get Help, Cancel Order
 	 * @return List of WebElements for each Toolbar item on the Order Details Page.
 	 * Have requested an id on each element, but for now...
-	 *  index 0 - Order Details
-	 *  index 1 - Get Help
-	 *  index 2 - Cancel Order 
+	 *  index 0 - Directions To Store
+	 *  index 1 - Order Details
+	 *  index 2 - Get Help
+	 *  index 3 - View Store Details
+	 *  index 4 - call for curbside pickup
+	 *  index 5 - cancel order
 	 */
 	private List<WebElement> getOrderToolbarList()
 	{
@@ -90,7 +93,7 @@ public class OrderSubmissionPage extends BasePage {
 	{
 		String status = "Success";
 		try {
-		getOrderToolbarList().get(2).click();
+		getOrderToolbarList().get(5).click();
 		}
 		catch (NoSuchElementException e)
 		{

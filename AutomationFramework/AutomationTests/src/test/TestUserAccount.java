@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -89,7 +90,7 @@ public class TestUserAccount extends BaseTestCase {
 		BaseMenu menu = new BaseMenu();
 		assertEquals("Verify that we are on the Breakfast Menu.", "breakfast", menu.getCategoryName());
 		
-		String productName = menu.addFirstItemToCart();
+		String productName = menu.addFirstAvailableItemToCart();
 		assertFalse("Test Step:  Click to add the first item in the list to the shopping cart.", productName.isEmpty());
 		
 		//Go to the shopping cart
@@ -111,7 +112,7 @@ public class TestUserAccount extends BaseTestCase {
 		orderSubmissionPage.cancelOrder();
 		
 		//Verify order cancelled
-		snapHome.goToOrders();
+		//snapHome.goToOrders();
 	}
 	
 }

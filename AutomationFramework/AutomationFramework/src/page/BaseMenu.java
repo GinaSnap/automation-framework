@@ -45,21 +45,33 @@ public class BaseMenu extends BasePage {
 	 * For the purposes of a smoke test, add the first item in the menu to the cart.
 	 * @return Returns the product name that was added for verification purposes.
 	 */
-	public String addFirstItemToCart()
+	public String addFirstAvailableItemToCart()
 	{
+		boolean found=false;
+		int index=0;
+		String productName="";
+		
 		WWWDriver.pause(3000); //TODO : figure out how to get rid of this.
 		List<WebElement> productList = getProductList();
 		try
 		{
 			if (productList.size() > 0)
 			{
-				WebElement linkElement = productList.get(0).findElement(By.tagName("a"));
-				String hrefTag = linkElement.getAttribute("href");
-				String hrefSplit[] = hrefTag.split("/");
-				String xPath = String.format("//a[contains(@href,'%s')]", hrefSplit[hrefSplit.length-1]);
-				ProductCardWebElement productCard = new ProductCardWebElement(FindMethod.XPATH, xPath);
-				productCard.addToCart();
-				return productCard.getProductName();
+				while ((!found) && index < productList.size())
+				{
+					WebElement linkElement = productList.get(index).findElement(By.tagName("a"));
+					String hrefTag = linkElement.getAttribute("href");
+					String hrefSplit[] = hrefTag.split("/");
+					String xPath = String.format("//a[contains(@href,'%s')]", hrefSplit[hrefSplit.length-1]);
+					ProductCardWebElement productCard = new ProductCardWebElement(FindMethod.XPATH, xPath);
+					if (!productCard.isOutOfStock())
+					{
+						productCard.addToCart();
+						productName=productCard.getProductName();
+						found=true;
+					}
+					index++;
+				}
 			}
 			else
 			{
@@ -70,6 +82,7 @@ public class BaseMenu extends BasePage {
 		{
 			return "";
 		}
+		return productName;
 	}
 	
 	private List<WebElement> getProductList()

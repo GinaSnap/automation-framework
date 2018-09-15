@@ -67,6 +67,27 @@ public class ProductCardWebElement extends BaseWebElement {
 	}
 	
 	/**
+	 * Returns true if the product detail says "sold out today"
+	 */
+	public boolean isOutOfStock()
+	{
+		//product-life-message=sold out today if out.  It is blank if not.
+		try
+		{
+			WebElement productAvailability = getWebElement().findElement(By.className("product-life-message"));
+			if (productAvailability.getText().equals("sold out today"))
+			{
+				return true;
+			}
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+		return false;
+	}
+	
+	/**
 	 * Add Item to cart and return the name of the item.
 	 * @return
 	 */

@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import framework.FindMethod;
 import framework.MobileDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 
 public class BaseMobileElement {
 	private String id;
@@ -62,18 +63,59 @@ public class BaseMobileElement {
 		return this.id;
 	}
 	
-	public void click()
+	public void clickOld()
 	{
 		displayElement();
 		getMobileElement().click();
 	}
 	
-	public void clickNew()
+	public void click()
 	{
-		if (displayElement())
+		boolean scrollDown=false;
+		boolean scrollLeft=true;
+		boolean scrollRight=true;
+		boolean scrollUp=false;
+		
+		while (!(isClicked()) && (!scrollDown || !scrollUp || !scrollLeft || !scrollRight))
+		{
+			if (!scrollDown)
+			{
+				scroll("d");
+				scrollDown=true;
+				continue;
+			}
+			if (!scrollUp)
+			{
+				scroll("u");
+				scrollUp=true;
+				continue;
+			}
+			if (!scrollLeft)
+			{
+				scroll("l");
+				scrollLeft=true;
+				continue;
+			}
+			if (!scrollRight)
+			{
+				scroll("r");
+				scrollRight=true;
+				continue;
+			}
+		}
+	}
+	
+	private boolean isClicked()
+	{
+		try
 		{
 			getMobileElement().click();
 		}
+		catch (Exception e)
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	private boolean displayElement()
@@ -81,8 +123,7 @@ public class BaseMobileElement {
 		boolean scrollDown=false;
 		boolean scrollLeft=true;
 		boolean scrollRight=true;
-		boolean scrollUp=true;
-		
+		boolean scrollUp=false;
 		while (!(getMobileElement().isDisplayed()) && (!scrollDown || !scrollUp || !scrollLeft || !scrollRight))
 		{
 			if (!scrollDown)
@@ -128,12 +169,12 @@ public class BaseMobileElement {
 	public boolean exists()
 	{
 		try {
-			displayElement();
-			return getMobileElement().isDisplayed();
-		}
-		catch (NoSuchElementException e) {
-			return false;
-		}
+				displayElement();
+				return getMobileElement().isDisplayed();
+			}
+				catch (NoSuchElementException e) {
+					return false;
+			}
 	}
 	
 	public boolean isEnabled()
@@ -192,6 +233,17 @@ public class BaseMobileElement {
 		while (!getMobileElement().isDisplayed() && (count <= numScrolls))
 		{
 			scroll("d");
+			count++;
 		}
 	}
+	
+	public void scrollToElement()
+	{
+		int x = getMobileElement().getLocation().getX();
+		int y = getMobileElement().getLocation().getY();
+
+		TouchAction action = new TouchAction(MobileDriver.instance);
+		action.press(x,y).moveTo(x+90,y).release().perform();
+	}
+	
 }

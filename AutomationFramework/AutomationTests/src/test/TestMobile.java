@@ -38,8 +38,8 @@ public class TestMobile extends MobileTestCase {
 		login(StagingUser);
 		
 		AccountHome accountHome = new AccountHome();
-		accountHome.goToAccount();
-		accountHome.goToProfile();
+		assertEquals("Step:  Click the Account Menu In the Lower Navigation.", "Success", accountHome.goToAccount());
+		assertEquals("Step:  Click the Profile Menu Item.", "Success", accountHome.goToProfile());
 		
 		ProfileHome profileHome = new ProfileHome();
 		assertEquals("Verify that the first name value is correct.", StagingUser.getFirstName(), profileHome.firstName.getText());
@@ -89,7 +89,7 @@ public class TestMobile extends MobileTestCase {
 		String productName = mainMenuPage.getFirstMenuItemProductName();
 		assertFalse("Step:  Product Name is retrieved successfully.", productName.startsWith("ERROR"));
 		
-		assertEquals("Step:  User is able to add first breakfast menu item to the shopping cart.", "Success", mainMenuPage.addFirstItemToCart());
+		assertEquals("Step:  User is able to add first breakfast menu item to the shopping cart.", "Success", mainMenuPage.addFirstAvailableItemToCart());
 		assertEquals("Step:  User is able to access the shopping cart.", "Success", mainMenuPage.goToBasket());
 				
 		BasketPage basketPage = new BasketPage();
@@ -255,7 +255,7 @@ public class TestMobile extends MobileTestCase {
 		
 		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.select1200Calories());
 		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size is selected.", mealPlanningPage.nextButtonExists());
-	
+		
 		assertTrue("Verify:  3 Days Exists.", mealPlanningPage.exists3Days());
 		assertTrue("Verify:  5 Days Exists.", mealPlanningPage.exists5Days());
 		assertTrue("Verify:  7 Days Exists.", mealPlanningPage.exists7Days());
@@ -325,18 +325,14 @@ public class TestMobile extends MobileTestCase {
 		
 		assertEquals("Step:  Click Meal Plans from Lower Navigation.", "Success", lowerNav.goToMealPlan());
 		
-		assertEquals("Step:  Select High Protein.", "Success", mealPlanMainPage.selectPlanType(PlanType.WHOLE30));
+		assertEquals("Step:  Select Whole30.", "Success", mealPlanMainPage.selectPlanType(PlanType.WHOLE30));
 		
 		assertFalse("Verify:  View Menu button does not exist when meal plan options page is loaded.", mealPlanningPage.nextButtonExists());
 		
-		assertTrue("Verify:  Small Option Exists.", mealPlanningPage.existsSmallOption());
-		assertTrue("Verify:  Medium Option Exists.", mealPlanningPage.existsMediumOption());
-		assertTrue("Verify:  Large Option Exists.", mealPlanningPage.existsLargeOption());
+		assertFalse("Verify:  Small Option Exists.", mealPlanningPage.existsSmallOption());
+		assertFalse("Verify:  Medium Option Exists.", mealPlanningPage.existsMediumOption());
+		assertFalse("Verify:  Large Option Exists.", mealPlanningPage.existsLargeOption());
 		
-		assertEquals("Step:  Select Small Meal Plan.", "Success", mealPlanningPage.selectSmallOption());
-		
-		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size is selected.", mealPlanningPage.nextButtonExists());
-	
 		assertTrue("Verify:  3 Days Exists.", mealPlanningPage.exists3Days());
 		assertTrue("Verify:  5 Days Exists.", mealPlanningPage.exists5Days());
 		assertTrue("Verify:  7 Days Exists.", mealPlanningPage.exists7Days());

@@ -108,6 +108,22 @@ public class SnapHome {
 		return createAccount(user);
 	}
 	
+	public String scrollMealPlanIntro()
+	{
+		try
+		{
+			IntroPage introPage = new IntroPage();
+			introPage.clickNextMealPlanIntro();
+			introPage.clickNextMealPlanIntro();
+			introPage.getStarted();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Could not navigate through Meal Plan Intro.";
+		}
+		return "Success";
+	}
+	
 	/**
 	 * Create a new account with a unique phone number.
 	 * 

@@ -13,6 +13,7 @@ import common.MealPlanOptions.Size;
 import common.UserType;
 import element.BaseMobileElement;
 import framework.FindMethod;
+import framework.WWWDriver;
 
 public class MealPlanningPage extends BasePage {
 	
@@ -363,28 +364,32 @@ public class MealPlanningPage extends BasePage {
 		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
 		MealPlanningMenu mealPlanningMenu = new MealPlanningMenu();
 		MealPlanningOptions mealPlanningOptions = new MealPlanningOptions();
+		SnapHome snapHome = new SnapHome();
+		
+		String status = lowerNav.goToMealPlan();
+		if (!status.equals("Success"))
+		{
+			return status;
+		}
+		
+		status = snapHome.scrollMealPlanIntro();
+		if (!status.equals("Success"))
+		{
+			return status;
+		}
+		
+		status = mealPlanMainPage.selectPlanType(planType);
+		if (!status.equals("Success"))
+		{
+			return status;
+		}
 		
 		try
 		{
-			lowerNav.goToMealPlan();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find Meal Plan Link in the Lower Navigation.";
-		}
-		
-		try 
-		{
-			mealPlanMainPage.selectPlanType(planType);
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find High Protein Card on Meal Planning Main Page.";
-		}
-		
-		try
-		{
-			selectSize(size);
+			if (!planType.equals(PlanType.WHOLE30))
+			{
+				selectSize(size);
+			}
 			selectDaysPerWeek(daysPerWeek);
 			for (int i=0;i<dayParts.length;i++)
 			{
@@ -645,5 +650,11 @@ public class MealPlanningPage extends BasePage {
 			return "Error on Submission.";
 		}
 		return "Success";
+	}
+	
+	public void waitForScreenToRefresh()
+	{
+		WWWDriver.pause(1000);
+		
 	}
 }

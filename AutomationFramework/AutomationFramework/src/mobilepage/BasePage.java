@@ -76,7 +76,14 @@ public class BasePage {
 	public String goToAccount()
 	{
 		AbstractDriver.pause(3000);
-		navAccount.click();
+		try
+		{
+			navAccount.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Coult not find the Account Menu Option in the lower navigation.";
+		}
 		return "Success";
 	}
 	
