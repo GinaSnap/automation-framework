@@ -294,7 +294,6 @@ public class MealPlanMenuPage extends BasePage {
 	{
 		try
 		{
-			planDay2.scrollUntilVisible(5);
 			planDay2.click();
 		}
 		catch (NoSuchElementException e)
@@ -309,7 +308,6 @@ public class MealPlanMenuPage extends BasePage {
 	{
 		try
 		{
-			planDay3.scrollUntilVisible(5);
 			planDay3.click();
 		}
 		catch (NoSuchElementException e)
@@ -324,7 +322,6 @@ public class MealPlanMenuPage extends BasePage {
 	{
 		try
 		{
-			planDay4.scrollUntilVisible(5);
 			planDay4.click();
 		}
 		catch (NoSuchElementException e)
@@ -339,7 +336,6 @@ public class MealPlanMenuPage extends BasePage {
 	{
 		try
 		{
-			planDay5.scrollUntilVisible(5);
 			planDay5.click();
 		}
 		catch (NoSuchElementException e)
@@ -354,7 +350,6 @@ public class MealPlanMenuPage extends BasePage {
 	{
 		try
 		{
-			planDay6.scrollUntilVisible(5);
 			planDay6.click();
 		}
 		catch (NoSuchElementException e)
@@ -369,7 +364,6 @@ public class MealPlanMenuPage extends BasePage {
 	{
 		try
 		{
-			planDay7.scrollUntilVisible(5);
 			planDay7.click();
 		}
 		catch (NoSuchElementException e)

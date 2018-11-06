@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import common.UserType;
+import common.Location;
 import common.MealPlanOptions.DayParts;
 import common.MealPlanOptions.DaysPerWeek;
 import common.MealPlanOptions.Fulfillment;
@@ -216,49 +217,20 @@ public class TestCreateMealPlan extends MobileTestCase {
 //		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.WHOLE30, Size.CALORIES_1500, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
 //		
 //	}
+
 	
 	@Test
-	public void testCreateNewMealPlan_CG1()
+	public void testCreateNewMealPlan()
 	{
 		String uniqueString = util.getUniqueString(7);
 		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
 		System.out.printf("User: %s Email: %s", newUser.getUsername(), newUser.getEmail());
 		
 		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaLogin(newUser));
+		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaLogin(newUser, Location.HOUSTON));
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-		assertEquals("Verify:  Create Meal Plan.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.CAMP_GLADIATOR, Size.CALORIES_1500, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.DINNER));
-		
-	}
-	
-	@Test
-	public void testCreateNewMealPlan_CG2()
-	{
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-		System.out.printf("User: %s Email: %s", newUser.getUsername(), newUser.getEmail());
-		
-		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaLogin(newUser));
-		
-		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-		assertEquals("Verify:  Create Meal Plan.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.CAMP_GLADIATOR, Size.CALORIES_1800, DaysPerWeek.FIVE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST));
-		
-	}
-	
-	@Test
-	public void testCreateNewMealPlan_CG3()
-	{
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-		System.out.printf("User: %s Email: %s", newUser.getUsername(), newUser.getEmail());
-		
-		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaLogin(newUser));
-		
-		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-		assertEquals("Verify:  Create Meal Plan.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.CAMP_GLADIATOR, Size.CALORIES_1800, DaysPerWeek.SEVEN_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST));
+		assertEquals("Verify:  Create Meal Plan.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.HIGH_PROTEIN, Size.CALORIES_1500, DaysPerWeek.SEVEN_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
 		
 	}
 

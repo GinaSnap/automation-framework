@@ -14,6 +14,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
 
 public class MobileDriver extends AbstractDriver {
 	
@@ -28,18 +29,9 @@ public class MobileDriver extends AbstractDriver {
 		DesiredCapabilities caps = new DesiredCapabilities();
 		caps.setCapability("automationName", "XCUITest");
 		caps.setCapability("platformName", "iOS");
-		caps.setCapability("platformVersion", "11.4");
-//		caps.setCapability("deviceName", "iPhone Simulator");
-		caps.setCapability("deviceName", "iPhone 7");
-//		caps.setCapability("xcodeOrgId", "RDH5T872HA");
-//		caps.setCapability("xcodeSigningId", "iPhone Developer");
-//		caps.setCapability("bundleId","com.snapkitchen.a-SnapKitchen");
+		caps.setCapability("platformVersion", "12.0");
+		caps.setCapability("deviceName", "iPhone SE");
 		caps.setCapability("app", "/Users/GMitchell/Library/Developer/Xcode/DerivedData/SnapKitchen-afugxgdjzpapsoaulupvxhadeojz/Build/Products/Debug-iphonesimulator/Snap Kitchen.app");
-		
-		//caps.setCapability("udid", "ENUL6303030010"); //Give Device ID of your mobile phone
-		//caps.setCapability("appPackage", "com.android.vending");
-		//caps.setCapability("appActivity", "com.google.android.finsky.activities.MainActivity");
-		//caps.setCapability("noReset", "true");
 		
 		//Instantiate Appium Driver
 		try {
@@ -77,10 +69,8 @@ public class MobileDriver extends AbstractDriver {
 	        fileTxt.setFormatter(formatterTxt);
 	        LOGGER.addHandler(fileTxt);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

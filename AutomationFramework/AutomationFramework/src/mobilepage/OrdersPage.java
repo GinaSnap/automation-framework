@@ -13,6 +13,7 @@ public class OrdersPage extends BasePage {
 	
 	private final BaseMobileElement upcomingOrders = new BaseMobileElement("UPCOMING");
 	private final BaseMobileElement pastOrders = new BaseMobileElement("PAST");
+	private final BaseMobileElement close = new BaseMobileElement("Close");
 	
 	/**
 	 * Click on the Past Orders link on the Main Orders page.
@@ -103,6 +104,23 @@ public class OrdersPage extends BasePage {
 		List<MobileElement> ordersList = new ArrayList<MobileElement>();
 		ordersList = getOrderTable().findElementsByXPath("//XCUIElementTypeCell[XCUIElementTypeImage]");
 		return ordersList;
+	}
+	
+	/**
+	 * Click the close button at the top of the orders screen.
+	 * @return Returns "Success" if we were able to find and click the close button.
+	 */
+	public String closeOrdersScreen()
+	{
+		try
+		{
+			close.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Could not find close button on the orders screen.";
+		}
+		return "Success";
 	}
 
 }

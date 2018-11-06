@@ -1,5 +1,7 @@
 package mobilepage;
 
+import org.openqa.selenium.NoSuchElementException;
+
 import element.BaseMobileElement;
 
 public class LowerNavPage extends BasePage {
@@ -9,6 +11,5 @@ public class LowerNavPage extends BasePage {
 	private BaseMobileElement basket = new BaseMobileElement("Basket");
 	private BaseMobileElement storeLocator = new BaseMobileElement("Store Locator");
 	private BaseMobileElement account = new BaseMobileElement("Account");
-
 	
 }

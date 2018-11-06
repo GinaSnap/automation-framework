@@ -3,6 +3,7 @@ package framework;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class WWWDriver extends AbstractDriver {
@@ -15,8 +16,12 @@ public class WWWDriver extends AbstractDriver {
 	public static void init()
 	{
 		
-		System.setProperty("webdriver.gecko.driver", "/Users/GMitchell/AutomationFramework/Browsers/geckodriver");
-		instance=new FirefoxDriver();
+//		System.setProperty("webdriver.gecko.driver", "/Users/GMitchell/AutomationFramework/Browsers/geckodriver");
+//		instance=new FirefoxDriver();
+		
+		System.setProperty("webdriver.chrome.driver", "/Users/GMitchell/AutomationFramework/Browsers/chromedriver");
+		instance=new ChromeDriver();
+
 		instance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 	}

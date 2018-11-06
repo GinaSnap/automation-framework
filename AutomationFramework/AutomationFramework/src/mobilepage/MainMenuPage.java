@@ -30,12 +30,14 @@ public class MainMenuPage extends BasePage {
 	public final BaseMobileElement actionsNewMenuItems = new BaseMobileElement("new menu items");  //name
 	public final BaseMobileElement actionsFavorites = new BaseMobileElement("favorites"); //name
 	public final BaseMobileElement actionsClose = new BaseMobileElement("close");
+	public final BaseMobileElement noThanks = new BaseMobileElement("NO THANKS");
 	
 	/**
 	 * Access the Breakfast Main Menu.
 	 */
 	public String clickMenu(MenuType menuType)
 	{
+		goToMenu();
 		String status = "Success";
 		try
 		{
@@ -192,9 +194,18 @@ public class MainMenuPage extends BasePage {
 		{
 			menuElement.addToCart();
 		}
-		catch (Exception e)
+		catch (NoSuchElementException e)
 		{
 			return "Could not locate Add To Cart button.";
+		}
+		
+		try
+		{
+			noThanks.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			//Do nothing.  It is only there under certain circumstances.
 		}
 		return "Success";
 	}

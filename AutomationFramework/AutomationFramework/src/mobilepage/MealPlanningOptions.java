@@ -1,15 +1,18 @@
 package mobilepage;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import element.BaseMobileElement;
 import framework.FindMethod;
+import framework.MobileDriver;
+import io.appium.java_client.MobileElement;
 
 public class MealPlanningOptions extends BasePage {
 	
 	private final BaseMobileElement selectFulfillmentDate = new BaseMobileElement("choose a start date");
 	private final BaseMobileElement save = new BaseMobileElement("SAVE");
-	private final BaseMobileElement editPayment = new BaseMobileElement("icn_disclosure");
+	private final BaseMobileElement editPayment = new BaseMobileElement("payment");
 	private final BaseMobileElement addNewCard = new BaseMobileElement("Add New Card…");
 	private final BaseMobileElement card_Number = new BaseMobileElement("card number");
 	private final BaseMobileElement card_ExpireDate = new BaseMobileElement("expiration date");

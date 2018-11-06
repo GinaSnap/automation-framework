@@ -2,20 +2,56 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="libs/byte-buddy-1.7.5.jar"/>
-	<classpathentry kind="lib" path="libs/client-combined-3.8.1.jar"/>
 	<classpathentry kind="lib" path="libs/commons-codec-1.10.jar"/>
 	<classpathentry kind="lib" path="libs/commons-exec-1.3.jar"/>
 	<classpathentry kind="lib" path="libs/commons-lang3-3.7.jar"/>
 	<classpathentry kind="lib" path="libs/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.8.2.jar"/>
-	<classpathentry kind="lib" path="libs/guava-23.0.jar"/>
 	<classpathentry kind="lib" path="libs/hamcrest-core-1.3.jar"/>
-	<classpathentry kind="lib" path="libs/httpclient-4.5.3.jar"/>
-	<classpathentry kind="lib" path="libs/httpcore-4.4.6.jar"/>
-	<classpathentry kind="lib" path="libs/java-client-6.0.0-BETA2.jar"/>
-	<classpathentry kind="lib" path="libs/selenium-server-standalone-3.8.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="/Users/GMitchell/AutomationFramework/AutomationFramework/libs/javax.mail.jar"/>
+	<classpathentry kind="lib" path="libs/java-client-6.1.0.jar"/>
+	<classpathentry kind="lib" path="libs/byte-buddy-1.8.15.jar"/>
+	<classpathentry kind="lib" path="libs/client-combined-3.14.0.jar"/>
+	<classpathentry kind="lib" path="libs/guava-25.0-jre.jar"/>
+	<classpathentry kind="lib" path="libs/httpclient-4.5.5.jar"/>
+	<classpathentry kind="lib" path="libs/httpcore-4.4.9.jar"/>
+	<classpathentry kind="lib" path="libs/okhttp-3.10.0.jar"/>
+	<classpathentry kind="lib" path="libs/okio-1.14.1.jar"/>
+	<classpathentry kind="lib" path="libs/selenium-server-standalone-3.14.0.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/guava-16.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/jackson-annotations-2.9.0.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/jackson-core-2.9.7.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/jackson-coreutils-1.8.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/jackson-databind-2.9.7.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/joda-time-2.3.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/jopt-simple-4.6.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/json-schema-core-1.2.5.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/json-schema-validator-2.2.6.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/jsr305-3.0.0.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/libphonenumber-6.2.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/mailapi-1.4.3.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/msg-simple-1.1.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/rhino-1.7R4.jar"/>
+	<classpathentry kind="lib" path="libs/json-schema-validator-3.2.0-deps/uri-template-0.9.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/activation-1.1.1.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/groovy-2.4.15.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/groovy-json-2.4.15.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/groovy-xml-2.4.15.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/hamcrest-library-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/httpclient-4.5.3.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/httpcore-4.4.6.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/httpmime-4.5.1.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/jaxb-api-2.2.12.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/jaxb-osgi-2.2.10.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/org.apache.sling.javax.activation-0.1.0.jar"/>
+	<classpathentry kind="lib" path="libs/rest-assured-3.2.0-deps/tagsoup-1.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

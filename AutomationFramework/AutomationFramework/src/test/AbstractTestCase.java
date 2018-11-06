@@ -1,5 +1,8 @@
 package test;
 
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 import org.junit.After;
 import org.junit.Before;
 
@@ -9,6 +12,8 @@ import common.Utilities;
 
 public abstract class AbstractTestCase {
 	
+	static Logger logger = LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME);
+	
 	public final long DEFAULT_TIMEOUT=5000;
 	public final String DEFAULT_PWD = "qqqqqqqq";
 	public UserType StagingUser = new UserType("(512) 608-5335", "qqqqqqqq", "Gina", "Mitchell", "gina.l.mitchell@gmail.com");
@@ -16,9 +21,6 @@ public abstract class AbstractTestCase {
 	public UserType ProdUser7 = new UserType("(512) 694-6161", "snapkit1", "QA", "TestUser7", "testuser7@snapkitchen.com");
 	public UserType defaultUser = ProdUser7;
 	
-	public CreditCardType validVisa1 = new CreditCardType("4242424242424242", "04/2024", "333");
-	public CreditCardType validVisa2 = new CreditCardType("4000000000000077", "04/2024", "333");
-	public CreditCardType invalidVisa = new CreditCardType("4000000000000341", "04/2024", "333");
 	Utilities util = new Utilities();
 
 	

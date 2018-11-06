@@ -10,7 +10,6 @@ public class WebPopupConfirmation extends BaseWebElement {
 
 	public WebPopupConfirmation(FindMethod findMethod, String id) {
 		super(findMethod, id);
-		// TODO Auto-generated constructor stub
 	}
 	
 	BaseWebElement confirmPopup = new BaseWebElement(FindMethod.CLASSNAME, "component-action--primary");

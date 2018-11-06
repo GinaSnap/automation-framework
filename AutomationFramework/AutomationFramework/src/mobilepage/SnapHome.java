@@ -1,17 +1,17 @@
 package mobilepage;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriverException;
 
+import common.Location;
 import common.UserType;
 import element.BaseMobileElement;
+import element.NotificationWebElement;
 import framework.FindMethod;
 
 public class SnapHome {
 	
-	public BaseMobileElement startLogin = new BaseMobileElement("Log In");
+	public BaseMobileElement startLogin = new BaseMobileElement("LogIn");
 	public BaseMobileElement phoneNumber = new BaseMobileElement("Phone number");
 	public BaseMobileElement next = new BaseMobileElement("next");
 	public BaseMobileElement sixDigitCode = new BaseMobileElement("Verification code");
@@ -22,6 +22,7 @@ public class SnapHome {
 	public BaseMobileElement passwordAlert = new BaseMobileElement(FindMethod.XPATH,"//XCUIElementTypeAlert");
 	public BaseMobileElement pwd_resetPassword = new BaseMobileElement("reset password");
 	public BaseMobileElement pwd_tryAgain = new BaseMobileElement("try again");
+	public NotificationWebElement pushNotificationsPrompt = new NotificationWebElement("don’t miss out");
 	
 	public String login(String username, String pwd)
 	{
@@ -30,7 +31,7 @@ public class SnapHome {
 		{
 			startLogin.click();	
 		}
-		catch (NoSuchElementException e)
+		catch (WebDriverException e)
 		{
 			status="Login Link did not exist on the start page.";
 			return status;
@@ -79,33 +80,93 @@ public class SnapHome {
 			status="User entered an incorrect password.";
 			return status;
 		}
+		
+		try
+		{
+			if (pushNotificationsPrompt.exists())
+			{
+				pushNotificationsPrompt.maybeLater();
+			}
+		}
+		catch (NoSuchElementException e)
+		{
+			//I am not testing the functionality, I just want to see if it's there and dismiss.  Testing of this notification done elsewhere.
+		}
 		return status;
 	}
 	
-	public boolean createAccountViaLogin(UserType user)
+	public boolean createAccountViaLogin(UserType user, Location location)
 	{
 		startLogin.click();
-		return createAccount(user);
+		return createAccount(user, location);
 	}
 	
-	public boolean createAccountViaMealPlanning(UserType user)
+	public String createAccountViaMealPlanning(UserType user, Location location)
 	{
-		IntroPage introPage = new IntroPage();
-		introPage.clickNext();
-		introPage.clickNext();
-		introPage.clickNext();
-		introPage.mealPlanButtonExists();
-		introPage.menuButtonExists();
-		introPage.shopMealPlans();
-		introPage.clickNextMealPlanIntro();
-		introPage.clickNextMealPlanIntro();
-		introPage.getStarted();
+		String nuOnboardingStatus = completeNewUserOnboarding();
+		if (!nuOnboardingStatus.equals("Success"))
+		{
+			return nuOnboardingStatus;
+		}
+		
+		String mpOnboardingStatus = completeMealPlanOnboarding();
+		if (!mpOnboardingStatus.equals("Success"))
+		{
+			return mpOnboardingStatus;
+		}
 		
 		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
 		mealPlanMainPage.selectHighProtein();
 		mealPlanMainPage.letsGetStarted();
 		
-		return createAccount(user);
+		createAccount(user, location);
+		return "Success";
+	}
+
+	public String completeNewUserOnboarding() {
+		
+		IntroPage introPage = new IntroPage();
+		
+		if (!(introPage.clickNext() == "Success"))
+		{
+			return "Next button did not exist on the first onboarding screen.";
+		}
+		if (!(introPage.clickNext() == "Success"))
+		{
+			return "Next button did not exist on the second onboarding screen.";
+		}
+		if (!(introPage.clickNext() == "Success"))
+		{
+			return "Next button did not exist on the second onboarding screen.";
+		}
+		
+		if (introPage.mealPlanButtonExists())
+		{
+			introPage.shopMealPlans();
+		}
+		else
+		{
+			return "Shop meal plans button did not exist at the end of new user onboarding.";
+		}
+		return "Success";
+	}
+
+	public String completeMealPlanOnboarding() {
+		IntroPage introPage = new IntroPage();
+
+		if (!(introPage.clickNextMealPlanIntro().equals("Success")))
+		{
+			return "Next button did not exist on first page of subscription onboarding.";
+		}
+		if (!(introPage.clickNextMealPlanIntro().equals("Success")))
+		{
+			return "Next button did not exist on second page of subscription onboarding.";
+		}
+		if (!introPage.getStarted())
+		{
+			return "Get started button was not displayed at the end of meal plan onboarding.";
+		}
+		return "Success";
 	}
 	
 	public String scrollMealPlanIntro()
@@ -130,7 +191,7 @@ public class SnapHome {
 	 * Returns true if the process completed.  I do not check the user account details.
 	 * @throws  
 	 */
-	public boolean createAccount(UserType user)
+	public boolean createAccount(UserType user, Location location)
 	{
 		phoneNumber.setWebValue(user.getUsername());
 		
@@ -184,14 +245,27 @@ public class SnapHome {
 			createProfile.firstName.setWebValue(user.getFirstName());
 			createProfile.lastName.setWebValue(user.getLastName());
 			createProfile.email.setWebValue(user.getEmail());
-			createProfile.selectCity();
+			createProfile.selectCity(location);
 			createProfile.password.setWebValue(user.getPassword());
 		
 			createProfile.done.click();
 		}
 		else
 		{
-			//throw new CreateAccountException("Create Profile Screen did not load successfully.");
+			return false;
+		}
+		
+		try
+		{
+			if (pushNotificationsPrompt.exists())
+			{
+				pushNotificationsPrompt.maybeLater();
+			}
+		}
+		catch (NoSuchElementException e)
+		{
+			//I am not testing the functionality, I just want to see if it's there and dismiss.  
+			//Testing of this notification done elsewhere.
 		}
 		
 		return true;

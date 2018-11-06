@@ -263,7 +263,6 @@ public class MailUtilities {
 //		try {
 //		    File f = new File(filename);
 //		    if (f.exists())
-//			// XXX - could try a series of names
 //			throw new IOException("file exists");
 //		    ((MimeBodyPart)p).saveFile(f);
 //		} catch (IOException ex) {

@@ -1,7 +1,7 @@
 package mobilepage;
 
+import common.Location;
 import element.BaseMobileElement;
-import framework.FindMethod;
 
 /**
  * This class defines the methods and elements on the create new profile screen.
@@ -56,10 +56,28 @@ public class CreateProfile extends BasePage {
 	/**
 	 * Select a city from the dropdown list.
 	 */
-	public void selectCity()
+	public void selectCity(Location location)
 	{
 		city.click();
-		austin.click();
+		
+		switch (location) {
+		case AUSTIN:
+			austin.click();
+			break;
+		case HOUSTON:
+			houston.click();
+			break;
+		case DALLAS:
+			dallas.click();
+			break;
+		case PHILADELPHIA:
+			philly.click();
+			break;
+
+		default:
+			austin.click();
+			break;
+		}
 	}
 	
 

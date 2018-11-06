@@ -40,17 +40,7 @@ public class CheckoutPage extends BasePage {
 			status="Place Order Button was not displayed.";
 			return status;
 		}
-		
-		//For each session the user is prompted whether they would like to receive notifications from SnapKitchen.
-		try
-		{
-			OrderSubmissionPage orderSubmissionPage = new OrderSubmissionPage();
-			orderSubmissionPage.allowNotifications();
-		}
-		catch (Exception e)
-		{
-			//I'm not sure if this is a must.  For now, if it's there we'll deal with it, and just ignore if not.
-		}
+
 		return status;
 		
 	}

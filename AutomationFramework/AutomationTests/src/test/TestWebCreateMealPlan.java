@@ -64,14 +64,7 @@ public class TestWebCreateMealPlan extends BaseTestCase {
 	public void testCreateMealPlan_Whole30 () {
 		createMealPlan(PlanType.WHOLE30, Size.CALORIES_1500, DaysPerWeek.THREE_DAYS, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER);
 	}
-	
-	/**
-	 * Create a new user and new meal CAMP GLAD meal plan.
-	 */
-	@Test
-	public void testCreateMealPlan_CampGladiator () {
-		createMealPlan(PlanType.CAMP_GLADIATOR, Size.CALORIES_1800, DaysPerWeek.SEVEN_DAYS, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER);
-	}
+
 	
 	/**
 	 * Helper Method for creating a meal plan with various options.
@@ -116,7 +109,7 @@ public class TestWebCreateMealPlan extends BaseTestCase {
 		
 		MealPlanCheckoutPage checkoutPage = new MealPlanCheckoutPage();
 		assertEquals("Step:  Enter Fulfillment Details.", "Success", checkoutPage.enterFulfillmentDetails());
-		assertEquals("Step:  Add Credit Card if one does not exist.", "Success", checkoutPage.addNewCreditCard(validVisa1));
+		assertEquals("Step:  Add Credit Card if one does not exist.", "Success", checkoutPage.addNewCreditCard(visa0077));
 		assertEquals("Step:  Click Start Subscription.", "Success", checkoutPage.startSubscription());
 		
 		MealPlanConfirmationPage confirmationPage = new MealPlanConfirmationPage();

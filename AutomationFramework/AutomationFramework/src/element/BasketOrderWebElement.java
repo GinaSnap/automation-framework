@@ -9,7 +9,6 @@ public class BasketOrderWebElement extends BaseWebElement {
 
 	public BasketOrderWebElement(FindMethod findMethod, String id) {
 		super(findMethod, id);
-		// TODO Auto-generated constructor stub
 	}
 	
 	//Basket items

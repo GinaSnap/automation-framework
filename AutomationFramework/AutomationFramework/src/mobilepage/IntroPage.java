@@ -11,6 +11,8 @@ public class IntroPage extends BasePage {
 	private BaseMobileElement shopMenu = new BaseMobileElement("Menu");
 	private BaseMobileElement nextMealPlanIntro = new BaseMobileElement("next");
 	private BaseMobileElement getStarted = new BaseMobileElement("GET STARTED");
+	private BaseMobileElement OK = new BaseMobileElement("OK");
+
 	
 	/**
 	 * Click the Next Button on any of the intro pages.
@@ -114,30 +116,50 @@ public class IntroPage extends BasePage {
 	{
 		try
 		{
-			getStarted.exists();
+			return getStarted.exists();
 		}
 		catch (NoSuchElementException e)
 		{
 			return false;
 		}
-		return true;
 	}
 	
 	/**
-	 * Does Get Started Button Exist on the Last Page of Meal Plan Intro?
+	 * Does OK Button Exist on the Last Page of Meal Plan Intro?
+	 * @return
+	 */
+	public boolean okButtonExists()
+	{
+		try
+		{
+			return OK.exists();
+		}
+		catch (NoSuchElementException e)
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * Click either the Get Started button or the OK button 
+	 * that is displayed at the end of the meal plan intro
 	 * @return
 	 */
 	public boolean getStarted()
 	{
-		try
+		boolean found=false;
+		
+		if (getStartedButtonExists())
 		{
 			getStarted.click();
+			found=true;
 		}
-		catch (NoSuchElementException e)
+		if (okButtonExists())
 		{
-			return false;
+			OK.click();
+			found=true;
 		}
-		return true;
+		return found;
 	}
 
 }
