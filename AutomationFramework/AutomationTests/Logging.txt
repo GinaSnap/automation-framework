@@ -1,2 +1,0 @@
-Mar 27, 2018 12:18:26 PM test.TestMobile testCreateAccount
-INFO: Hi

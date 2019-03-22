@@ -29,8 +29,8 @@ public class MobileDriver extends AbstractDriver {
 		DesiredCapabilities caps = new DesiredCapabilities();
 		caps.setCapability("automationName", "XCUITest");
 		caps.setCapability("platformName", "iOS");
-		caps.setCapability("platformVersion", "12.0");
-		caps.setCapability("deviceName", "iPhone SE");
+		caps.setCapability("platformVersion", "12.1");
+		caps.setCapability("deviceName", "iPad Pro (10.5-inch)");
 		caps.setCapability("app", "/Users/GMitchell/Library/Developer/Xcode/DerivedData/SnapKitchen-afugxgdjzpapsoaulupvxhadeojz/Build/Products/Debug-iphonesimulator/Snap Kitchen.app");
 		
 		//Instantiate Appium Driver
@@ -48,6 +48,16 @@ public class MobileDriver extends AbstractDriver {
 	public static void quit()
 	{
 		instance.quit();
+	}
+	
+	public static void closeApp()
+	{
+		instance.closeApp();
+	}
+	
+	public static void launchApp()
+	{
+		instance.launchApp();
 	}
 	
 	public static void navigate(String url)

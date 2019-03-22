@@ -25,6 +25,8 @@ public class BaseTestCase extends AbstractTestCase {
 	public CreditCardType visa0077 = new CreditCardType("4000000000000077", "04/2024", "333", "Visa Ending In 0077");
 	public CreditCardType visa0341 = new CreditCardType("4000000000000341", "04/2024", "333", "Visa Ending In 0341");
 	public CreditCardType mastercard4444 = new CreditCardType("5555 5555 5555 4444", "04/2024", "333", "MasterCard Ending In 4444");
+	public final String CUSTOMER_CARE_MSG = "Questions, comments, or concerns? Please leave message and our customer care team will follow up with you.";
+	public final String CUSTOMER_CARE_MSG_CONF = "Our customer care team will follow up with you shortly.";
 	
 	@Before
 	public void setUp() throws Exception {
@@ -44,22 +46,21 @@ public class BaseTestCase extends AbstractTestCase {
 	
 	public String login()
 	{
-		login(StagingUser);
-		return "";
+		return login(StagingUser);
 	}
 	
 	public String login(UserType user)
 	{
 		LoginPage loginPage = new LoginPage();
 		loginPage.login(user.getUsername(), user.getPassword());
-		return "";
+		return "Success";
 	}
 	
 	public String login(String phone, String pwd)
 	{
 		LoginPage loginPage = new LoginPage();
 		loginPage.login(phone, pwd);
-		return "";
+		return "Success";
 	}
 	
 	public String goToShoppingCart()

@@ -4,6 +4,7 @@ import org.openqa.selenium.NoSuchElementException;
 
 import element.BaseWebElement;
 import framework.FindMethod;
+import framework.WWWDriver;
 
 public class FulfillmentPage extends BasePage {
 	
@@ -27,6 +28,7 @@ public class FulfillmentPage extends BasePage {
 	{
 		try
 		{
+			WWWDriver.pause(1000);  //TODO:  Remove Wait
 			continueToCheckout.click();
 		}
 		catch (NoSuchElementException e)

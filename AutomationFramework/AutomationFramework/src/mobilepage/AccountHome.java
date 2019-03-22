@@ -3,6 +3,7 @@ package mobilepage;
 import org.openqa.selenium.NoSuchElementException;
 
 import element.BaseMobileElement;
+import framework.MobileDriver;
 
 /**
  * This class defines elements and methods for the Main Account Page
@@ -55,14 +56,9 @@ public class AccountHome extends BasePage {
 	 */
 	public boolean manageMealPlanExists()
 	{
-		try
-		{
-			return menuManageMealPlan.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
+		
+		return menuManageMealPlan.exists();
+		
 	}
 	
 	/**
@@ -93,14 +89,7 @@ public class AccountHome extends BasePage {
 	 */
 	public boolean ordersExists()
 	{
-		try
-		{
-			return menuOrders.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
+		return menuOrders.exists();
 	}
 	
 	/**
@@ -131,14 +120,7 @@ public class AccountHome extends BasePage {
 	 */
 	public boolean paymentsExists()
 	{
-		try
-		{
-			return menuPayments.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
+		return menuPayments.exists();
 	}
 	
 	public String addPaymentMethod(String cardNumber, String date, String cvc)
@@ -146,6 +128,7 @@ public class AccountHome extends BasePage {
 		goToPayments();
 		try 
 		{
+			addNewCard.waitUntilClickable();
 			addNewCard.click();
 			card_Number.setWebValue(cardNumber);
 			card_ExpireDate.setWebValue(date);
@@ -188,14 +171,7 @@ public class AccountHome extends BasePage {
 	 */
 	public boolean promoExists()
 	{
-		try
-		{
-			return menuPromo.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
+		return menuPromo.exists();
 	}
 	
 	/**
@@ -222,14 +198,7 @@ public class AccountHome extends BasePage {
 	 */
 	public boolean profileExists()
 	{
-		try
-		{
-			return menuProfile.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
+		return menuProfile.exists();
 	}
 	
 	/**
@@ -256,14 +225,7 @@ public class AccountHome extends BasePage {
 	 */
 	public boolean customerCareExists()
 	{
-		try
-		{
-			return menuCustomerCare.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
+		return menuCustomerCare.exists();
 	}
 	
 	/**
@@ -290,14 +252,7 @@ public class AccountHome extends BasePage {
 	 */
 	public boolean generalInfoExists()
 	{
-		try
-		{
-			return menuGeneralInfo.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
+		return menuGeneralInfo.exists();
 	}
 	
 	/**

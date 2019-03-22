@@ -161,6 +161,7 @@ public class SnapAPIUtilities {
 	{
 		//product basket photos (ios only)
 		listExpectedImageTypes.add("product_basket_photo_ios_x");
+		listExpectedImageTypes.add("product_basket_photo_ios_xr");
 		listExpectedImageTypes.add("product_basket_photo_ios");
 		listExpectedImageTypes.add("product_basket_photo_ios_plus");
 		listExpectedImageTypes.add("product_basket_photo_ios_se");
@@ -170,12 +171,14 @@ public class SnapAPIUtilities {
 		listExpectedImageTypes.add("product_list_photo_ios");
 		listExpectedImageTypes.add("product_list_photo_ios_se");
 		listExpectedImageTypes.add("product_list_photo_ios_x");
+		listExpectedImageTypes.add("product_list_photo_ios_xr");
 		
 		//product detail photos
 		listExpectedImageTypes.add("product_photo_ios_plus");
 		listExpectedImageTypes.add("product_photo_ios_se");
 		listExpectedImageTypes.add("product_photo_web");
 		listExpectedImageTypes.add("product_photo_ios_x");
+		listExpectedImageTypes.add("product_photo_ios_xr");
 		listExpectedImageTypes.add("product_photo_ios");
 		
 		//This is not currently used.
@@ -187,12 +190,14 @@ public class SnapAPIUtilities {
 //		listExpectedImageTypes.add("product_background_photo_ios");
 //		listExpectedImageTypes.add("product_background_photo_ios_se");
 //		listExpectedImageTypes.add("product_background_photo_ios_x");
+//		listExpectedImageTypes.add("product_background_photo_ios_xr");
 //		listExpectedImageTypes.add("product_background_photo_ios_plus");
-//
-//		//product list/grid backgrounds (ios only)
+////
+////		//product list/grid backgrounds (ios only)
 //		listExpectedImageTypes.add("product_list_background_photo_ios");
 //		listExpectedImageTypes.add("product_list_background_photo_ios_plus");
 //		listExpectedImageTypes.add("product_list_background_photo_ios_x");
+//		listExpectedImageTypes.add("product_list_background_photo_ios_xr");
 //		listExpectedImageTypes.add("product_list_background_photo_ios_se");
 
 	}

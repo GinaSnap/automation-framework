@@ -23,7 +23,7 @@ public class TestMobilePaymentType extends MobileTestCase {
 	{
 		String uniquePhone = getUniquePhone();
 		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(uniquePhone, DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+		UserType newUser = new UserType(uniquePhone, DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
 		
 		System.out.println("New User: " + uniquePhone);
 		

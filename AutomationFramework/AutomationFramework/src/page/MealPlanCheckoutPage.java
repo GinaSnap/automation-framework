@@ -7,10 +7,11 @@ import common.CreditCardType;
 import element.BaseWebElement;
 import element.WebFullfillmentDetailsElement;
 import framework.FindMethod;
+import framework.WWWDriver;
 
 public class MealPlanCheckoutPage extends BasePage {
 	
-	private WebFullfillmentDetailsElement fulfillmentDetails = new WebFullfillmentDetailsElement(FindMethod.CLASSNAME, "component-step-date-time-form");
+	private WebFullfillmentDetailsElement fulfillmentDetails = new WebFullfillmentDetailsElement(FindMethod.CLASSNAME, "component-step-date-time-multi-select");
 	private BaseWebElement startSubscripton = new BaseWebElement(FindMethod.CLASSNAME, "checkout-button__cta");
 	private BaseWebElement addNewCard = new BaseWebElement(FindMethod.CLASSNAME, "add-card");
 	private BaseWebElement card_cardNumber = new BaseWebElement(FindMethod.ID, "cardNumber");
@@ -46,6 +47,7 @@ public class MealPlanCheckoutPage extends BasePage {
 	
 	public String addNewCreditCard(CreditCardType cardType)
 	{
+		WWWDriver.pause(3000); //TODO:  Remove this
 		try
 		{
 			addNewCard.click();

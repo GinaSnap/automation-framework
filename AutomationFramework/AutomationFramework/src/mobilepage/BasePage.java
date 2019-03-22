@@ -4,6 +4,7 @@ import org.openqa.selenium.NoSuchElementException;
 
 import element.BaseMobileElement;
 import framework.AbstractDriver;
+import framework.MobileDriver;
 
 /**
  * This class contains methods and variables that are common to all pages.
@@ -75,7 +76,8 @@ public class BasePage {
 	 */
 	public String goToAccount()
 	{
-		AbstractDriver.pause(3000);
+		//AbstractDriver.pause(5000);
+		navAccount.waitUntilClickable();
 		try
 		{
 			navAccount.click();

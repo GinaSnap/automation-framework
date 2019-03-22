@@ -3,9 +3,11 @@ package element;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -94,9 +96,23 @@ public class BaseWebElement {
 	/**
 	 * If I need to explain this one, then give up and go home.
 	 */
-	public void click()
+	public boolean click()
 	{
-		getWebElement().click();
+		try
+		{
+			getWebElement().click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return false;
+		}
+		catch (ElementNotVisibleException e)
+		{
+			Actions actions = new Actions (WWWDriver.instance);
+			actions.moveToElement(getWebElement());
+			getWebElement().click();
+		}
+		return true;
 	}
 	
 	/**
@@ -204,6 +220,21 @@ public class BaseWebElement {
 	}
 	
 	/**
+	 * Wait up to 10 seconds until an element is updated.
+	 */
+	public void waitUntilStale()
+	{
+		WebDriverWait wait = new WebDriverWait(WWWDriver.instance, 10);
+		wait.until(ExpectedConditions.stalenessOf(getWebElement()));
+	}
+	
+	public void waitUntilTextContains(String expectText)
+	{
+		WebDriverWait wait = new WebDriverWait(WWWDriver.instance, 10);
+		wait.until(ExpectedConditions.textToBePresentInElementValue(getWebElement(), expectText));
+	}
+	
+	/**
 	 * The buttons on the login screen change text while 
 	 * processing the login information.  This function will wait
 	 * for verification to be complete.
@@ -211,7 +242,7 @@ public class BaseWebElement {
 	 * @param waitForProcessing Enter true if we should wait for the button
 	 * text to change back to the original value.
 	 */
-	public void click(boolean waitForProcessing)
+	public boolean click(boolean waitForProcessing)
 	{
 		String textOriginal = getWebElement().getText();
 		long timeInMillis = System.currentTimeMillis();
@@ -226,8 +257,9 @@ public class BaseWebElement {
 			}
 			catch (Exception e)
 			{
-				return;
+				return false;
 			}
 		}
+		return true;
 	}
 }

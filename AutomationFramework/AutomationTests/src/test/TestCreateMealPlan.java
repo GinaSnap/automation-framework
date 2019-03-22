@@ -223,7 +223,7 @@ public class TestCreateMealPlan extends MobileTestCase {
 	public void testCreateNewMealPlan()
 	{
 		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
 		System.out.printf("User: %s Email: %s", newUser.getUsername(), newUser.getEmail());
 		
 		SnapHome snapHome = new SnapHome();

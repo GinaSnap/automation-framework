@@ -5,18 +5,21 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.junit.Test;
 
-import common.MealPlanOptions.DayParts;
-import common.MealPlanOptions.DaysPerWeek;
-import common.MealPlanOptions.Fulfillment;
-import common.MealPlanOptions.PlanType;
-import common.MealPlanOptions.Size;
 import common.Location;
+import common.MealPlanOptions.DayParts;
+import common.MealPlanOptions.PlanType;
 import common.MenuType;
 import common.UserType;
+import framework.MobileDriver;
+import javafx.util.Pair;
 import mobilepage.AccountHome;
 import mobilepage.BasketPage;
 import mobilepage.CheckoutPage;
@@ -29,62 +32,10 @@ import mobilepage.OrderSubmissionPage;
 import mobilepage.OrdersPage;
 import mobilepage.ProfileHome;
 import mobilepage.SnapHome;
+import page.RequestZipcodePage;
+import page.ShippingMenuPage;
 
 public class TestMobile extends MobileTestCase {
-		
-	/**
-	 * Login as an existing user and verify profile data.
-	 */
-	@Test
-	public void testLogin()
-	{
-		assertEquals("Step:  Login with a standard user account.", "Success", login(StagingUser));
-		
-		AccountHome accountHome = new AccountHome();
-		assertEquals("Step:  Click the Account Menu In the Lower Navigation.", "Success", accountHome.goToAccount());
-		assertTrue("Verify:  Manage Meal Plan Menu Item Exists.", accountHome.manageMealPlanExists());
-		assertTrue("Verify:  Orders Menu Item Exists.", accountHome.ordersExists());
-		assertTrue("Verify:  Payments Menu Item Exists.", accountHome.paymentsExists());
-		assertTrue("Verify:  Promo Menu Item Exists.", accountHome.promoExists());
-		assertTrue("Verify:  Profile Menu Item Exists.", accountHome.profileExists());
-		assertTrue("Verify:  Customer Care Menu Item Exists.", accountHome.customerCareExists());
-		assertTrue("Verify:  General Info Menu Item Exists.", accountHome.generalInfoExists());
-		
-		assertEquals("Step:  Click the Profile Menu Item.", "Success", accountHome.goToProfile());
-		ProfileHome profileHome = new ProfileHome();
-		assertEquals("Verify that the first name value is correct.", StagingUser.getFirstName(), profileHome.firstName.getText());
-		assertEquals("Verify that the last name value is correct.", StagingUser.getLastName(), profileHome.lastName.getText());
-		assertEquals("Verify that the email address value is correct.", StagingUser.getEmail(), profileHome.email.getText());
-		assertEquals("Verify that the phone number value is correct.", StagingUser.getUsername(), profileHome.phoneNumber.getText());
-		
-	}
-	
-	/**
-	 * Create a new user account by clicking Login from the Main Screen.
-	 * Verify data on the profile screen.
-	 */
-	@Test
-	public void testCreateAccount()
-	{
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-		System.out.println(newUser.getUsername());
-		
-		SnapHome snapHome = new SnapHome();
-		assertTrue("Verify that new account was created successfully.", snapHome.createAccountViaLogin(newUser, Location.AUSTIN));
-	
-		
-		AccountHome accountHome = new AccountHome();
-		accountHome.goToAccount();
-		accountHome.goToProfile();
-		
-		ProfileHome profileHome = new ProfileHome();
-		assertEquals("Verify that the first name value is correct.", newUser.getFirstName(), profileHome.firstName.getText());
-		assertEquals("Verify that the last name value is correct.", newUser.getLastName(), profileHome.lastName.getText());
-		assertEquals("Verify that the email address value is correct.", newUser.getEmail(), profileHome.email.getText());
-		assertEquals("Verify that the phone number value is correct.", newUser.getUsername(), profileHome.phoneNumber.getText());
-		
-	}
 	
 	/**
 	 * Create an order with an existing user account, and then cancel.
@@ -93,7 +44,7 @@ public class TestMobile extends MobileTestCase {
 	public void testCreateNewOrderAndCancel()
 	{
 		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
 		
 		SnapHome snapHome = new SnapHome();
 		assertTrue("Step:  Create new user account.", snapHome.createAccountViaLogin(newUser, Location.AUSTIN));
@@ -145,7 +96,7 @@ public class TestMobile extends MobileTestCase {
 	public void testEmptyShoppingBasket()
 	{
 		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
 		
 		SnapHome snapHome = new SnapHome();
 		assertTrue("Step:  Create new user account.", snapHome.createAccountViaLogin(newUser, Location.AUSTIN));
@@ -293,11 +244,11 @@ public class TestMobile extends MobileTestCase {
 	public void testVerifyPlanOptions_HighProtein()
 	{
 		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
 		System.out.println(newUser.getUsername());
 		
 		SnapHome snapHome = new SnapHome();
-		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser, Location.AUSTIN));
+		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser));
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		LowerNavPage lowerNav = new LowerNavPage();
@@ -373,11 +324,11 @@ public class TestMobile extends MobileTestCase {
 	public void testVerifyPlanOptions_Whole30()
 	{
 		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
 		System.out.println(newUser.getUsername());
 		
 		SnapHome snapHome = new SnapHome();
-		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser, Location.AUSTIN));
+		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser));
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		LowerNavPage lowerNav = new LowerNavPage();
@@ -443,11 +394,11 @@ public class TestMobile extends MobileTestCase {
 	public void testVerifyPlanDaysRecognized()
 	{
 		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
 		System.out.println(newUser.getUsername());
 		
 		SnapHome snapHome = new SnapHome();
-		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser, Location.AUSTIN));
+		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser));
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		LowerNavPage lowerNav = new LowerNavPage();
@@ -519,11 +470,11 @@ public class TestMobile extends MobileTestCase {
 	public void testVerifyLowerNavigationOnPlanDays()
 	{
 		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
+		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
 		System.out.println(newUser.getUsername());
 		
 		SnapHome snapHome = new SnapHome();
-		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser, Location.AUSTIN));
+		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser));
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		LowerNavPage lowerNav = new LowerNavPage();

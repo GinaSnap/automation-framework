@@ -93,7 +93,7 @@ public class OrderSubmissionPage extends BasePage {
 	{
 		String status = "Success";
 		try {
-		getOrderToolbarList().get(5).click();
+		getOrderToolbarList().get(2).click();
 		}
 		catch (NoSuchElementException e)
 		{

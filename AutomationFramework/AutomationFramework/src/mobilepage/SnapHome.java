@@ -1,13 +1,17 @@
 package mobilepage;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 
 import common.Location;
+import common.PlanType;
 import common.UserType;
 import element.BaseMobileElement;
 import element.NotificationWebElement;
 import framework.FindMethod;
+import page.RequestZipcodePage;
+import page.ShippingMenuPage;
 
 public class SnapHome {
 	
@@ -81,18 +85,21 @@ public class SnapHome {
 			return status;
 		}
 		
+		closePushNotificationPrompt();
+		return status;
+	}
+	
+	public void closePushNotificationPrompt()
+	{
 		try
 		{
-			if (pushNotificationsPrompt.exists())
-			{
-				pushNotificationsPrompt.maybeLater();
-			}
+			pushNotificationsPrompt.waitUntilClickable();
+			pushNotificationsPrompt.maybeLater();
 		}
-		catch (NoSuchElementException e)
+		catch (TimeoutException e)
 		{
-			//I am not testing the functionality, I just want to see if it's there and dismiss.  Testing of this notification done elsewhere.
+			return;
 		}
-		return status;
 	}
 	
 	public boolean createAccountViaLogin(UserType user, Location location)
@@ -101,31 +108,38 @@ public class SnapHome {
 		return createAccount(user, location);
 	}
 	
-	public String createAccountViaMealPlanning(UserType user, Location location)
+	public String createAccountViaMealPlanning(UserType user)
 	{
+		RequestZipcodePage zipCodePage = new RequestZipcodePage();
+		
 		String nuOnboardingStatus = completeNewUserOnboarding();
 		if (!nuOnboardingStatus.equals("Success"))
 		{
 			return nuOnboardingStatus;
 		}
 		
-		String mpOnboardingStatus = completeMealPlanOnboarding();
-		if (!mpOnboardingStatus.equals("Success"))
-		{
-			return mpOnboardingStatus;
-		}
+//		String mpOnboardingStatus = completeMealPlanOnboarding();
+//		if (!mpOnboardingStatus.equals("Success"))
+//		{
+//			return mpOnboardingStatus;
+//		}
 		
-		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
-		mealPlanMainPage.selectHighProtein();
-		mealPlanMainPage.letsGetStarted();
 		
-		createAccount(user, location);
+		zipCodePage.enterZipCode("77777");
+		
+		ShippingMenuPage shippingMenuPage = new ShippingMenuPage();
+		shippingMenuPage.selectMealPlan(PlanType.BALANCE);
+		shippingMenuPage.letsGetStarted();
+		
+		createAccount(user, Location.AUSTIN);
 		return "Success";
 	}
-
+	
 	public String completeNewUserOnboarding() {
 		
 		IntroPage introPage = new IntroPage();
+		RequestZipcodePage zipCodePage = new RequestZipcodePage();
+		ShippingMenuPage shippingMenuPage = new ShippingMenuPage();
 		
 		if (!(introPage.clickNext() == "Success"))
 		{
@@ -137,17 +151,18 @@ public class SnapHome {
 		}
 		if (!(introPage.clickNext() == "Success"))
 		{
-			return "Next button did not exist on the second onboarding screen.";
+			return "Next button did not exist on the third onboarding screen.";
 		}
 		
 		if (introPage.mealPlanButtonExists())
 		{
-			introPage.shopMealPlans();
+			introPage.shopMealPlans();  //This will change to Get Started.
 		}
 		else
 		{
 			return "Shop meal plans button did not exist at the end of new user onboarding.";
 		}
+		
 		return "Success";
 	}
 
@@ -255,18 +270,7 @@ public class SnapHome {
 			return false;
 		}
 		
-		try
-		{
-			if (pushNotificationsPrompt.exists())
-			{
-				pushNotificationsPrompt.maybeLater();
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-			//I am not testing the functionality, I just want to see if it's there and dismiss.  
-			//Testing of this notification done elsewhere.
-		}
+		closePushNotificationPrompt();
 		
 		return true;
 	}

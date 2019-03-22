@@ -2,9 +2,9 @@ package element;
 
 import java.util.HashMap;
 
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -65,7 +65,11 @@ public class BaseMobileElement {
 	
 	public void click()
 	{
-		displayElement();
+		//displayElement();
+		if (!getMobileElement().isDisplayed())
+		{
+			scrollToElement();
+		}
 		getMobileElement().click();
 	}
 	
@@ -194,6 +198,13 @@ public class BaseMobileElement {
 		return getMobileElement().isDisplayed();
 	}
 	
+	private boolean scrollToElement()
+	{
+		HashMap<String, String> swipeObject = new HashMap<String, String>();
+		swipeObject.put("name", getId());
+		MobileDriver.instance.executeScript("mobile: scroll", swipeObject);
+		return true;
+	}
 	
 	public void setWebValue(String text)
 	{
@@ -210,10 +221,14 @@ public class BaseMobileElement {
 	public boolean exists()
 	{
 		try {
-				displayElement();
+				//displayElement();
+				scrollToElement();
 				return getMobileElement().isDisplayed();
 			}
 				catch (NoSuchElementException e) {
+					return false;
+			}
+				catch (WebDriverException e) {
 					return false;
 			}
 	}

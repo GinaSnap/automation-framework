@@ -23,6 +23,7 @@ public class IntroPage extends BasePage {
 		String status="Success";
 		try
 		{
+			nextButton.waitUntilClickable();
 			nextButton.click();
 		}
 		catch (Exception e)

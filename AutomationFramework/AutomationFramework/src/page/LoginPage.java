@@ -11,52 +11,75 @@ import framework.WWWDriver;
 public class LoginPage extends BasePage {
 	
 	//Welcome Back Login Screen
-	public BaseWebElement wb_login = new BaseWebElement(FindMethod.CLASSNAME, "snap-input--text");
-	public BaseWebElement wb_password = new BaseWebElement(FindMethod.CLASSNAME, "snap-input--password");
-	public BaseWebElement sb_signin = new BaseWebElement(FindMethod.XPATH,"//button[@type='submit']");
-	public BaseWebElement sb_signUp = new BaseWebElement(FindMethod.LINKTEXT,"Sign Up");
+	private BaseWebElement wb_login = new BaseWebElement(FindMethod.CLASSNAME, "snap-input--text");
+	private BaseWebElement wb_password = new BaseWebElement(FindMethod.CLASSNAME, "snap-input--password");
+	private BaseWebElement sb_signin = new BaseWebElement(FindMethod.XPATH,"//button[@type='submit']");
+	private BaseWebElement sb_signUp = new BaseWebElement(FindMethod.LINKTEXT,"Sign Up");
 	
 	//New User Sign Up Screen
-	public BaseWebElement closeX = new BaseWebElement(FindMethod.CLASSNAME, "component-modal--close");
-	public BaseWebElement help = new BaseWebElement(FindMethod.CLASSNAME, "help-action");
-	public BaseWebElement signUp = new BaseWebElement(FindMethod.LINKTEXT, "Sign Up");
-	public BaseWebElement phoneNumber = new BaseWebElement(FindMethod.ID, "phoneField");
-	public BaseWebElement nextBtn = new BaseWebElement(FindMethod.CLASSNAME, "button--alt");
-	public BaseWebElement smsCode = new BaseWebElement(FindMethod.CLASSNAME, "snap-input--number");
-	public BaseWebElement password = new BaseWebElement(FindMethod.NAME, "password");
+	private BaseWebElement closeX = new BaseWebElement(FindMethod.CLASSNAME, "component-modal--close");
+	private BaseWebElement help = new BaseWebElement(FindMethod.CLASSNAME, "help-action");
+	private BaseWebElement signUp = new BaseWebElement(FindMethod.LINKTEXT, "Sign Up");
+	private BaseWebElement phoneNumber = new BaseWebElement(FindMethod.ID, "phoneField");
+	private BaseWebElement nextBtn = new BaseWebElement(FindMethod.CLASSNAME, "button--alt");
+	private BaseWebElement smsCode = new BaseWebElement(FindMethod.CLASSNAME, "snap-input--number");
+	private BaseWebElement password = new BaseWebElement(FindMethod.NAME, "password");
 	
 	//User Profile Screen
-	public BaseWebElement completeMyProfile = new BaseWebElement(FindMethod.CLASSNAME, "continue-signup-link");
-	public BaseWebElement firstName = new BaseWebElement(FindMethod.NAME, "first_name");
-	public BaseWebElement lastName = new BaseWebElement(FindMethod.NAME, "last_name");
-	public BaseWebElement email = new BaseWebElement(FindMethod.NAME, "email");
-	public BaseWebElement city = new BaseWebElement(FindMethod.NAME, "city");
-	public BaseWebElement rememberMe = new BaseWebElement(FindMethod.CLASSNAME, "snap-faux-checkbox");
-	public BaseWebElement showPassword = new BaseWebElement(FindMethod.CLASSNAME, "snap-input-icon--password");
-	public BaseWebElement forgotPassword = new BaseWebElement(FindMethod.CLASSNAME, "forgot-password-link");
+	private BaseWebElement completeMyProfile = new BaseWebElement(FindMethod.CLASSNAME, "continue-signup-link");
+	private BaseWebElement firstName = new BaseWebElement(FindMethod.NAME, "first_name");
+	private BaseWebElement lastName = new BaseWebElement(FindMethod.NAME, "last_name");
+	private BaseWebElement email = new BaseWebElement(FindMethod.NAME, "email");
+	private BaseWebElement city = new BaseWebElement(FindMethod.NAME, "city");
+	private BaseWebElement rememberMe = new BaseWebElement(FindMethod.CLASSNAME, "snap-faux-checkbox");
+	private BaseWebElement showPassword = new BaseWebElement(FindMethod.CLASSNAME, "snap-input-icon--password");
+	private BaseWebElement forgotPassword = new BaseWebElement(FindMethod.CLASSNAME, "forgot-password-link");
 	
 	//Account Menu
-	public BaseWebElement accountMenu = new BaseWebElement(FindMethod.CLASSNAME, "logged-in-link-icon");
+	private BaseWebElement accountMenu = new BaseWebElement(FindMethod.CLASSNAME, "logged-in-link-icon");
 	
-	//Account SubMenu
-	public BaseWebElement account_ManageMealPlan = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_manage_meal_plan");
-	public BaseWebElement account_Orders = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_orders");
-	public BaseWebElement account_Favorites = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_favorites");
-	public BaseWebElement account_Profile = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_profile");
-	public BaseWebElement account_CustomerCare = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_customer-care");
-	public BaseWebElement account_SignOut = new BaseWebElement(FindMethod.CLASSNAME, "account-link--signout");
+	//Account Popup Sub Menu
+	private BaseWebElement account_ManageMealPlan = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_manage_meal_plan");
+	private BaseWebElement account_Orders = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_orders");
+	private BaseWebElement account_Payments = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_payments");
+	private BaseWebElement account_Favorites = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_favorites");
+	private BaseWebElement account_Profile = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_profile");
+	private BaseWebElement account_CustomerCare = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_customer-care");
+	private BaseWebElement account_ReferAFriend = new BaseWebElement(FindMethod.CLASSNAME, "account-link--account_refer-a-friend");
+	private BaseWebElement account_SignOut = new BaseWebElement(FindMethod.CLASSNAME, "account-link--signout");
+	
+	//Account Left Nav Menu
+	private BaseWebElement leftNav_ManageMealPlan = new BaseWebElement(FindMethod.CLASSNAME, "account-navbar-link--account_manage_meal_plan");
+	private BaseWebElement leftNav_Orders = new BaseWebElement(FindMethod.CLASSNAME, "account-navbar-link--account_orders");
+	private BaseWebElement leftNav_Payments = new BaseWebElement(FindMethod.CLASSNAME, "account-navbar-link--account_payments");
+	private BaseWebElement leftNav_Favorites = new BaseWebElement(FindMethod.CLASSNAME, "account-navbar-link--account_favorites");
+	private BaseWebElement leftNav_Profile = new BaseWebElement(FindMethod.CLASSNAME, "account-navbar-link--account_profile");
+	private BaseWebElement leftNav_CustomerCare = new BaseWebElement(FindMethod.CLASSNAME, "account-navbar-link--account_customer-care");
+	private BaseWebElement leftNav_SignOut = new BaseWebElement(FindMethod.CLASSNAME, "account-navbar-link--account_sign-out");
+	
+	public enum AccountMenu
+	{
+		MANAGE_MEAL_PLAN,
+		ORDERS,
+		PAYMENTS,
+		FAVORITES,
+		PROFILE,
+		CUSTOMER_CARE,
+		SIGN_OUT
+	}
+
 	
 	/**
 	 * Navigate to the new user sign in screen.
 	 */
-	public void goToSignUp()
+	public boolean goToSignUp()
 	{
 		navigate();
 		
 		//For some reason, it thinks that it clicks on this element before it ever reaches the page.
 		//I really have no choice but to pause for a minute.
 		AbstractDriver.pause(3000);
-		signUp.click();
+		return signUp.click();
 	}
 	
 	/**
@@ -224,6 +247,44 @@ public class LoginPage extends BasePage {
 	 * @return Method will return false if the user is not logged in
 	 * or errors are returned.  Otherwise it will return true.
 	 */
+	public boolean goToAccountOption(AccountMenu accountMenuOption)
+	{
+		WWWDriver.pause(5000); //TODO:  Remove This Wait.
+		
+		if (!goToAccountMenu())
+		{
+			return false;
+		}
+		
+		switch (accountMenuOption) {
+		case MANAGE_MEAL_PLAN:
+			return account_ManageMealPlan.click();
+			
+		case ORDERS:
+			return account_Orders.click();
+
+		case PAYMENTS:
+			return account_Payments.click();
+			
+		case FAVORITES:
+			return account_Favorites.click();
+			
+		case PROFILE:
+			return account_Profile.click();
+			
+		case CUSTOMER_CARE:
+			return account_CustomerCare.click();
+			
+		default:
+			return false;
+		}
+	}
+	
+	/**
+	 * Click on the Account Icon and select Profile.
+	 * @return Method will return false if the user is not logged in
+	 * or errors are returned.  Otherwise it will return true.
+	 */
 	public boolean goToAccountProfile()
 	{
 		WWWDriver.pause(5000); //TODO:  Remove This Wait.
@@ -233,9 +294,9 @@ public class LoginPage extends BasePage {
 		return true;
 	}
 	
-	public void goToAccountMenu()
+	public boolean goToAccountMenu()
 	{
-		accountMenu.click();
+		return accountMenu.click();
 	}
 	
 	private boolean waitForAccountScreenClose(long timeout)
@@ -248,6 +309,63 @@ public class LoginPage extends BasePage {
 		}
 		
 		return !firstName.exists();
+	}
+	
+	/**
+	 * This function will verify that all menu items exist in the Account Popup Menu.
+	 * @return Return a string specifying which menu items do not exist, or "Success"
+	 */
+	public String verifyAccountPopupMenu()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		goToAccountMenu(); //Open Account Menu
+		if (!account_ManageMealPlan.exists())
+			sb.append("Manage Meal Plan;");
+		if (!account_Orders.exists())
+			sb.append("Orders;");
+		if (!account_Payments.exists())
+			sb.append("Payments;");
+		if (!account_Favorites.exists())
+			sb.append("Favorites;");
+		if (!account_Profile.exists())
+			sb.append("Profile;");
+		if (!account_CustomerCare.exists())
+			sb.append("Customer Care;");
+		
+		goToAccountMenu(); //Close Account Menu
+		
+		if (sb.length() > 0)
+			return sb.toString();
+		else
+			return "Success";
+	}
+	
+	/**
+	 * This function will verify that all menu items exist in the Account Left Navigation Menu
+	 * @return Return a string specifying which menu items do not exist, or "Success"
+	 */
+	public String verifyAccountLeftNavigation()
+	{
+		StringBuilder sb = new StringBuilder();
+		goToAccountProfile();
+		if (!leftNav_ManageMealPlan.exists())
+			sb.append("Manage Meal Plan;");
+		if (!leftNav_Orders.exists())
+			sb.append("Orders;");
+		if (!leftNav_Payments.exists())
+			sb.append("Payments;");
+		if (!leftNav_Favorites.exists())
+			sb.append("Favorites;");
+		if (!leftNav_Profile.exists())
+			sb.append("Profile;");
+		if (!leftNav_CustomerCare.exists())
+			sb.append("Customer Care;");
+		
+		if (sb.length() > 0)
+			return sb.toString();
+		else
+			return "Success";
 	}
 	
 	@Override
