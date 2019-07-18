@@ -17,9 +17,10 @@ public abstract class AbstractTestCase {
 	public final long DEFAULT_TIMEOUT=5000;
 	public final String DEFAULT_PWD = "qqqqqqqq";
 	public UserType StagingUser = new UserType("(512) 608-5335", "qqqqqqqq", "Gina", "Mitchell", "gina.l.mitchell@gmail.com","78758");
-	public UserType UserNoMealPlan = new UserType("(007) 555-0170","qqqqqqqq","Test","0075550170","0075550170@snapkitchen.com","78758");
+	public UserType ShippingCustomer = new UserType("(011) 555-0118","qqqqqqqq","Test","0115550118","0115550118@snap.com","78758");
+	public UserType LocalCustomer = new UserType("(011) 555-0119","qqqqqqqq","Test","0115550119","0115550119@snap.com","78758");
 	public UserType ProdUser7 = new UserType("(512) 694-6161", "snapkit1", "QA", "TestUser7", "testuser7@snapkitchen.com","78758");
-	public UserType defaultUser = ProdUser7;
+	public UserType defaultUser = StagingUser;
 	
 	Utilities util = new Utilities();
 

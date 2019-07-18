@@ -32,6 +32,12 @@ public class MainMenuPage extends BasePage {
 	public final BaseMobileElement actionsClose = new BaseMobileElement("close");
 	public final BaseMobileElement noThanks = new BaseMobileElement("NO THANKS");
 	
+	//Fulfillment Types
+	private final BaseMobileElement pickupFulfillment = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeStaticText[contains(@name,'PICKUP FROM')]");
+	private final BaseMobileElement deliveryFulfillment = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeStaticText[contains(@name,'DELIVERY TO')]");
+	private final BaseMobileElement shippingFulfillment = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeStaticText[contains(@name,'SHIPPING TO')]");
+	private final BaseMobileElement changeFulfillment = new BaseMobileElement("icn_dropdown_dark_6");
+	
 	/**
 	 * Access the Breakfast Main Menu.
 	 */
@@ -235,6 +241,20 @@ public class MainMenuPage extends BasePage {
 			return "ERROR:  Could not locate product name of first menu element.";
 		}
 	}
-			
+	
+	public boolean isPickup()
+	{
+		return pickupFulfillment.exists();
+	}
+	
+	public boolean isDelivery()
+	{
+		return deliveryFulfillment.exists();
+	}
+	
+	public boolean isShipping()
+	{
+		return shippingFulfillment.exists();
+	}
 
 }

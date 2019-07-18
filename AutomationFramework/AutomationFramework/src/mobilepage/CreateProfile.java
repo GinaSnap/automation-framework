@@ -17,6 +17,7 @@ public class CreateProfile extends BasePage {
 	public BaseMobileElement email = new BaseMobileElement("Email");
 	public BaseMobileElement password = new BaseMobileElement("Password");
 	public BaseMobileElement city = new BaseMobileElement("City");
+	public BaseMobileElement zipCode = new BaseMobileElement("Zip");
 	public BaseMobileElement goBack = new BaseMobileElement("Close");
 	public BaseMobileElement done = new BaseMobileElement("done");
 	public BaseMobileElement viewPassword = new BaseMobileElement("icn masked");

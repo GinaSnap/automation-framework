@@ -10,6 +10,9 @@ public class MealPlanOptions {
 		WHOLE30,
 		PALEO,
 		CAMP_GLADIATOR,
+		BUILD_YOUR_OWN,
+		VEGAN,
+		KETO,
 		UNDEFINED;
 	}
 	
@@ -21,7 +24,9 @@ public class MealPlanOptions {
 		CALORIES_2000,
 		SMALL,
 		MEDIUM,
-		LARGE
+		LARGE,
+		SIX_MEALS,
+		TWELVE_MEALS
 	}
 	
 	public enum DaysPerWeek
@@ -34,7 +39,8 @@ public class MealPlanOptions {
 	public enum Fulfillment
 	{
 		PICKUP,
-		DELIVERY
+		DELIVERY,
+		SHIPPING
 	}
 	
 	public enum DayParts

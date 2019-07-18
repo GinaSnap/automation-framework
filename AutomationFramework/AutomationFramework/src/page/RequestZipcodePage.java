@@ -12,7 +12,7 @@ public class RequestZipcodePage extends BasePage {
 	public BaseMobileElement OK = new BaseMobileElement("OK");
 	public BaseMobileElement signIn = new BaseMobileElement("ResetPassword");
 	
-	public BaseMobileElement unavailable = new BaseMobileElement("unavailable");
+	public BaseMobileElement unavailable = new BaseMobileElement("outside shipping zone");
 	public BaseMobileElement willDo = new BaseMobileElement("will do!");
 	
 	public RequestZipcodePage() {

@@ -2,7 +2,15 @@ package test;
 
 import static org.junit.Assert.fail;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
@@ -25,6 +33,13 @@ public class MobileTestCase extends AbstractTestCase {
 	public CreditCardType visa0077 = new CreditCardType("4000000000000077", "0321", "333", "Visa Ending In 0077");
 	public CreditCardType visa0341 = new CreditCardType("4000000000000341", "0321", "333", "Visa Ending In 0341");
 	public CreditCardType mastercard4444 = new CreditCardType("5555 5555 5555 4444", "0424", "333", "MasterCard Ending In 4444");
+	public String DefaultLocalZip = "78758";
+	public String DefaultNationalSW = "73552";
+	public String DefaultNationalNE = "11368";
+	public String DefaultAustinZip = "78619";
+	public String DefaultDallasZip = "75044";
+	public String DefaultHoustonZip = "77016";
+	public String DefaultPhillyZip = "19026";
 	
 	@Before
 	public void setUp() throws Exception {
@@ -90,24 +105,23 @@ public class MobileTestCase extends AbstractTestCase {
 		MobileDriver.launchApp();
 	}
 	
-	public HashMap<String, CustomerType> getZipCodeMap()
+	public HashMap<String, CustomerType> getZipCodeMap(boolean isSanityTest)
 	{
 		HashMap<String, CustomerType> zipCodeMap = new HashMap<String,CustomerType>();
-		zipCodeMap.put("77777", CustomerType.NATIONAL);   //Local or National
-		zipCodeMap.put("78758", CustomerType.LOCAL);   //Austin TX Arboretum
-		zipCodeMap.put("78619", CustomerType.LOCAL);   //Austin Outskirts - Driftwood
-		zipCodeMap.put("76092", CustomerType.LOCAL);   //Dallas Southlake Area
-		zipCodeMap.put("75065", CustomerType.LOCAL);   //Dallas Outskirts - Denton TX
-		zipCodeMap.put("77094", CustomerType.LOCAL);   //Houtson TX
-		zipCodeMap.put("77545", CustomerType.LOCAL);   //Houston Outskirts - Fresno
-		zipCodeMap.put("19103", CustomerType.LOCAL);   //Philly
-		zipCodeMap.put("19073", CustomerType.LOCAL);   //Philly Outskirts - Newtown Square
-		zipCodeMap.put("78006", CustomerType.NATIONAL);   //San Antonio, TX
-		zipCodeMap.put("88101", CustomerType.NATIONAL);   //Clovis, NM
-		zipCodeMap.put("73008", CustomerType.NATIONAL);   //Oklahoma City, OK
-		zipCodeMap.put("67052", CustomerType.NATIONAL);   //Wichita, KS
-		zipCodeMap.put("71101", CustomerType.NATIONAL);   //Shreveport, LA
-		zipCodeMap.put("30301", CustomerType.OUT_OF_RANGE); //Atlanta, GA
+		if (isSanityTest) {
+			zipCodeMap.put("73552", CustomerType.NATIONAL);   //Maybe just add one from each region?
+		}
+		else {
+			String file = "/Users/GMitchell/Desktop/Zip_National.txt";
+			try (BufferedReader br = Files.newBufferedReader(Paths.get(file))) {
+	            String line;
+	            while ((line = br.readLine()) != null) {
+	                zipCodeMap.put(line, CustomerType.NATIONAL);
+	            }
+	        } catch (IOException e) {
+	            System.err.format("IOException: %s%n", e);
+	        }	
+		}
 		
 		return zipCodeMap;
 	}
@@ -131,6 +145,126 @@ public class MobileTestCase extends AbstractTestCase {
 	public void failTestAndContinue(String msg)
 	{
 		logger.warning(String.format("FAIL:  %s", msg));
+	}
+	
+	public enum QuestionType{
+		STATIC_TEXT,
+		SINGLE_SELECT,
+		MULTIPLE_SELECT,
+		RANK,
+		TEXT_BOX
+	}
+	
+	public Map<String, QuestionType> getQuestionMap(){
+		Map<String, QuestionType> questionMap = new LinkedHashMap<String, QuestionType>();
+		questionMap.put("what's your first name", QuestionType.TEXT_BOX);
+		questionMap.put("nice to meet you", QuestionType.STATIC_TEXT);
+		questionMap.put("when it comes to health, which best describes you", QuestionType.SINGLE_SELECT);
+		questionMap.put("let's talk about your goals.", QuestionType.STATIC_TEXT);
+		questionMap.put("tell us about your goals, so that we can help you reach them", QuestionType.RANK);
+
+		return questionMap;
+		
+	}
+	
+	public Map<String, String> getBasicInfoQuestions()
+	{
+		Map<String,String> basicInfoQuestions = new LinkedHashMap<String,String>();
+		basicInfoQuestions.put("when it comes to health, which best describes you?", "I want a new routine - let's come up with a plan together");
+		return basicInfoQuestions;
+		
+	}
+	
+	public Map<String, List<String>> getBasicInfoQuestions2()
+	{
+		List<String> whenItComesToHealth = new ArrayList<String>();
+		whenItComesToHealth.add("I know exactly what I need to do");
+		whenItComesToHealth.add("I think I know what works for me, but I love to learn");
+		whenItComesToHealth.add("I want a new routine - let's come up with a plan together");
+		
+		Map<String,List<String>> basicInfoQuestions = new LinkedHashMap<String,List<String>>();
+		basicInfoQuestions.put("when it comes to health, which best describes you?", whenItComesToHealth);
+		return basicInfoQuestions;
+		
+	}
+	
+	public Map<String, String> getGeneralQuestions(boolean includeFollowUp){
+		
+		Map<String,String> generalQuestions = new LinkedHashMap<String,String>();
+		if (includeFollowUp) {
+			generalQuestions.put("tell us about your goals, so that we can help you reach them!", "manage a health issue");
+			generalQuestions.put("what health issues are you currently dealing with?", "digestive issues");
+		}
+		else {
+			generalQuestions.put("tell us about your goals, so that we can help you reach them!", "maintain my health");
+		}
+		generalQuestions.put("what is your relationship with food?", "I have a balanced diet");
+		generalQuestions.put("what is your biggest roadblock when it comes to hitting your goals?", "too busy");
+		return generalQuestions;
+	}
+	
+	public Map<String, List<String>> getGeneralQuestions2(boolean includeFollowUp){
+		
+		List<String> tellUsAboutYourGoals = new ArrayList<String>();
+		tellUsAboutYourGoals.add("maintain my health");
+		tellUsAboutYourGoals.add("weight loss");
+		tellUsAboutYourGoals.add("improve my athletic performance");
+		tellUsAboutYourGoals.add("manage a health issue");
+		tellUsAboutYourGoals.add("find a realistic plan I can stick to");
+		tellUsAboutYourGoals.add("improve my digestion");
+		tellUsAboutYourGoals.add("more energy");
+		tellUsAboutYourGoals.add("decrease inflammation");
+		
+		List<String> whatHealthIssues = new ArrayList<String>();
+		whatHealthIssues.add("digestive issues");
+		whatHealthIssues.add("autoimmune condition");
+		whatHealthIssues.add("high blood pressure");
+		whatHealthIssues.add("thyroid condition");
+		whatHealthIssues.add("diabetes, pre-diabetes or blood sugar issues");
+		whatHealthIssues.add("high cholesterol");
+		whatHealthIssues.add("other");
+
+		
+		Map<String,List<String>> generalQuestions = new LinkedHashMap<String,List<String>>();
+		if (includeFollowUp) {
+			generalQuestions.put("tell us about your goals, so that we can help you reach them!", tellUsAboutYourGoals);
+			generalQuestions.put("what health issues are you currently dealing with?", whatHealthIssues);
+		}
+		else {
+			generalQuestions.put("tell us about your goals, so that we can help you reach them!", tellUsAboutYourGoals);
+		}
+		//generalQuestions.put("what is your relationship with food?", "I have a balanced diet");
+		//generalQuestions.put("what is your biggest roadblock when it comes to hitting your goals?", "too busy");
+		return generalQuestions;
+	}
+	
+	public Map<String, String> getActivityQuestions(boolean includeFollowUp){
+		
+		Map<String,String> activityQuestions = new LinkedHashMap<String,String>();
+		activityQuestions.put("what's your activity level?", "Sedentary");
+		if (includeFollowUp) {
+			activityQuestions.put("do you currently follow a particular dietary lifestyle or way of eating?", "sure do");
+			activityQuestions.put("which lifestyle do you follow?", "paleo");
+		}
+		else {
+			activityQuestions.put("do you currently follow a particular dietary lifestyle or way of eating?", "nothing specific right now");
+		}
+		activityQuestions.put("do you avoid any of the following items in your diet?", "none");
+		return activityQuestions;
+		
+	}
+	
+	public Map<String, String> getTypicalDayQuestions(){
+		
+		Map<String,String> typicalDayQuestions = new LinkedHashMap<String,String>();
+		typicalDayQuestions.put("do you plan all your meals for the week?", "yes, I'm a planner!");
+		typicalDayQuestions.put("when it comes to time...", "I don't have any");
+		typicalDayQuestions.put("tell us about your stress level", "stress? what's stress?");
+		typicalDayQuestions.put("do you enjoy cooking?", "yes - just call me chef!");
+		typicalDayQuestions.put("when it comes to spending on food and groceries...", "health is wealth - quality is priority");
+		typicalDayQuestions.put("what type of eater are you?", "1 big meal a day");
+		return typicalDayQuestions;
+		
 	}
 
 }

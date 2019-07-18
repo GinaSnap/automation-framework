@@ -1,237 +1,477 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import common.UserType;
-import common.Location;
 import common.MealPlanOptions.DayParts;
 import common.MealPlanOptions.DaysPerWeek;
 import common.MealPlanOptions.Fulfillment;
 import common.MealPlanOptions.PlanType;
 import common.MealPlanOptions.Size;
+import common.UserType;
+import mobilepage.MealPlanMainPage;
 import mobilepage.MealPlanningPage;
 import mobilepage.SnapHome;
+import page.MealPlanLifestylePage;
 
 public class TestCreateMealPlan extends MobileTestCase {
 	
-//	/**
-//	 *   Create New User by using the Meal Planning Onboarding Screens.
-//	 *   Create New Meal Plan
-//	 *   3 Day, 1200 Cal, Pickup
-//	 *   Verify No errors on creating subscription.
-//	 */
-//	@Test
-//	public void testCreateNewMealPlan_HighProtein_1200_3Day()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up High Protein Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.HIGH_PROTEIN, Size.CALORIES_1200, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-//		
-//	}
-//	
-//	/**
-//	 *   Create New User by using the Meal Planning Onboarding Screens.
-//	 *   Create New Meal Plan
-//	 *   3 Day, 1200 Cal, Pickup
-//	 *   Verify No errors on creating subscription.
-//	 */
-//	@Test
-//	public void testCreateNewMealPlan_LowCarb_1200_3Day()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up Low Carb Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.LOW_CARB, Size.CALORIES_1200, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-//		
-//	}
-//	
-//	/**
-//	 *   Create New User by using the Meal Planning Onboarding Screens.
-//	 *   Create New Meal Plan
-//	 *   3 Day, 1200 Cal, Pickup
-//	 *   Verify No errors on creating subscription.
-//	 */
-//	@Test
-//	public void testCreateNewMealPlan_Balance_1200_3Day()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up Balance Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.BALANCE, Size.CALORIES_1200, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-//		
-//	}
-//	
-//	/**
-//	 *   Create New User by using the Meal Planning Onboarding Screens.
-//	 *   Create New Meal Plan
-//	 *   3 Day, 1200 Cal, Pickup
-//	 *   Verify No errors on creating subscription.
-//	 */
-//	@Test
-//	public void testCreateNewMealPlan_PALEO_1200_3Day()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up Paleo Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.PALEO, Size.CALORIES_1200, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-//		
-//	}
-//	
-//	/**
-//	 *   Create New User by using the Meal Planning Onboarding Screens.
-//	 *   Create New Meal Plan
-//	 *   3 Day, 1200 Cal, Pickup
-//	 *   Verify No errors on creating subscription.
-//	 */
-//	@Test
-//	public void testCreateNewMealPlan_Whole30_1500_5Day()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up Whole30 Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.WHOLE30, Size.SMALL, DaysPerWeek.SEVEN_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER, DayParts.DRINKS));
-//		
-//	}
-//	
-//	/**
-//	 *   Create New User by using the Meal Planning Onboarding Screens.
-//	 *   Create New Meal Plan
-//	 *   3 Day, 1200 Cal, Pickup
-//	 *   Verify No errors on creating subscription.
-//	 */
-//	@Test
-//	public void testCreateNewMealPlan_CG_2000_3Day()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up Camp Gladiator Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaMealPlanning(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.CAMP_GLADIATOR, Size.CALORIES_2000, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-//		
-//	}
-	
-//	@Test
-//	public void testCreateNewMealPlan_HP()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up Whole30 Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaLogin(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.HIGH_PROTEIN, Size.CALORIES_1200, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-//		
-//	}
-//	
-//	@Test
-//	public void testCreateNewMealPlan_LC()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up Whole30 Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaLogin(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan Low Carb, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.LOW_CARB, Size.CALORIES_1200, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-//		
-//	}
-//	
-//	@Test
-//	public void testCreateNewMealPlan_B()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up Whole30 Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaLogin(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.BALANCE, Size.CALORIES_1200, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-//		
-//	}
-//	
-//	@Test
-//	public void testCreateNewMealPlan_P()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up Whole30 Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaLogin(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.PALEO, Size.CALORIES_1200, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-//		
-//	}
-//	
-//	@Test
-//	public void testCreateNewMealPlan_W30()
-//	{
-//		String uniqueString = util.getUniqueString(7);
-//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com");
-//		System.out.printf("Setting up Whole30 Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
-//		
-//		SnapHome snapHome = new SnapHome();
-//		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaLogin(newUser));
-//		
-//		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-//		assertEquals("Verify:  Create Meal Plan High Protein, 1200, 3 Days, Pickup.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.WHOLE30, Size.CALORIES_1500, DaysPerWeek.THREE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-//		
-//	}
-
-	
+	/**
+	 *   Create New User by using the Meal Planning Onboarding Screens.
+	 *   Create New Meal Plan
+	 *   3 Day, 1200 Cal, Pickup
+	 *   Verify No errors on creating subscription.
+	 */
 	@Test
-	public void testCreateNewMealPlan()
+	public void testCreateNewMealPlan_Shipping_6Meals()
 	{
 		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
-		System.out.printf("User: %s Email: %s", newUser.getUsername(), newUser.getEmail());
+		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com", DefaultNationalSW);
+		System.out.printf("Setting up Shipping Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
 		
 		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user via Meal Planning Screens.", snapHome.createAccountViaLogin(newUser, Location.HOUSTON));
+		snapHome.createAccountViaMealPlanning(newUser);
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-		assertEquals("Verify:  Create Meal Plan.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.HIGH_PROTEIN, Size.CALORIES_1500, DaysPerWeek.SEVEN_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
+		assertEquals("Verify:  Create Shipping Meal Plan with 6 Meals.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.LOW_CARB, Size.SIX_MEALS, DaysPerWeek.THREE_DAYS, Fulfillment.SHIPPING, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
 		
+	}
+	
+	/**
+	 *   Create New User by using the Meal Planning Onboarding Screens.
+	 *   Create New Meal Plan
+	 *   3 Day, 1200 Cal, Pickup
+	 *   Verify No errors on creating subscription.
+	 */
+	@Test
+	public void testCreateNewMealPlan_Local_MultiSize()
+	{
+		String uniqueString = util.getUniqueString(7);
+		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com", DefaultAustinZip);
+		System.out.printf("Setting up High Protein Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
+		
+		SnapHome snapHome = new SnapHome();
+		snapHome.createAccountViaMealPlanning(newUser);
+		
+		MealPlanningPage mealPlanningPage = new MealPlanningPage();
+		assertEquals("Verify:  Create High Protein Meal Plan with multiple sizes.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.HIGH_PROTEIN, Size.CALORIES_1500, DaysPerWeek.FIVE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
+		
+	}
+	
+	@Test
+	public void testVerifyMealPlanOptions_Shipping()
+	{		
+		MealPlanningPage mealPlanningPage = new MealPlanningPage();
+		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
+		MealPlanLifestylePage mealPlanLifestylePage = new MealPlanLifestylePage();
+
+		step("testVerifyMealPlanOptions_Shipping");
+		
+		step("Login to the app with an existing account.");
+		String status=login(ShippingCustomer);
+		
+		if (status.equals("Success"))
+		{
+			passTest("Login complete.");
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click On Meal Plans");
+		status = mealPlanningPage.goToMealPlan();
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click on the Low Carb Meal Plan");
+		status = mealPlanMainPage.selectLowCarb();
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click Build Subscription");
+		status = mealPlanLifestylePage.startBuildingSubscription();
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest("Success");
+		}
+		
+		step("Click Shipping Fulfillment Type");
+		status = mealPlanningPage.selectFulfillmentOption(Fulfillment.SHIPPING);
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Select Address from List");
+		status = mealPlanningPage.enterShippingAddress("240 Honeycomb Circle");
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Verify that 6 Meal & 12 Meal Size Options exist.");
+		if (mealPlanningPage.mealPlanSizeOptionExists(Size.SIX_MEALS) && mealPlanningPage.mealPlanSizeOptionExists(Size.TWELVE_MEALS))
+		{
+			passTest("6 and 12 Meal Plan Sizes Exist");
+		}
+		else
+		{
+			failTest("6 and 12 Meal Plan Options are not displayed.");
+		}
+		
+		step("Verify that 1200, 1500, 1800 Size options are not displayed.");
+		if (mealPlanningPage.mealPlanSizeOptionExists(Size.CALORIES_1200) || mealPlanningPage.mealPlanSizeOptionExists(Size.CALORIES_1500) || mealPlanningPage.mealPlanSizeOptionExists(Size.CALORIES_1800) )
+		{
+			failTest("1200, 1500, and 1800 Size options are displayed.");
+		}
+		else
+		{
+			passTest("1200, 1500, and 1800 Size Options were not displayed.");
+		}
+		
+		step("Verify that View Menu is not displayed after selecting only Fulfillment.");
+		if (mealPlanningPage.viewMenuExists())
+		{
+			failTestAndContinue("View Menu is displayed before required options are selected.");
+		}
+		else
+		{
+			passTest("View menu is not displayed when only Fulfillment Option is chosen.");
+		}
+		
+		step("Select 6 Meals");
+		status = mealPlanningPage.selectMealPlanSizeOption(Size.SIX_MEALS);
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Verify that View Menu is displayed after selecting Fulfillment and Size.");
+		if (mealPlanningPage.viewMenuExists())
+		{
+			passTest("View Menu is displayed after required options are selected.");
+		}
+		else
+		{
+			failTest("View Menu is not displayed after required options are selected.");
+		}
+		
+	}
+	
+	@Test
+	public void testVerifyVeganShippingOnly()
+	{		
+		MealPlanningPage mealPlanningPage = new MealPlanningPage();
+		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
+		MealPlanLifestylePage mealPlanLifestylePage = new MealPlanLifestylePage();
+
+		step("testVerifyVeganShippingOnly");
+		
+		step("Login to the app with an existing account.");
+		String status=login(ShippingCustomer);
+		
+		if (status.equals("Success"))
+		{
+			passTest("Login complete.");
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click On Meal Plans");
+		status = mealPlanningPage.goToMealPlan();
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click on the Vegan Meal Plan");
+		status = mealPlanMainPage.selectPlanType(PlanType.VEGAN);
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click Build Subscription");
+		status = mealPlanLifestylePage.startBuildingSubscription();
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest("Success");
+		}
+		
+		step("Verify that Delivery Option does not exist on a shipping only plan.");
+		if (!mealPlanningPage.fulfillmentOptionExists(Fulfillment.DELIVERY)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Delivery Option was listed.");
+		}
+		
+		step("Verify that Pickup Option does not exist on a shipping only plan.");
+		if (!mealPlanningPage.fulfillmentOptionExists(Fulfillment.PICKUP)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Pickup Option was listed.");
+		}
+		
+		step("Verify that Shipping Option is listed on a Shipping Only Meal Plan.");
+		if (mealPlanningPage.fulfillmentOptionExists(Fulfillment.SHIPPING)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Shipping Option was not listed.");
+		}
+		
+		step("Verify that the 'shipping only' text exists under the Fulfillment Option.");
+		if (mealPlanningPage.shippingOnlyTextDisplayed()) {
+			passTest("Success");
+		}
+		else {
+			failTest("Text was not displayed.");
+		}
+	}
+	
+	@Test
+	public void testVerifyKetoLocalOnly()
+	{		
+		MealPlanningPage mealPlanningPage = new MealPlanningPage();
+		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
+		MealPlanLifestylePage mealPlanLifestylePage = new MealPlanLifestylePage();
+
+		step("testVerifyKetoLocalOnly");
+		
+		step("Login to the app with an existing account.");
+		String status=login(LocalCustomer);
+		
+		if (status.equals("Success"))
+		{
+			passTest("Login complete.");
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click On Meal Plans");
+		status = mealPlanningPage.goToMealPlan();
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click on the Keto Meal Plan");
+		status = mealPlanMainPage.selectPlanType(PlanType.KETO);
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click Build Subscription");
+		status = mealPlanLifestylePage.startBuildingSubscription();
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest("Success");
+		}
+		
+		step("Verify that Delivery Option exists on a Local Only Plan.");
+		if (mealPlanningPage.fulfillmentOptionExists(Fulfillment.DELIVERY)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Delivery Option was not listed.");
+		}
+		
+		step("Verify that Pickup Option exists on a Local Only Plan.");
+		if (mealPlanningPage.fulfillmentOptionExists(Fulfillment.PICKUP)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Pickup Option was not listed.");
+		}
+		
+		step("Verify that Shipping Option is not listed on a Local Only Meal Plan.");
+		if (!mealPlanningPage.fulfillmentOptionExists(Fulfillment.SHIPPING)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Shipping Option was listed.");
+		}
+		
+		step("Verify that the 'local only' text exists under the Fulfillment Option.");
+		if (mealPlanningPage.localOnlyTextDisplayed()) {
+			passTest("Success");
+		}
+		else {
+			failTest("Text was not displayed.");
+		}
+	}
+	
+	@Test
+	public void testVerifyFulfillmentOptsShippingCustomer()
+	{		
+		MealPlanningPage mealPlanningPage = new MealPlanningPage();
+		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
+		MealPlanLifestylePage mealPlanLifestylePage = new MealPlanLifestylePage();
+
+		step("testVerifyFulfillmentOptsShippingCustomer");
+		
+		step("Login to the app with an existing account.");
+		String status=login(ShippingCustomer);
+		
+		if (status.equals("Success"))
+		{
+			passTest("Login complete.");
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click On Meal Plans");
+		status = mealPlanningPage.goToMealPlan();
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click on the High Protein Meal Plan");
+		status = mealPlanMainPage.selectPlanType(PlanType.HIGH_PROTEIN);
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest(status);
+		}
+		
+		step("Click Build Subscription");
+		status = mealPlanLifestylePage.startBuildingSubscription();
+		if (status.equals("Success"))
+		{
+			passTest(status);
+		}
+		else
+		{
+			failTest("Success");
+		}
+		
+		step("Verify that Delivery Option is not displayed by default for shipping customers.");
+		if (!mealPlanningPage.fulfillmentOptionExists(Fulfillment.DELIVERY)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Delivery Option was displayed.");
+		}
+		
+		step("Verify that Pickup Option is not displayed by default for shipping customers.");
+		if (!mealPlanningPage.fulfillmentOptionExists(Fulfillment.PICKUP)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Pickup Option was displayed.");
+		}
+		
+		step("Verify that Shipping Option is displayed by default for shipping customers.");
+		if (mealPlanningPage.fulfillmentOptionExists(Fulfillment.SHIPPING)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Shipping Option was not displayed.");
+		}
+		
+		step("Click the More Options Button.");
+		status = mealPlanningPage.clickMoreOptions();
+		if (status.equals("Success")) {
+			passTest("Success");
+		}
+		else {
+			failTest(status);
+		}
+		
+		step("Verify that Delivery Option is displayed once the More Options button is clicked.");
+		if (mealPlanningPage.fulfillmentOptionExists(Fulfillment.DELIVERY)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Delivery Option was not displayed.");
+		}
+		
+		step("Verify that Pickup Option is displayed once the More Options button is clicked.");
+		if (mealPlanningPage.fulfillmentOptionExists(Fulfillment.PICKUP)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Pickup Option was not displayed.");
+		}
+		
+		step("Verify that Shipping Option is displayed after More Options button is clicked.");
+		if (mealPlanningPage.fulfillmentOptionExists(Fulfillment.SHIPPING)) {
+			passTest("Success");
+		}
+		else {
+			failTest("Shipping Option was not displayed.");
+		}
 	}
 
 }

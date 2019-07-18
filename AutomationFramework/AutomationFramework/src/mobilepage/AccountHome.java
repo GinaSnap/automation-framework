@@ -19,6 +19,7 @@ public class AccountHome extends BasePage {
 	private BaseMobileElement menuProfile = new BaseMobileElement("profile");
 	private BaseMobileElement menuCustomerCare = new BaseMobileElement("customer care");
 	private BaseMobileElement menuGeneralInfo = new BaseMobileElement("general info");
+	private BaseMobileElement menuLifestyleSuggestion = new BaseMobileElement("lifestyle suggestion");
 	private BaseMobileElement menuLogOut = new BaseMobileElement("sign out");
 	
 	private final BaseMobileElement addNewCard = new BaseMobileElement("Add New Card…");
@@ -277,6 +278,37 @@ public class AccountHome extends BasePage {
 	public void logout()
 	{
 		menuLogOut.click();
+	}
+	
+	/**
+	 * Click Lifestyle Suggestions from the Account Menu.
+	 * @return
+	 * Return "Success" if the user is able to access the account menu and click Lifestyle Suggestions.
+	 * Return error string if not.
+	 */
+	public String goToLifestyleSuggestions()
+	{
+		String status="Success";
+		if (goToAccount().equals("Success"))
+		{
+			try {
+				menuLifestyleSuggestion.click();
+			}
+			catch (NoSuchElementException e)
+			{
+				status="Lifestyle Suggestion button is not displayed.";
+				return status;
+			}
+		}
+		return status;
+	}
+	
+	/**
+	 * Returns true if the Lifestyle Suggestions Menu item exists.
+	 */
+	public boolean lifestyleSuggestionsExists()
+	{
+		return menuLifestyleSuggestion.exists();
 	}
 
 	public String closeMealPlanPaymentUpdatedPrompt()

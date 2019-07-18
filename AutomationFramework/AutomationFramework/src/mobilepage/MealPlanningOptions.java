@@ -19,18 +19,18 @@ public class MealPlanningOptions extends BasePage {
 	private final BaseMobileElement card_CVC = new BaseMobileElement("CVC");
 	private final BaseMobileElement card_Cancel = new BaseMobileElement("Cancel");
 	private final BaseMobileElement card_Done = new BaseMobileElement("Done");
-	private final BaseMobileElement startSubscription = new BaseMobileElement("START SUBSCRIPTION");
+	private final BaseMobileElement startSubscription = new BaseMobileElement("START PLAN");
 
 	public String selectFulfillementDate(int fulfillmentDay)
 	{
-		try
-		{
-			selectFulfillmentDate.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could Not Find Select Fulfillment Date Element";
-		}
+//		try
+//		{
+//			selectFulfillmentDate.click();
+//		}
+//		catch (NoSuchElementException e)
+//		{
+//			return "Could Not Find Select Fulfillment Date Element";
+//		}
 		
 		try {
 			BaseMobileElement firstFulfillmentDay = new BaseMobileElement(FindMethod.XPATH, String.format("//XCUIElementTypeButton[@name='%d']",fulfillmentDay));

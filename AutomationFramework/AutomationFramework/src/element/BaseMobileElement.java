@@ -2,6 +2,7 @@ package element;
 
 import java.util.HashMap;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriverException;
@@ -35,7 +36,7 @@ public class BaseMobileElement {
 		case ACCESS_ID:
 			return MobileDriver.instance.findElementByAccessibilityId(id);
 		case XPATH:
-			return MobileDriver.instance.findElementByXPath(id);
+			return MobileDriver.instance.findElement(By.xpath(id));
 		default:
 			return MobileDriver.instance.findElementByAccessibilityId(id);
 		}
@@ -218,12 +219,24 @@ public class BaseMobileElement {
 		return getMobileElement().getText();
 	}
 	
+	/**
+	 * Return true if the element exists anywhere on the screen.
+	 * @return 
+	 */
 	public boolean exists()
 	{
+		//Search for the element anywhere on the screen and scroll to it.
 		try {
-				//displayElement();
-				scrollToElement();
-				return getMobileElement().isDisplayed();
+			scrollToElement();
+		}
+		catch (WebDriverException e) {
+			//We get this if we used anything other than the accessibility id to find the element.
+			//Ignore for now.
+		}
+		
+		//If the element was already on the screen, or if we were able to scroll to it, then return true.
+		try {
+				return getMobileElement().isEnabled() || getMobileElement().isDisplayed();
 			}
 				catch (NoSuchElementException e) {
 					return false;

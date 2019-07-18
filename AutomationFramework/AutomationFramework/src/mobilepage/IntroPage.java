@@ -3,6 +3,7 @@ package mobilepage;
 import org.openqa.selenium.NoSuchElementException;
 
 import element.BaseMobileElement;
+import framework.FindMethod;
 
 public class IntroPage extends BasePage {
 	
@@ -10,7 +11,7 @@ public class IntroPage extends BasePage {
 	private BaseMobileElement shopMealPlans = new BaseMobileElement("MealPlans");
 	private BaseMobileElement shopMenu = new BaseMobileElement("Menu");
 	private BaseMobileElement nextMealPlanIntro = new BaseMobileElement("next");
-	private BaseMobileElement getStarted = new BaseMobileElement("GET STARTED");
+	private BaseMobileElement getStarted = new BaseMobileElement("Get Started");
 	private BaseMobileElement OK = new BaseMobileElement("OK");
 
 	
@@ -117,6 +118,7 @@ public class IntroPage extends BasePage {
 	{
 		try
 		{
+			getStarted.waitUntilClickable();
 			return getStarted.exists();
 		}
 		catch (NoSuchElementException e)
@@ -155,11 +157,7 @@ public class IntroPage extends BasePage {
 			getStarted.click();
 			found=true;
 		}
-		if (okButtonExists())
-		{
-			OK.click();
-			found=true;
-		}
+		
 		return found;
 	}
 

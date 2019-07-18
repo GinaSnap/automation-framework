@@ -15,18 +15,22 @@ import page.ShippingMenuPage;
 
 public class SnapHome {
 	
-	public BaseMobileElement startLogin = new BaseMobileElement("LogIn");
-	public BaseMobileElement phoneNumber = new BaseMobileElement("Phone number");
-	public BaseMobileElement next = new BaseMobileElement("next");
-	public BaseMobileElement sixDigitCode = new BaseMobileElement("Verification code");
-	public BaseMobileElement password = new BaseMobileElement("password");
-	public BaseMobileElement submitLogin = new BaseMobileElement("log in");
-	public BaseMobileElement thanksGotIt = new BaseMobileElement("Next");
-	public BaseMobileElement alreadyHaveAccount = new BaseMobileElement("Scan");
-	public BaseMobileElement passwordAlert = new BaseMobileElement(FindMethod.XPATH,"//XCUIElementTypeAlert");
-	public BaseMobileElement pwd_resetPassword = new BaseMobileElement("reset password");
-	public BaseMobileElement pwd_tryAgain = new BaseMobileElement("try again");
-	public NotificationWebElement pushNotificationsPrompt = new NotificationWebElement("don’t miss out");
+	private BaseMobileElement startLogin = new BaseMobileElement("LogIn");
+	private BaseMobileElement phoneNumber = new BaseMobileElement("Phone number");
+	private BaseMobileElement next = new BaseMobileElement("next");
+	private BaseMobileElement sixDigitCode = new BaseMobileElement("Verification code");
+	private BaseMobileElement password = new BaseMobileElement("Password");
+	private BaseMobileElement submitLogin = new BaseMobileElement("log in");
+	private BaseMobileElement submit = new BaseMobileElement("submit");
+	private BaseMobileElement thanksGotIt = new BaseMobileElement("Next");
+	private BaseMobileElement alreadyHaveAccount = new BaseMobileElement("Scan");
+	private BaseMobileElement passwordError = new BaseMobileElement("password error");
+	private BaseMobileElement resetPassword = new BaseMobileElement("reset password");
+	private BaseMobileElement pwd_tryAgain = new BaseMobileElement("try again");
+	private NotificationWebElement pushNotificationsPrompt = new NotificationWebElement("don’t miss out");
+	private BaseMobileElement notNow = new BaseMobileElement("Not Now");
+	private BaseMobileElement dontAllow = new BaseMobileElement("Don't Allow");
+	private BaseMobileElement savePassword = new BaseMobileElement("Save Password");
 	
 	public String login(String username, String pwd)
 	{
@@ -40,6 +44,8 @@ public class SnapHome {
 			status="Login Link did not exist on the start page.";
 			return status;
 		}
+		
+		savedPasswordNotNow();
 			
 		try
 		{
@@ -52,6 +58,16 @@ public class SnapHome {
 			return status;
 		}
 		
+		savedPasswordNotNow();
+		
+		status=enterPassword(pwd);
+		
+		return status;
+	}
+	
+	public String enterPassword(String pwd)
+	{
+		String status = "Success";
 		try
 		{
 			password.setWebValue(pwd);
@@ -79,14 +95,75 @@ public class SnapHome {
 			return status;
 		}
 		
-		if (passwordAlert.exists())
+		try
 		{
-			status="User entered an incorrect password.";
-			return status;
+			passwordError.waitUntilClickable();
+			if (passwordError.exists())
+			{
+				status="User entered an incorrect password.";
+				return status;
+			}
+		}
+		catch (Exception e) {
+			
 		}
 		
+		savedPasswordNotNow();
 		closePushNotificationPrompt();
 		return status;
+	}
+	
+	public String resetPassword(String username, String newPassword)
+	{
+		try
+		{
+			startLogin.click();	
+		}
+		catch (WebDriverException e)
+		{
+			return "Login Link did not exist on the start page.";
+		}
+		
+		savedPasswordNotNow();
+			
+		try
+		{
+			phoneNumber.setWebValue(username);
+			next.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "User was not prompted for a phone number.";
+		}
+		
+		savedPasswordNotNow();
+		
+		try {
+			resetPassword.click();
+		}
+		catch (NoSuchElementException e) {
+			return "Reset Password link was not displayed.";
+		}
+		
+		try {
+			sixDigitCode.setWebValue("222222");
+			next.click();
+		}
+		catch (NoSuchElementException e) {
+			return "User was not prompted for a six digit code.";
+		}
+		
+		try {
+			password.setWebValue("qqqqqqqq");
+			submit.click();
+		}
+		catch (NoSuchElementException e) {
+			return "User was not prompted for a new password.";
+		}
+		
+		updatePasswordDontAllow();
+		
+		return "Success";
 	}
 	
 	public void closePushNotificationPrompt()
@@ -118,14 +195,7 @@ public class SnapHome {
 			return nuOnboardingStatus;
 		}
 		
-//		String mpOnboardingStatus = completeMealPlanOnboarding();
-//		if (!mpOnboardingStatus.equals("Success"))
-//		{
-//			return mpOnboardingStatus;
-//		}
-		
-		
-		zipCodePage.enterZipCode("77777");
+		zipCodePage.enterZipCode(user.getZipCode());
 		
 		ShippingMenuPage shippingMenuPage = new ShippingMenuPage();
 		shippingMenuPage.selectMealPlan(PlanType.BALANCE);
@@ -154,13 +224,13 @@ public class SnapHome {
 			return "Next button did not exist on the third onboarding screen.";
 		}
 		
-		if (introPage.mealPlanButtonExists())
+		if (introPage.getStartedButtonExists())
 		{
-			introPage.shopMealPlans();  //This will change to Get Started.
+			introPage.getStarted();
 		}
 		else
 		{
-			return "Shop meal plans button did not exist at the end of new user onboarding.";
+			return "Get Started button did not exist at the end of new user onboarding.";
 		}
 		
 		return "Success";
@@ -208,6 +278,8 @@ public class SnapHome {
 	 */
 	public boolean createAccount(UserType user, Location location)
 	{
+		savedPasswordNotNow();
+		
 		phoneNumber.setWebValue(user.getUsername());
 		
 		//If next is not enabled it means we didn't enter a valid phone number.
@@ -224,24 +296,7 @@ public class SnapHome {
 			//throw new CreateAccountException("User did not enter a unique phone number.");
 		}
 		
-		if (sixDigitCode.isEnabled())
-		{
-			sixDigitCode.setWebValue("222222"); //don't hardcode this
-		}
-		else
-		{
-			//throw new CreateAccountException("User was not prompted to enter a six digit code.");
-		}
-		
-		//If Next isn't enabled, then again it didn't recognize our 6 digit code, or it wasn't entered properly
-		if (next.isEnabled()) 
-		{
-			next.click();
-		}
-		else
-		{
-			//throw new CreateAccountException("User did not enter a valid six digit code.");
-		}
+		enterSixDigitCode();
 		
 		//We expect to be prompted to create a snap funds profile
 		if (thanksGotIt.isEnabled())
@@ -260,8 +315,8 @@ public class SnapHome {
 			createProfile.firstName.setWebValue(user.getFirstName());
 			createProfile.lastName.setWebValue(user.getLastName());
 			createProfile.email.setWebValue(user.getEmail());
-			createProfile.selectCity(location);
-			createProfile.password.setWebValue(user.getPassword());
+			createProfile.zipCode.setWebValue(user.getZipCode());
+			//createProfile.password.setWebValue(user.getPassword());
 		
 			createProfile.done.click();
 		}
@@ -271,6 +326,71 @@ public class SnapHome {
 		}
 		
 		closePushNotificationPrompt();
+		
+		return true;
+	}
+
+	/**
+	 * Enter the Six Digit Code either when creating a new account OR to reset your password.
+	 */
+	public void enterSixDigitCode() {
+		if (sixDigitCode.isEnabled())
+		{
+			sixDigitCode.setWebValue("222222"); //don't hardcode this
+		}
+		else
+		{
+			//throw new CreateAccountException("User was not prompted to enter a six digit code.");
+		}
+		
+		//If Next isn't enabled, then again it didn't recognize our 6 digit code, or it wasn't entered properly
+		if (next.isEnabled()) 
+		{
+			next.click();
+		}
+		else
+		{
+			//throw new CreateAccountException("User did not enter a valid six digit code.");
+		}
+	}
+	
+	public boolean savedPasswordNotNow()
+	{
+		try
+		{
+			notNow.waitUntilClickable();
+			notNow.click();
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean updatePasswordDontAllow()
+	{
+		try
+		{
+			savePassword.waitUntilClickable();
+			savePassword.click();
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean passwordErrorExists()
+	{
+		return passwordError.exists();
+	}
+	
+	public boolean passwordError_TryAgain()
+	{
+		pwd_tryAgain.waitUntilClickable();
+		pwd_tryAgain.click();
 		
 		return true;
 	}

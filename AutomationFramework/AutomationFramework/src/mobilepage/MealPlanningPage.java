@@ -21,12 +21,9 @@ public class MealPlanningPage extends BasePage {
 	private final BaseMobileElement calories1200 = new BaseMobileElement("1200 CAL");
 	private final BaseMobileElement calories1500 = new BaseMobileElement("1500 CAL");
 	private final BaseMobileElement calories1800 = new BaseMobileElement("1800 CAL");
-	private final BaseMobileElement calories2000 = new BaseMobileElement("2000 CAL");
+	private final BaseMobileElement sixMeals = new BaseMobileElement("6 MEALS");
+	private final BaseMobileElement twelveMeals = new BaseMobileElement("12 MEALS");
 
-	private final BaseMobileElement small = new BaseMobileElement("SMALL");
-	private final BaseMobileElement medium = new BaseMobileElement("MEDIUM");
-	private final BaseMobileElement large = new BaseMobileElement("LARGE");
-	
 	private final BaseMobileElement threeDays = new BaseMobileElement("3 DAYS");
 	private final BaseMobileElement fiveDays = new BaseMobileElement("5 DAYS");
 	private final BaseMobileElement sevenDays = new BaseMobileElement("7 DAYS");
@@ -37,297 +34,205 @@ public class MealPlanningPage extends BasePage {
 	private final BaseMobileElement amSnack = new BaseMobileElement("AM SNACK");
 	private final BaseMobileElement pmSnack = new BaseMobileElement("PM SNACK");
 	private final BaseMobileElement drinks = new BaseMobileElement("DRINKS");
-
 	
-	//The accessibility id contains the store name, which is different per user, so need to use xPath find.
-	private final BaseMobileElement pickup = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeButton[contains(@name,'PICKUP')]");
-	private final BaseMobileElement delivery = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeButton[contains(@name,'DELIVERY')]");
+	private final BaseMobileElement pickup = new BaseMobileElement("editPickupButton");
+	private final BaseMobileElement delivery = new BaseMobileElement("editDeliveryButton");
+	private final BaseMobileElement shipping = new BaseMobileElement("editShippingButton");
+	private final BaseMobileElement moreOptions = new BaseMobileElement("MORE OPTIONS");
+	private final BaseMobileElement shippingOnlyText = new BaseMobileElement("This plan is currently only available for direct shipping via FedEx.");
+	private final BaseMobileElement localOnlyText = new BaseMobileElement("This plan is currently only available for local pickup or delivery.");
 	
-	private final BaseMobileElement next = new BaseMobileElement("NEXT");
+	private final BaseMobileElement enterAddressNewUser = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeTextField[@value='enter new shipping address']");
+	private final BaseMobileElement enterAddressExistingUser = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeTextField[@value='street number & name']");
+
+	private final BaseMobileElement twoFourZeroHoneycombCir = new BaseMobileElement("240 Honeycomb Cir");
+	private final BaseMobileElement saveShippingAddress = new BaseMobileElement("save");
+	private final BaseMobileElement confirmShippingAddress = new BaseMobileElement("CONFIRM");
+
+	private final BaseMobileElement startBuildingPlan = new BaseMobileElement("start");
+	private final BaseMobileElement viewAndCustomize = new BaseMobileElement("start");
 
 
-	
-	public String select1200Calories()
+	public String selectMealPlanSizeOption(Size size)
 	{
 		try
 		{
-			calories1200.click();
+			switch (size) {
+			case CALORIES_1200:
+				calories1200.click();
+				break;
+				
+			case CALORIES_1500:
+				calories1500.click();
+				break;
+				
+			case CALORIES_1800:
+				calories1800.click();
+				break;
+				
+			case SIX_MEALS:
+				sixMeals.click();
+				break;
+				
+			case TWELVE_MEALS:
+				twelveMeals.click();
+				break;
+
+			default:
+				break;
+			}
 		}
 		catch (NoSuchElementException e)
 		{
-			return "Could not find 1200 Calorie Button";
+			return "Meal Plan Size Chosen was not displayed.";
 		}
 		return "Success";
 	}
 	
-	public boolean exists1200Calories()
+	public boolean mealPlanSizeOptionExists(Size size)
 	{
-		try
-		{
+		switch (size) {
+		case CALORIES_1200:
 			return calories1200.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
-	}
-
-	public String select1500Calories()
-	{
-		try
-		{
-			calories1500.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find 1500 Calorie Button";
-		}
-		return "Success";
-	}
-	
-	public boolean exists1500Calories()
-	{
-		try
-		{
+			
+		case CALORIES_1500:
 			return calories1500.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
-	}
-	
-	public String select1800Calories()
-	{
-		try
-		{
-			calories1800.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find 1800 Calorie Button";
-		}
-		return "Success";
-	}
-	
-	public boolean exists1800Calories()
-	{
-		try
-		{
+			
+		case CALORIES_1800:
 			return calories1800.exists();
-		}
-		catch (NoSuchElementException e)
-		{
+			
+		case SIX_MEALS:
+			return sixMeals.exists();
+			
+		case TWELVE_MEALS:
+			return twelveMeals.exists();
+
+		default:
 			return false;
 		}
 	}
 	
-	public String selectSmallOption()
+	public String selectDaysPerWeek(DaysPerWeek daysPerWeek)
 	{
 		try
 		{
-			small.click();
+			switch (daysPerWeek) {
+			case THREE_DAYS:
+				threeDays.click();
+				break;
+			case FIVE_DAYS:
+				fiveDays.click();
+				break;
+			case SEVEN_DAYS:
+				sevenDays.click();
+				break;
+			default:
+				break;
+			}
 		}
 		catch (NoSuchElementException e)
 		{
-			return "Could not find Small Option on Whole 30.";
+			return "Could not find Days Per Week Option Specified.";
 		}
 		return "Success";
 	}
 	
-	public boolean existsSmallOption()
+	public boolean daysPerWeekOptionExists(DaysPerWeek daysPerWeek)
 	{
-		try
-		{
-			return small.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
-	}
-	
-	public String selectMediumOption()
-	{
-		try
-		{
-			medium.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find Medium Option on Whole 30.";
-		}
-		return "Success";
-	}
-	
-	public boolean existsMediumOption()
-	{
-		try
-		{
-			return medium.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
-	}
-	
-	public String selectLargeOption()
-	{
-		try
-		{
-			large.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find Large Option on Whole 30.";
-		}
-		return "Success";
-	}
-	
-	public boolean existsLargeOption()
-	{
-		try
-		{
-			return large.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
-	}
-	
-	
-	public String select3Days()
-	{
-		try
-		{
-			threeDays.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find Three Day Button";
-		}
-		return "Success";
-	}
-	
-	public boolean exists3Days()
-	{
-		try
-		{
+		switch (daysPerWeek) {
+		case THREE_DAYS:
 			return threeDays.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
-	}
-	
-	public String select5Days()
-	{
-		try
-		{
-			fiveDays.click();
-		}
-		catch (WebDriverException e)
-		{
-			return "Could not find Five Day Button";
-		}
-		return "Success";
-	}
-	
-	public boolean exists5Days()
-	{
-		try
-		{
+		case FIVE_DAYS:
 			return fiveDays.exists();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
-	}
-	
-	public String select7Days()
-	{
-		try
-		{
-			sevenDays.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find Seven Day Button";
-		}
-		return "Success";
-	}
-	
-	public boolean exists7Days()
-	{
-		try
-		{
+		case SEVEN_DAYS:
 			return sevenDays.exists();
-		}
-		catch (NoSuchElementException e)
-		{
+		default:
 			return false;
 		}
 	}
 	
-	public String selectPickup()
+	public String selectFulfillmentOption(Fulfillment fulfillment)
 	{
+		clickMoreOptions();
+		
 		try
 		{
-			pickup.click();
+			switch (fulfillment) {
+			case SHIPPING:
+				shipping.click();
+				break;
+			case DELIVERY:
+				delivery.click();
+				break;
+			case PICKUP:
+				pickup.click();
+				break;
+			default:
+				break;
+			}
 		}
 		catch (NoSuchElementException e)
 		{
-			return "Could not find Pickup Button";
+			return "Could not find Fulfillment Option Chosen.";
 		}
 		return "Success";
 	}
 	
-	public boolean existsPickup()
-	{
-		try
-		{
-			return pickup.exists();
+	public String enterShippingAddress(String address) {
+		boolean foundAddressField = true;
+		if (twoFourZeroHoneycombCir.exists()) {
+			twoFourZeroHoneycombCir.click();
 		}
-		catch (NoSuchElementException e)
-		{
-			return false;
+		else {
+			//Enter the address
+			try {
+				enterAddressNewUser.setWebValue(address);
+			}
+			catch (Exception e) {
+				foundAddressField=false;
+			}
+			
+			if (!foundAddressField) {
+				try {
+					enterAddressExistingUser.setWebValue(address);
+				}
+				catch (Exception e) {
+					return "Could not find the shipping address field.";
+				}
+			}
+			
+			//Click on the matching item from the list.
+			twoFourZeroHoneycombCir.click();
+			saveShippingAddress.click();
+			
+			//Confirm whatever they send back at this point
+			confirmShippingAddress.waitUntilClickable();
+			confirmShippingAddress.click();
 		}
-	}
-	
-	public String selectDelivery()
-	{
-		try
-		{
-			delivery.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find Delivery Button";
-		}
+		
 		return "Success";
 	}
 	
-	public boolean existsDelivery()
+	public boolean fulfillmentOptionExists(Fulfillment fulfillment)
 	{
-		try
-		{
+		switch (fulfillment) {
+		case SHIPPING:
+			return shipping.exists();
+		case DELIVERY:
 			return delivery.exists();
-		}
-		catch (NoSuchElementException e)
-		{
+		case PICKUP:
+			return pickup.exists();
+
+		default:
 			return false;
 		}
 	}
 	
-	public String selectNext()
+	public String selectViewMenu()
 	{
 		try
 		{
-			next.click();
+			viewAndCustomize.click();
 		}
 		catch (NoSuchElementException e)
 		{
@@ -342,11 +247,11 @@ public class MealPlanningPage extends BasePage {
 	 * made a selection for all meal plan options.
 	 * @return
 	 */
-	public boolean nextButtonExists()
+	public boolean viewMenuExists()
 	{
 		try
 		{
-			return next.exists();
+			return viewAndCustomize.exists();
 		}
 		catch (NoSuchElementException e)
 		{
@@ -372,20 +277,22 @@ public class MealPlanningPage extends BasePage {
 			return status;
 		}
 		
-		status = snapHome.scrollMealPlanIntro();
-		if (!status.equals("Success"))
-		{
-			return status;
-		}
-		
 		status = mealPlanMainPage.selectPlanType(planType);
 		if (!status.equals("Success"))
 		{
 			return status;
 		}
 		
-		try
-		{
+		startBuildingPlan();
+		
+		selectFulfillmentOption(type);
+		
+		if (type.equals(Fulfillment.SHIPPING)) {
+			enterShippingAddress("240 Honeycomb Circle");
+			
+			selectSize(size);
+		}
+		else {
 			if (!planType.equals(PlanType.WHOLE30))
 			{
 				selectSize(size);
@@ -395,14 +302,9 @@ public class MealPlanningPage extends BasePage {
 			{
 				toggleDayPart(dayParts[i]);
 			}
-			selectFulfillmentType(type);
-			next.click();
 		}
-		catch (Exception e)
-		{
-			return "Could not select plan calories, days, and fulfillment type.";
-		}
-		
+		viewAndCustomize.click();
+
 		try
 		{
 			mealPlanningMenu.checkOut();
@@ -422,7 +324,7 @@ public class MealPlanningPage extends BasePage {
 			return "Error Fulfillment Days";
 		}
 		
-		selectNext();
+		selectViewMenu();
 		
 		if (!mealPlanningOptions.addCreditCard("4000000000000077", "0321", "333").equals("Success"))
 		{
@@ -430,9 +332,7 @@ public class MealPlanningPage extends BasePage {
 		}
 		
 		mealPlanningOptions.startSubscription();
-		
-		allowNotifications();
-		
+				
 		MealPlanningSubmission mealPlanningSubmission = new MealPlanningSubmission();
 		if (!mealPlanningSubmission.setupSuccess())
 		{
@@ -460,44 +360,12 @@ public class MealPlanningPage extends BasePage {
 			calories1800.click();
 			break;
 			
-		case CALORIES_2000:
-			calories2000.click();
+		case SIX_MEALS:
+			sixMeals.click();
 			break;
 			
-		case SMALL:
-			small.click();
-			break;
-			
-		case MEDIUM:
-			medium.click();
-			break;
-				
-		case LARGE:
-			large.click();
-			break;
-			
-		default:
-			break;
-		}
-	}
-	
-	/**
-	 * Helper Method to select the number of days per week based upon the user's input.
-	 * @param size
-	 */
-	private void selectDaysPerWeek(DaysPerWeek days)
-	{
-		switch (days) {
-		case THREE_DAYS:
-			threeDays.click();
-			break;
-			
-		case FIVE_DAYS:
-			fiveDays.click();
-			break;
-			
-		case SEVEN_DAYS:
-			sevenDays.click();
+		case TWELVE_MEALS:
+			twelveMeals.click();
 			break;
 			
 		default:
@@ -607,7 +475,7 @@ public class MealPlanningPage extends BasePage {
 			calories1200.click();
 			threeDays.click();
 			pickup.click();
-			next.click();
+			viewAndCustomize.click();
 		}
 		catch (Exception e)
 		{
@@ -633,7 +501,7 @@ public class MealPlanningPage extends BasePage {
 			return "Error Fulfillment Days";
 		}
 		
-		selectNext();
+		selectViewMenu();
 		
 		if (!mealPlanningOptions.addCreditCard("4000000000000077", "0321", "333").equals("Success"))
 		{
@@ -655,6 +523,33 @@ public class MealPlanningPage extends BasePage {
 	public void waitForScreenToRefresh()
 	{
 		WWWDriver.pause(1000);
+	}
+	
+	public boolean startBuildingPlan() {
+		startBuildingPlan.click();
 		
+		return true;
+	}
+	
+	public boolean shippingOnlyTextDisplayed() {
+		return shippingOnlyText.exists();
+	}
+	
+	public boolean localOnlyTextDisplayed() {
+		return localOnlyText.exists();
+	}
+	
+	public boolean moreOptionsDisplayed() {
+		return moreOptions.exists();
+	}
+	
+	public String clickMoreOptions() {
+		try {
+			moreOptions.click();
+		}
+		catch (NoSuchElementException e) {
+			return "Could not find the More Options button.";
+		}
+		return "Success";
 	}
 }

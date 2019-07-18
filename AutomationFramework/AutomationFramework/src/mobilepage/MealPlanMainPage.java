@@ -7,13 +7,16 @@ import element.BaseMobileElement;
 
 public class MealPlanMainPage extends BasePage {
 	
-	private final BaseMobileElement highProteinCard = new BaseMobileElement("HIGH");
-	private final BaseMobileElement lowCarbCard = new BaseMobileElement("LOW");
-	private final BaseMobileElement balanceCard = new BaseMobileElement("BALANCE");
-	private final BaseMobileElement paleoCard = new BaseMobileElement("PALEO");
-	private final BaseMobileElement whole30Card = new BaseMobileElement("WHOLE30");
-	private final BaseMobileElement campGladCard = new BaseMobileElement("CAMP ");
+	private final BaseMobileElement highProteinCard = new BaseMobileElement("high protein");
+	private final BaseMobileElement lowCarbCard = new BaseMobileElement("low carb");
+	private final BaseMobileElement balanceCard = new BaseMobileElement("balance");
+	private final BaseMobileElement paleoCard = new BaseMobileElement("paleo");
+	private final BaseMobileElement whole30Card = new BaseMobileElement("whole30");
+	private final BaseMobileElement buildYourOwn = new BaseMobileElement("build your own");
+	private final BaseMobileElement ketoFriendly = new BaseMobileElement("keto-");
+	private final BaseMobileElement vegan = new BaseMobileElement("vegan");
 	private final BaseMobileElement letsGetStarted = new BaseMobileElement("GetStarted");
+	private final BaseMobileElement quizGetStarted = new BaseMobileElement("GET STARTED");
 	private final BaseMobileElement close = new BaseMobileElement("Close");
 	
 	/**
@@ -32,37 +35,29 @@ public class MealPlanMainPage extends BasePage {
 				
 			case LOW_CARB:
 				lowCarbCard.click();
-				lowCarbCard.click();
 				break;
 				
 			case BALANCE:
-				lowCarbCard.click();
-				balanceCard.click();
 				balanceCard.click();
 				break;
 				
 			case WHOLE30:
-				lowCarbCard.click();
-				balanceCard.click();
-				whole30Card.click();
 				whole30Card.click();
 				break;
 				
 			case PALEO:
-				lowCarbCard.click();
-				balanceCard.click();
-				whole30Card.click();
-				paleoCard.click();
 				paleoCard.click();
 				break;
 				
-			case CAMP_GLADIATOR:
-				lowCarbCard.click();
-				balanceCard.click();
-				whole30Card.click();
-				paleoCard.click();
-				campGladCard.click();
-				campGladCard.click();
+			case BUILD_YOUR_OWN:
+				buildYourOwn.click();
+				
+			case VEGAN:
+				vegan.click();
+				break;
+				
+			case KETO:
+				ketoFriendly.click();
 				break;
 				
 			default:
@@ -93,9 +88,6 @@ public class MealPlanMainPage extends BasePage {
 			
 		case WHOLE30:
 			return whole30Card.exists();
-			
-		case CAMP_GLADIATOR:
-			return campGladCard.exists();
 
 		default:
 			return false;
@@ -127,6 +119,19 @@ public class MealPlanMainPage extends BasePage {
 		catch (NoSuchElementException e)
 		{
 			return "Could not find the Low Carb Card.";
+		}
+		return "Success";
+	}
+	
+	public String selectKeto()
+	{
+		try
+		{
+			ketoFriendly.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Could not find the Keto Friendly Card.";
 		}
 		return "Success";
 	}
@@ -170,19 +175,6 @@ public class MealPlanMainPage extends BasePage {
 		return "Success";
 	}
 	
-	public String selectCampGladiator()
-	{
-		try
-		{
-			campGladCard.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find the Camp Gladiator Card.";
-		}
-		return "Success";
-	}
-	
 	public String letsGetStarted()
 	{
 		try
@@ -205,6 +197,16 @@ public class MealPlanMainPage extends BasePage {
 		catch (NoSuchElementException e)
 		{
 			return "Could not find the Cancel Button.";
+		}
+		return "Success";
+	}
+	
+	public String startQuiz() {
+		try {
+			quizGetStarted.click();
+		}
+		catch (NoSuchElementException e) {
+			return "Could not find Quiz Get Started Button.";
 		}
 		return "Success";
 	}

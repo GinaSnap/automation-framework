@@ -15,7 +15,10 @@ import org.junit.Test;
 
 import common.Location;
 import common.MealPlanOptions.DayParts;
+import common.MealPlanOptions.DaysPerWeek;
+import common.MealPlanOptions.Fulfillment;
 import common.MealPlanOptions.PlanType;
+import common.MealPlanOptions.Size;
 import common.MenuType;
 import common.UserType;
 import framework.MobileDriver;
@@ -217,7 +220,7 @@ public class TestMobile extends MobileTestCase {
 		SnapHome snapHome = new SnapHome();
 		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
 		
-		assertEquals("Verify that user login was successful.", "Success", login(UserNoMealPlan));
+		assertEquals("Verify that user login was successful.", "Success", login(ShippingCustomer));
 		
 		assertEquals("Step:  Click on Meal Plan Link in lower navigation.", "Success", lowerNav.goToMealPlan());
 		
@@ -258,21 +261,21 @@ public class TestMobile extends MobileTestCase {
 		
 		assertEquals("Step:  Select High Protein.", "Success", mealPlanMainPage.selectPlanType(PlanType.HIGH_PROTEIN));
 		
-		assertFalse("Verify:  View Menu button does not exist when meal plan options page is loaded.", mealPlanningPage.nextButtonExists());
+		assertFalse("Verify:  View Menu button does not exist when meal plan options page is loaded.", mealPlanningPage.viewMenuExists());
 		
-		assertTrue("Verify:  1200 Calories Exists.", mealPlanningPage.exists1200Calories());
-		assertTrue("Verify:  1500 Calories Exists.", mealPlanningPage.exists1500Calories());
-		assertTrue("Verify:  1800 Calories Exists.", mealPlanningPage.exists1800Calories());
+		assertTrue("Verify:  1200 Calories Exists.", mealPlanningPage.mealPlanSizeOptionExists(Size.CALORIES_1200));
+		assertTrue("Verify:  1500 Calories Exists.", mealPlanningPage.mealPlanSizeOptionExists(Size.CALORIES_1500));
+		assertTrue("Verify:  1800 Calories Exists.", mealPlanningPage.mealPlanSizeOptionExists(Size.CALORIES_1800));
 		
-		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.select1200Calories());
-		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size is selected.", mealPlanningPage.nextButtonExists());
+		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.selectMealPlanSizeOption(Size.CALORIES_1200));
+		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size is selected.", mealPlanningPage.viewMenuExists());
 		
-		assertTrue("Verify:  3 Days Exists.", mealPlanningPage.exists3Days());
-		assertTrue("Verify:  5 Days Exists.", mealPlanningPage.exists5Days());
-		assertTrue("Verify:  7 Days Exists.", mealPlanningPage.exists7Days());
+		assertTrue("Verify:  3 Days Exists.", mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.THREE_DAYS));
+		assertTrue("Verify:  5 Days Exists.", mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.FIVE_DAYS));
+		assertTrue("Verify:  7 Days Exists.", mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.SEVEN_DAYS));
 		
-		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.select3Days());
-		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size and Days are selected.", mealPlanningPage.nextButtonExists());
+		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.selectDaysPerWeek(DaysPerWeek.THREE_DAYS));
+		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size and Days are selected.", mealPlanningPage.viewMenuExists());
 
 				
 		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
@@ -306,12 +309,12 @@ public class TestMobile extends MobileTestCase {
 		assertFalse("Verify:  Drinks Day Part can be deselected.", mealPlanningPage.isDayPartSelected(DayParts.DRINKS));
 		
 		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
-		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size, Days and DayParts are selected.", mealPlanningPage.nextButtonExists());
+		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size, Days and DayParts are selected.", mealPlanningPage.viewMenuExists());
 		
-		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectPickup());
-		assertTrue("Verify:  View Menu button exists when all Meal Plan Options are chosen.", mealPlanningPage.nextButtonExists());
+		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectFulfillmentOption(Fulfillment.PICKUP));
+		assertTrue("Verify:  View Menu button exists when all Meal Plan Options are chosen.", mealPlanningPage.viewMenuExists());
 
-		assertEquals("Verify:  User can select Delivery.", "Success", mealPlanningPage.selectDelivery());
+		assertEquals("Verify:  User can select Delivery.", "Success", mealPlanningPage.selectFulfillmentOption(Fulfillment.DELIVERY));
 		
 	}
  
@@ -338,19 +341,15 @@ public class TestMobile extends MobileTestCase {
 		
 		assertEquals("Step:  Select Whole30.", "Success", mealPlanMainPage.selectPlanType(PlanType.WHOLE30));
 		
-		assertFalse("Verify:  View Menu button does not exist when meal plan options page is loaded.", mealPlanningPage.nextButtonExists());
+		assertFalse("Verify:  View Menu button does not exist when meal plan options page is loaded.", mealPlanningPage.viewMenuExists());
 		
-		assertFalse("Verify:  Small Option Exists.", mealPlanningPage.existsSmallOption());
-		assertFalse("Verify:  Medium Option Exists.", mealPlanningPage.existsMediumOption());
-		assertFalse("Verify:  Large Option Exists.", mealPlanningPage.existsLargeOption());
+		assertTrue("Verify:  3 Days Exists.", mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.THREE_DAYS));
+		assertTrue("Verify:  5 Days Exists.", mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.FIVE_DAYS));
+		assertTrue("Verify:  7 Days Exists.", mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.SEVEN_DAYS));
 		
-		assertTrue("Verify:  3 Days Exists.", mealPlanningPage.exists3Days());
-		assertTrue("Verify:  5 Days Exists.", mealPlanningPage.exists5Days());
-		assertTrue("Verify:  7 Days Exists.", mealPlanningPage.exists7Days());
+		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.selectDaysPerWeek(DaysPerWeek.THREE_DAYS));
 		
-		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.select3Days());
-		
-		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size and Days are selected.", mealPlanningPage.nextButtonExists());
+		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size and Days are selected.", mealPlanningPage.viewMenuExists());
 				
 		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
 		assertEquals("Step:  Select Lunch Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.LUNCH));
@@ -375,12 +374,12 @@ public class TestMobile extends MobileTestCase {
 		assertFalse("Verify:  Drinks Day Part can be deselected.", mealPlanningPage.isDayPartSelected(DayParts.DRINKS));
 		
 		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
-		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size, Days and DayParts are selected.", mealPlanningPage.nextButtonExists());
+		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size, Days and DayParts are selected.", mealPlanningPage.viewMenuExists());
 		
-		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectPickup());
-		assertTrue("Verify:  View Menu button exists when all Meal Plan Options are chosen.", mealPlanningPage.nextButtonExists());
+		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectFulfillmentOption(Fulfillment.PICKUP));
+		assertTrue("Verify:  View Menu button exists when all Meal Plan Options are chosen.", mealPlanningPage.viewMenuExists());
 
-		assertEquals("Verify:  User can select Delivery.", "Success", mealPlanningPage.selectDelivery());
+		assertEquals("Verify:  User can select Delivery.", "Success", mealPlanningPage.selectFulfillmentOption(Fulfillment.DELIVERY));
 		
 	}
 	
@@ -409,8 +408,8 @@ public class TestMobile extends MobileTestCase {
 		
 		assertEquals("Step:  Select Low Carb.", "Success", mealPlanMainPage.selectPlanType(PlanType.LOW_CARB));
 		
-		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.select1200Calories());
-		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.select3Days());
+		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.selectMealPlanSizeOption(Size.CALORIES_1200));
+		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.selectDaysPerWeek(DaysPerWeek.THREE_DAYS));
 				
 		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
 		assertEquals("Step:  Select Lunch Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.LUNCH));
@@ -419,9 +418,9 @@ public class TestMobile extends MobileTestCase {
 		assertEquals("Step:  Select PM Snack Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.PM_SNACK));
 		assertEquals("Step:  Select Drinks Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.DRINKS));
 		
-		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectPickup());
+		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectFulfillmentOption(Fulfillment.PICKUP));
 		
-		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectNext());
+		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectViewMenu());
 		
 		//Three Day Meal Plan Tests
 		assertEquals("Verify:  Day 1 exists for a three day meal plan.", "Success", mealPlanMenuPage.goToDayOne());
@@ -434,8 +433,8 @@ public class TestMobile extends MobileTestCase {
 		
 		//Five Day Meal Plan Tests
 		assertEquals("Step:  Return to Meal Plan Options.", "Success", mealPlanMenuPage.returnMealPlanOptions());
-		assertEquals("Step:  Select 5 Days.", "Success", mealPlanningPage.select5Days());
-		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectNext());
+		assertEquals("Step:  Select 5 Days.", "Success", mealPlanningPage.selectDaysPerWeek(DaysPerWeek.FIVE_DAYS));
+		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectViewMenu());
 		
 		assertEquals("Verify:  Day 1 exists for a three day meal plan.", "Success", mealPlanMenuPage.goToDayOne());
 		assertEquals("Verify:  Day 2 exists for a three day meal plan.", "Success",  mealPlanMenuPage.goToDayTwo());
@@ -447,8 +446,8 @@ public class TestMobile extends MobileTestCase {
 		
 		//Seven Day Meal Plan Tests
 		assertEquals("Step:  Return to Meal Plan Options.", "Success", mealPlanMenuPage.returnMealPlanOptions());
-		assertEquals("Step:  Select 7 Days.", "Success", mealPlanningPage.select7Days());
-		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectNext());
+		assertEquals("Step:  Select 7 Days.", "Success", mealPlanningPage.selectDaysPerWeek(DaysPerWeek.SEVEN_DAYS));
+		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectViewMenu());
 		
 		assertEquals("Verify:  Day 1 exists for a three day meal plan.", "Success", mealPlanMenuPage.goToDayOne());
 		assertEquals("Verify:  Day 2 exists for a three day meal plan.", "Success",  mealPlanMenuPage.goToDayTwo());
@@ -485,8 +484,8 @@ public class TestMobile extends MobileTestCase {
 		
 		assertEquals("Step:  Select Low Carb.", "Success", mealPlanMainPage.selectPlanType(PlanType.LOW_CARB));
 		
-		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.select1200Calories());
-		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.select3Days());
+		assertEquals("Step:  Select 1200 Calories.", "Success", mealPlanningPage.selectMealPlanSizeOption(Size.CALORIES_1200));
+		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.selectDaysPerWeek(DaysPerWeek.THREE_DAYS));
 				
 		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
 		assertEquals("Step:  Select Lunch Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.LUNCH));
@@ -495,9 +494,9 @@ public class TestMobile extends MobileTestCase {
 		assertEquals("Step:  Select PM Snack Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.PM_SNACK));
 		assertEquals("Step:  Select Drinks Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.DRINKS));
 		
-		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectPickup());
+		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectFulfillmentOption(Fulfillment.PICKUP));
 		
-		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectNext());
+		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectViewMenu());
 		
 		//Three Day Meal Plan Tests
 		assertEquals("Verify:  Day 1 exists for a three day meal plan.", "Success", mealPlanMenuPage.goToDayOne());
@@ -508,8 +507,8 @@ public class TestMobile extends MobileTestCase {
 		
 		//Five Day Meal Plan Tests
 		assertEquals("Step:  Return to Meal Plan Options.", "Success", mealPlanMenuPage.returnMealPlanOptions());
-		assertEquals("Step:  Select 5 Days.", "Success", mealPlanningPage.select5Days());
-		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectNext());
+		assertEquals("Step:  Select 5 Days.", "Success", mealPlanningPage.selectDaysPerWeek(DaysPerWeek.FIVE_DAYS));
+		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectViewMenu());
 		
 		assertEquals("Verify:  Day 1 exists for a three day meal plan.", "Success", mealPlanMenuPage.goToDayOne());
 		assertEquals("Verify:  Day 2 exists for a three day meal plan.", "Success",  mealPlanMenuPage.planDay2());
@@ -520,8 +519,8 @@ public class TestMobile extends MobileTestCase {
 		
 		//Seven Day Meal Plan Tests
 		assertEquals("Step:  Return to Meal Plan Options.", "Success", mealPlanMenuPage.returnMealPlanOptions());
-		assertEquals("Step:  Select 7 Days.", "Success", mealPlanningPage.select7Days());
-		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectNext());
+		assertEquals("Step:  Select 7 Days.", "Success", mealPlanningPage.selectDaysPerWeek(DaysPerWeek.SEVEN_DAYS));
+		assertEquals("Step: Select Next to View the Menu.", "Success", mealPlanningPage.selectViewMenu());
 		
 		assertEquals("Verify:  Day 1 exists for a three day meal plan.", "Success", mealPlanMenuPage.goToDayOne());
 		assertEquals("Verify:  Day 2 exists for a three day meal plan.", "Success",  mealPlanMenuPage.planDay2());
