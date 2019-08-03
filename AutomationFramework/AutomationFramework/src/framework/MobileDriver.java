@@ -29,7 +29,7 @@ public class MobileDriver extends AbstractDriver {
 		DesiredCapabilities caps = new DesiredCapabilities();
 		caps.setCapability("automationName", "XCUITest");
 		caps.setCapability("platformName", "iOS");
-		caps.setCapability("platformVersion", "12.2");
+		caps.setCapability("platformVersion", "12.4");
 		caps.setCapability("deviceName", "iPad Pro (9.7-inch)");
 		caps.setCapability("app", "/Users/GMitchell/Library/Developer/Xcode/DerivedData/SnapKitchen-fpfqhonvadxocbdrbthibowndria/Build/Products/Debug-iphonesimulator/Snap Kitchen.app");
 		

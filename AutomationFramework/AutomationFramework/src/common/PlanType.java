@@ -9,5 +9,7 @@ public enum PlanType
 	PALEO,
 	BUILD_YOUR_OWN,
 	VEGETARIAN,
+	KETO_FRIENDLY,
+	VEGAN,
 	UNDEFINED;
 }

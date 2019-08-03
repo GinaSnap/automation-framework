@@ -88,7 +88,16 @@ public class QuizUtilities {
 					if (questionNode.get("title").asText().equals(question)) {
 						JsonNode answerListNode = questionNode.get("answers");
 						for (JsonNode answerNode : answerListNode) {
-							answerList.add(answerNode.get("title").asText());
+							String title = answerNode.get("title").asText();
+							String text = answerNode.get("text").asText();
+							if (text.equals("null"))
+							{
+								answerList.add(title);
+							}
+							else
+							{
+								answerList.add(String.format("%s %s", title, text));
+							}
 						}
 					}
 				}

@@ -1,6 +1,7 @@
 package element;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -67,6 +68,19 @@ public class BaseMobileElement {
 	public void click()
 	{
 		//displayElement();
+		if (!getMobileElement().isDisplayed())
+		{
+			scrollToElement();
+		}
+		getMobileElement().click();
+	}
+	
+	public void clickTest()
+	{
+		System.out.println("Getting list of elements.");
+		List<MobileElement> listElements = MobileDriver.instance.findElementsByAccessibilityId(getId());
+		System.out.println(listElements.size());
+		
 		if (!getMobileElement().isDisplayed())
 		{
 			scrollToElement();

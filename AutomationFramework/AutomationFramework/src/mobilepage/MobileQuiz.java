@@ -1,10 +1,14 @@
 package mobilepage;
 
+import java.util.HashMap;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 
 import common.Gender;
+import common.PlanType;
 import element.BaseMobileElement;
 import framework.FindMethod;
 import framework.MobileDriver;
@@ -21,7 +25,16 @@ public class MobileQuiz extends BasePage {
 	private final BaseMobileElement genderFemale = new BaseMobileElement("female");
 	private final BaseMobileElement genderNonBinary = new BaseMobileElement("non-binary");
 	private final BaseMobileElement submitButton = new BaseMobileElement("SUBMIT");
-
+	
+	//Lifestyle Plans Recommended
+	private final BaseMobileElement lowCarbPlan = new BaseMobileElement("low carb lifestyle");
+	private final BaseMobileElement highProteinPlan = new BaseMobileElement("high protein lifestyle");
+	private final BaseMobileElement ketoFriendlyPlan = new BaseMobileElement("keto-friendly lifestyle");
+	private final BaseMobileElement whole30Plan = new BaseMobileElement("whole30 lifestyle");
+	private final BaseMobileElement paleoPlan = new BaseMobileElement("paleo lifestyle");
+	private final BaseMobileElement balancePlan = new BaseMobileElement("balance lifestyle");
+	private final BaseMobileElement vegetarianPlan = new BaseMobileElement("vegetarian lifestyle");
+	private final BaseMobileElement veganPlan = new BaseMobileElement("vegan lifestyle");
 
 	public String startQuiz() {
 		AccountHome accountHome = new AccountHome();
@@ -82,15 +95,122 @@ public class MobileQuiz extends BasePage {
 	 * @return Returns true if the question was found and selected.
 	 */
 	public String selectAnswer(String answer) {
+		if (clickAnswerElement(answer)) {
+			return "Success";
+		}
+		else {
+			scroll("d"); //One scroll should display the rest of the answers.
+			if (clickAnswerElement(answer)) {
+				return "Success";
+			}
+		}
+		return "Could not find the answer in the list after scrolling.";
+	}
+	
+	private boolean clickAnswerElement(String answer) {
 		try {
-			MobileDriver.pause(1000);
 			MobileElement answerElement = MobileDriver.instance.findElementByXPath(String.format("//XCUIElementTypeStaticText[contains(@name,\"%s\")]",answer));
+			if (!answerElement.isDisplayed()) {
+				scrollToElement(answerElement);
+			}
 			answerElement.click();
+		}
+		catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
+	public String selectAnswerTest(String answer) {
+		try {
+			BaseMobileElement answerElement = new BaseMobileElement(answer);
+			//MobileElement answerElement = MobileDriver.instance.findElementByXPath(String.format("//XCUIElementTypeStaticText[contains(@name,\"%s\")]",answer));
+//			if (!answerElement.isDisplayed()) {
+//				scrollToElement(answerElement);
+//			}
+			answerElement.clickTest();
 			return "Success";
 		}
 		catch (NoSuchElementException e) {
 			return "Could not find answer in the list.";
 		}
+		catch (ElementNotVisibleException e) {
+			MobileElement answerElement = MobileDriver.instance.findElementByXPath(String.format("//XCUIElementTypeStaticText[contains(@name,\"%s\")]",answer));
+			if (!answerElement.isDisplayed()) {
+				scrollToElement(answerElement);
+			}
+			answerElement.click();
+			return "Success";
+		}
+	}
+	
+	private boolean displayElement(MobileElement element)
+	{
+		boolean scrollDown=false;
+		boolean scrollLeft=true;
+		boolean scrollRight=true;
+		boolean scrollUp=false;
+		while (!(element.isDisplayed()) && (!scrollDown || !scrollUp || !scrollLeft || !scrollRight))
+		{
+			if (!scrollDown)
+			{
+				scroll("d");
+				scrollDown=true;
+				continue;
+			}
+			if (!scrollUp)
+			{
+				scroll("u");
+				scrollUp=true;
+				continue;
+			}
+			if (!scrollLeft)
+			{
+				scroll("l");
+				scrollLeft=true;
+				continue;
+			}
+			if (!scrollRight)
+			{
+				scroll("r");
+				scrollRight=true;
+				continue;
+			}
+		}
+		return element.isDisplayed();
+	}
+	
+	/**
+	 * Scroll in in the requested direction.
+	 * @param direction Enter d (down), u (up), l (left), r (right).
+	 */
+	public void scroll(String direction)
+	{
+			try {
+	            JavascriptExecutor js = (JavascriptExecutor) MobileDriver.instance;
+	            HashMap<String, String> swipeObject = new HashMap<String, String>();
+	            if (direction.equals("d")) {
+	                swipeObject.put("direction", "down");
+	            } else if (direction.equals("u")) {
+	                swipeObject.put("direction", "up");
+	            } else if (direction.equals("l")) {
+	                swipeObject.put("direction", "left");
+	            } else if (direction.equals("r")) {
+	                swipeObject.put("direction", "right");
+	            }
+	            //swipeObject.put("element", ((RemoteWebElement) getMobileElement()).getId());
+	            js.executeScript("mobile: scroll", swipeObject);
+	        } catch (Exception e) {
+	            System.out.println(e.getMessage());
+	        }
+	}
+	
+	private boolean scrollToElement(MobileElement element)
+	{
+		HashMap<String, String> swipeObject = new HashMap<String, String>();
+		swipeObject.put("name", element.getAttribute("name"));
+		MobileDriver.instance.executeScript("mobile: scroll", swipeObject);
+		return true;
 	}
 	
 	/**
@@ -342,5 +462,62 @@ public class MobileQuiz extends BasePage {
 		catch (NoSuchElementException e) {
 			return "Could not find the submit button.";
 		}
+	}
+	
+	/**
+	 * function greetingExists
+	 * @param name String value containing the customer's first name
+	 * @return True if the greeting exists in the format expected.
+	 */
+	public boolean greetingExists(String name) {
+		String greeting = String.format("way to go, %s. based on what you told us, we recommend:", name);
+		BaseMobileElement greetingElement = new BaseMobileElement(greeting);
+		
+		return greetingElement.exists();
+	}
+	
+	public boolean isRecommendedLifestyle(PlanType planType) {
+		String mealPlanText = "";
+		switch (planType) {
+		case LOW_CARB:
+			mealPlanText = "low carb";
+			break;
+			
+		case HIGH_PROTEIN:
+			mealPlanText = "high protein";
+			break;
+			
+		case KETO_FRIENDLY:
+			mealPlanText = "keto-friendly";
+			break;
+			
+		case WHOLE30:
+			mealPlanText = "whole30";
+			break;
+			
+		case PALEO:
+			mealPlanText = "paleo";
+			break;
+			
+		case BALANCE:
+			mealPlanText = "balance";
+			break;
+			
+		case VEGETARIAN:
+			mealPlanText = "vegetarian";
+			break;
+			
+		case VEGAN:
+			mealPlanText = "vegan";
+			break;
+
+		default:
+			mealPlanText = "";
+			break;
+		}
+		
+		MobileElement ele = MobileDriver.instance.findElementByXPath(String.format("//XCUIElementTypeStaticText[contains(@name,'%s lifestyle')]",mealPlanText));
+		return ele.isDisplayed();
+		
 	}
 }
