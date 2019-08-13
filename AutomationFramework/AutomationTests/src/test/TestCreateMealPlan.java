@@ -49,14 +49,26 @@ public class TestCreateMealPlan extends MobileTestCase {
 	{
 		String uniqueString = util.getUniqueString(7);
 		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com", DefaultAustinZip);
-		System.out.printf("Setting up High Protein Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
+		step(String.format("Setting up High Protein Meal Plan for %s with email %s", newUser.getUsername(), newUser.getEmail()));
 		
 		SnapHome snapHome = new SnapHome();
-		snapHome.createAccountViaMealPlanning(newUser);
+		step("Create a new account via Meal Plan Page.");
+		String status = snapHome.createAccountViaMealPlanning(newUser);
+		if (status.equals("Success")) {
+			passTest("Complete");
+		}
+		else {
+			failTest(status);
+		}
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-		assertEquals("Verify:  Create High Protein Meal Plan with multiple sizes.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.HIGH_PROTEIN, Size.CALORIES_1500, DaysPerWeek.FIVE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
-		
+		status = mealPlanningPage.createMealPlan(newUser, PlanType.HIGH_PROTEIN, Size.CALORIES_1500, DaysPerWeek.FIVE_DAYS, Fulfillment.PICKUP, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER);
+		if (status.equals("Success")) {
+			passTest("Complete");
+		}
+		else {
+			failTest(status);
+		}
 	}
 	
 	@Test

@@ -195,13 +195,26 @@ public class SnapHome {
 			return nuOnboardingStatus;
 		}
 		
-		zipCodePage.enterZipCode(user.getZipCode());
+		String status = zipCodePage.enterZipCode(user.getZipCode());
+		if (!status.equals("Success")) {
+			return "Was not able to enter zip code at the end of user onboarding.";
+		}
 		
 		ShippingMenuPage shippingMenuPage = new ShippingMenuPage();
-		shippingMenuPage.selectMealPlan(PlanType.BALANCE);
-		shippingMenuPage.letsGetStarted();
+		status = shippingMenuPage.selectMealPlan(PlanType.BALANCE);
+		if (!status.equals("Success")) {
+			return "Could not find the specified meal plan.";
+		}
 		
-		createAccount(user, Location.AUSTIN);
+		status = shippingMenuPage.letsGetStarted();
+		if (!status.equals("Success")) {
+			return "User was not prompted to create an account.";
+		}
+		
+		if (!createAccount(user, Location.AUSTIN)) {
+			return "Was not able to create a new user account.";
+		}
+		
 		return "Success";
 	}
 	
