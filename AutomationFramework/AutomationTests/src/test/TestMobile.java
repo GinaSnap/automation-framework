@@ -50,7 +50,7 @@ public class TestMobile extends MobileTestCase {
 		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
 		
 		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user account.", snapHome.createAccountViaLogin(newUser, Location.AUSTIN));
+		assertTrue("Step:  Create new user account.", snapHome.createAccountViaLogin(newUser));
 		
 		AccountHome accountHome = new AccountHome();
 		assertEquals("Step:  Add new Payment Method from the Profile Page.", "Success", accountHome.addPaymentMethod("5555555555554444", "0424", "444"));
@@ -102,7 +102,7 @@ public class TestMobile extends MobileTestCase {
 		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
 		
 		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user account.", snapHome.createAccountViaLogin(newUser, Location.AUSTIN));
+		assertTrue("Step:  Create new user account.", snapHome.createAccountViaLogin(newUser));
 		
 		BasketPage basketPage = new BasketPage();
 		MainMenuPage mainMenuPage = new MainMenuPage();

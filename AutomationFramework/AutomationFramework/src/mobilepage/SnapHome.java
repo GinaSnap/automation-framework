@@ -179,10 +179,10 @@ public class SnapHome {
 		}
 	}
 	
-	public boolean createAccountViaLogin(UserType user, Location location)
+	public boolean createAccountViaLogin(UserType user)
 	{
 		startLogin.click();
-		return createAccount(user, location);
+		return createAccount(user);
 	}
 	
 	public String createAccountViaMealPlanning(UserType user)
@@ -211,7 +211,7 @@ public class SnapHome {
 			return "User was not prompted to create an account.";
 		}
 		
-		if (!createAccount(user, Location.AUSTIN)) {
+		if (!createAccount(user)) {
 			return "Was not able to create a new user account.";
 		}
 		
@@ -289,7 +289,7 @@ public class SnapHome {
 	 * Returns true if the process completed.  I do not check the user account details.
 	 * @throws  
 	 */
-	public boolean createAccount(UserType user, Location location)
+	public boolean createAccount(UserType user)
 	{
 		savedPasswordNotNow();
 		

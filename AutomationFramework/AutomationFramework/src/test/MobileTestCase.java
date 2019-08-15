@@ -7,18 +7,23 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 
 import common.CreditCardType;
 import common.CustomerType;
@@ -37,9 +42,16 @@ public class MobileTestCase extends AbstractTestCase {
 	public String DefaultNationalSW = "73552";
 	public String DefaultNationalNE = "11368";
 	public String DefaultAustinZip = "78619";
+	public String DefaultAustinStore = "Clarksville";
 	public String DefaultDallasZip = "75044";
+	public String DefaultDallasStore = "Uptown";
 	public String DefaultHoustonZip = "77016";
+	public String DefaultHoustonStore = "Kirby";
 	public String DefaultPhillyZip = "19026";
+	public String DefaultPhillyStore = "Old City";
+
+	
+	@Rule public TestName name = new TestName();
 	
 	@Before
 	public void setUp() throws Exception {
@@ -47,17 +59,35 @@ public class MobileTestCase extends AbstractTestCase {
 		MobileDriver.pause(5000); //This is to give the app time to load.
 		
 		logger.setLevel(Level.INFO);
-		Handler h = new FileHandler("//users/GMitchell/git/automation-framework/LogFiles/TestOutput.log");
-		Formatter f = new SimpleFormatter();
-		h.setFormatter(f);
-		h.setLevel(Level.ALL);
+		logger.setUseParentHandlers(false);
+	    //ConsoleHandler handler = new ConsoleHandler();
+	    //logger.addHandler(handler);
+		Handler h = new FileHandler("//Users/GMitchell/git/automation-framework/LogFiles/TestOutput.log");
+		h.setFormatter(new SimpleFormatter() {
+	          private static final String format = "[%1$tF %1$tT] [%2$-7s] %3$s %n";
+
+	          @Override
+	          public synchronized String format(LogRecord lr) {
+	              return String.format(format,
+	                      new Date(lr.getMillis()),
+	                      lr.getLevel().getLocalizedName(),
+	                      lr.getMessage()
+	              );
+	          }
+	      });
+//		Formatter f = new SimpleFormatter();
+//		h.setFormatter(f);
+//		h.setLevel(Level.ALL);
 		logger.setLevel(Level.ALL);
 		logger.addHandler(h);
 		
+		step(String.format("START Testing Method [%s]", name.getMethodName()));
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		step(String.format("FINISH Testing Method [%s]", name.getMethodName()));
+
 		MobileDriver.quit();
 	}
 	
@@ -112,11 +142,21 @@ public class MobileTestCase extends AbstractTestCase {
 			zipCodeMap.put("73552", CustomerType.NATIONAL);   //Maybe just add one from each region?
 		}
 		else {
-			String file = "/Users/GMitchell/Desktop/Zip_National.txt";
+			String file = "/Users/GMitchell/git/automation-framework/Zip_National.txt";
 			try (BufferedReader br = Files.newBufferedReader(Paths.get(file))) {
 	            String line;
+	            CustomerType customerType;
 	            while ((line = br.readLine()) != null) {
-	                zipCodeMap.put(line, CustomerType.NATIONAL);
+	            		String[] zipCodeData = line.split(",");
+	            		if (zipCodeData[1].equals("NATIONAL")) {
+	            			customerType = CustomerType.NATIONAL;
+	            		} else if (zipCodeData[1].equals("LOCAL")) {
+	            			customerType = CustomerType.LOCAL;
+	            		} else {
+	            			customerType = CustomerType.OUT_OF_RANGE;
+	            		}
+	         
+	                zipCodeMap.put(zipCodeData[0], customerType);
 	            }
 	        } catch (IOException e) {
 	            System.err.format("IOException: %s%n", e);

@@ -8,8 +8,8 @@ import org.junit.runners.Suite;
 	TestCreateMealPlan.class, 
 	TestLogin.class, TestMobile.class, 
 	TestMobileAccount.class,
-	TestMobile.class,
-	TestMobilePaymentType.class
+//	TestMobile.class,
+//	TestMobilePaymentType.class
 	})
 public class TestMobileTestSuite {
 	static {

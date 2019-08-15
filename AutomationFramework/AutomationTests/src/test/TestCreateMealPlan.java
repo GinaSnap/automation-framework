@@ -28,13 +28,26 @@ public class TestCreateMealPlan extends MobileTestCase {
 	{
 		String uniqueString = util.getUniqueString(7);
 		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com", DefaultNationalSW);
-		System.out.printf("Setting up Shipping Plan for %s with email %s", newUser.getUsername(), newUser.getEmail());
+		step(String.format("Setting up Shipping Plan for %s with email %s", newUser.getUsername(), newUser.getEmail()));
 		
 		SnapHome snapHome = new SnapHome();
-		snapHome.createAccountViaMealPlanning(newUser);
+		step("Create Account via Meal Plan Page.");
+		String status = snapHome.createAccountViaMealPlanning(newUser);
+		if (status.equals("Success")) {
+			passTest("Complete");
+		}
+		else {
+			failTest(status);
+		}
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
-		assertEquals("Verify:  Create Shipping Meal Plan with 6 Meals.", "Success", mealPlanningPage.createMealPlan(newUser, PlanType.LOW_CARB, Size.SIX_MEALS, DaysPerWeek.THREE_DAYS, Fulfillment.SHIPPING, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER));
+		status = mealPlanningPage.createMealPlan(newUser, PlanType.LOW_CARB, Size.SIX_MEALS, DaysPerWeek.THREE_DAYS, Fulfillment.SHIPPING, DayParts.BREAKFAST, DayParts.LUNCH, DayParts.DINNER);
+		if (status.equals("Success")) {
+			passTest("Complete");
+		}
+		else {
+			failTest(status);
+		}
 		
 	}
 	
@@ -77,8 +90,6 @@ public class TestCreateMealPlan extends MobileTestCase {
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
 		MealPlanLifestylePage mealPlanLifestylePage = new MealPlanLifestylePage();
-
-		step("testVerifyMealPlanOptions_Shipping");
 		
 		step("Login to the app with an existing account.");
 		String status=login(ShippingCustomer);
@@ -206,8 +217,6 @@ public class TestCreateMealPlan extends MobileTestCase {
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
 		MealPlanLifestylePage mealPlanLifestylePage = new MealPlanLifestylePage();
-
-		step("testVerifyVeganShippingOnly");
 		
 		step("Login to the app with an existing account.");
 		String status=login(ShippingCustomer);
@@ -293,8 +302,6 @@ public class TestCreateMealPlan extends MobileTestCase {
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
 		MealPlanLifestylePage mealPlanLifestylePage = new MealPlanLifestylePage();
-
-		step("testVerifyKetoLocalOnly");
 		
 		step("Login to the app with an existing account.");
 		String status=login(LocalCustomer);
@@ -380,8 +387,6 @@ public class TestCreateMealPlan extends MobileTestCase {
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
 		MealPlanLifestylePage mealPlanLifestylePage = new MealPlanLifestylePage();
-
-		step("testVerifyFulfillmentOptsShippingCustomer");
 		
 		step("Login to the app with an existing account.");
 		String status=login(ShippingCustomer);

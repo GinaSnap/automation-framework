@@ -4,23 +4,22 @@ import org.openqa.selenium.NoSuchElementException;
 
 import common.PlanType;
 import element.BaseMobileElement;
-import mobilepage.BasePage;
 
-public class ShippingMenuPage extends AbstractMenuPage {
+public class LocalMenuPage extends AbstractMenuPage {
 	
 	private BaseMobileElement buildYourOwn = new BaseMobileElement("build");
 	private BaseMobileElement balance = new BaseMobileElement("balance");
 	private BaseMobileElement findAPlanMade = new BaseMobileElement("find a plan made");
 	private BaseMobileElement justForYou = new BaseMobileElement("just for you");
+	private BaseMobileElement bestSellers = new BaseMobileElement("best sellers");
 	private BaseMobileElement newMenu = new BaseMobileElement("new menu");
-
 	
 
-	public ShippingMenuPage() {
+	public LocalMenuPage() {
 	}
 	
 	/**
-	 * The Shipping Menu is loaded if
+	 * The Local Menu is loaded if
 	 * 		The sample menu and 'sign in to order' is at the top
 	 * 		Find a plan made just for you banner is displayed
 	 * 		Balance Meal Plan card is displayed.
@@ -28,39 +27,17 @@ public class ShippingMenuPage extends AbstractMenuPage {
 	public boolean isLoaded(boolean isLoggedIn)
 	{
 		boolean testIsLoaded;
+		
 		if (isLoggedIn) {
-			testIsLoaded = !sampleMenuText.exists() && findAPlanMade.exists() && justForYou.exists() && balance.exists();
-		} else {
-			testIsLoaded = sampleMenuText.exists() && findAPlanMade.exists() && justForYou.exists() && balance.exists();
-
+			testIsLoaded = findAPlanMade.exists() && justForYou.exists() && bestSellers.exists() && newMenu.exists() && !sampleMenuText.exists();
+		}
+		else {
+			testIsLoaded = sampleMenuText.exists() && findAPlanMade.exists() && justForYou.exists() && bestSellers.exists() && newMenu.exists();
 		}
 		if (testIsLoaded) {
 			return true;
 		}
 		return false;
-	}
-	
-	public String selectMealPlan(PlanType planType)
-	{
-		
-		try 
-		{
-			switch (planType) {
-			case BALANCE:
-				balance.click();
-				break;
-			case BUILD_YOUR_OWN:
-				buildYourOwn.click();
-				break;
-			default:
-				break;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Meal Plan to select was not displayed.";
-		}
-		return "Success";
 	}
 	
 	public String letsGetStarted()
@@ -90,5 +67,4 @@ public class ShippingMenuPage extends AbstractMenuPage {
 		}
 		return "Success";
 	}
-
 }

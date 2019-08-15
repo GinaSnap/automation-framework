@@ -28,7 +28,7 @@ public class TestMobilePaymentType extends MobileTestCase {
 		System.out.println("New User: " + uniquePhone);
 		
 		SnapHome snapHome = new SnapHome();
-		assertTrue("Verify that new account was created successfully.", snapHome.createAccountViaLogin(newUser, Location.AUSTIN));
+		assertTrue("Verify that new account was created successfully.", snapHome.createAccountViaLogin(newUser));
 	
 		//assertEquals("Step:  Login as an existing user.", "Success", login(StagingUser));
 		

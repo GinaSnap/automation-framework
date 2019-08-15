@@ -242,8 +242,10 @@ public class MainMenuPage extends BasePage {
 		}
 	}
 	
-	public boolean isPickup()
+	public boolean isPickup(String defaultStore)
 	{
+		String xPath = String.format("//XCUIElementTypeStaticText[contains(@name,'PICKUP FROM %s')]",defaultStore);
+		BaseMobileElement pickupFulfillment = new BaseMobileElement(FindMethod.XPATH, xPath);
 		return pickupFulfillment.exists();
 	}
 	

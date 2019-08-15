@@ -12,8 +12,10 @@ public class RequestZipcodePage extends BasePage {
 	public BaseMobileElement OK = new BaseMobileElement("OK");
 	public BaseMobileElement signIn = new BaseMobileElement("ResetPassword");
 	
-	public BaseMobileElement unavailable = new BaseMobileElement("outside shipping zone");
-	public BaseMobileElement willDo = new BaseMobileElement("will do!");
+	public BaseMobileElement outsideShippingZone = new BaseMobileElement("Sorry, your address is outside of our shipping zone");
+	public BaseMobileElement enterEmail = new BaseMobileElement(FindMethod.XPATH,"//XCUIElementTypeTextField[@value='enter your email']");
+	public BaseMobileElement notifyMe = new BaseMobileElement("NOTIFY ME");
+	public BaseMobileElement viewSampleMenu = new BaseMobileElement("VIEW SAMPLE MENU");
 	
 	public RequestZipcodePage() {
 		
@@ -69,27 +71,12 @@ public class RequestZipcodePage extends BasePage {
 	 */
 	public boolean isLoaded()
 	{
-		return zipCode.exists();
+		if (outsideShippingZone.exists() && enterEmail.exists() && notifyMe.exists() && viewSampleMenu.exists()) {
+			return true;
+		}
+		return false;
 	}
 	
-	public boolean isZipUnavailable()
-	{
-		try
-		{
-			unavailable.waitUntilClickable();
-		}
-		catch (NoSuchElementException e)
-		{
-			return false;
-		}
-		return unavailable.exists();
-	}
-	
-	public void clickWillDo()
-	{
-		willDo.waitUntilClickable();
-		willDo.click();
-	}
 	
 
 }

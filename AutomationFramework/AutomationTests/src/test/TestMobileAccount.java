@@ -15,6 +15,7 @@ import mobilepage.AccountHome;
 import mobilepage.MainMenuPage;
 import mobilepage.ProfileHome;
 import mobilepage.SnapHome;
+import page.LocalMenuPage;
 import page.RequestZipcodePage;
 import page.ShippingMenuPage;
 
@@ -22,17 +23,17 @@ public class TestMobileAccount extends MobileTestCase {
 	
 	/**
 	 * Scroll through new user onboarding and click Get Started.
-	 * Enter Shipping Zip Code
+	 * Enter Zipcodes from Local area in SW, Local Area in Philly, Shipping in SW, Shipping in Philly
+	 * and out of range.  Verify correct menu is loaded in each case.
+	 * Add new zips in /Users/GMitchell/git/automation-framework/Zip_National.txt
 	 */
 	@Test
 	public void testEnterShippingZipCodeFromOnboarding()
-	{
-		step("testEnterShippingZipCodeFromOnboarding");
-		
+	{		
 		SnapHome snapHome = new SnapHome();
 		RequestZipcodePage zipCodePage = new RequestZipcodePage();
 		
-		HashMap<String, CustomerType> zipCodeMap = getZipCodeMap(true);
+		HashMap<String, CustomerType> zipCodeMap = getZipCodeMap(false);
 		
 		Iterator<Entry<String, CustomerType>> it = zipCodeMap.entrySet().iterator();
 		while (it.hasNext())
@@ -67,14 +68,16 @@ public class TestMobileAccount extends MobileTestCase {
 			}
 			
 			step("Verify that correct menu was loaded.");
-			isCorrectMenuLoaded(pair.getValue());
+			isCorrectMenuLoaded(pair.getValue(), false);
 		}
 		
 	}
 	
 	/**
-	 * Create user account with zipcodes from different regions.
+	 * Create user account by clicking Login on the New User Onboarding.
+	 * Enter various zip codes.
 	 * Verify user is taken to the right menu.
+	 * Verify user data is saved successfully.
 	 */
 	@Test
 	public void testCreateAccountViaLoginZipCodeTests()
@@ -84,7 +87,7 @@ public class TestMobileAccount extends MobileTestCase {
 		SnapHome snapHome = new SnapHome();
 		AccountHome accountHome = new AccountHome();
 
-		HashMap<String,CustomerType> zipCodeMap = getZipCodeMap(true);
+		HashMap<String,CustomerType> zipCodeMap = getZipCodeMap(false);
 		
 		Iterator<Entry<String,CustomerType>> iterator = zipCodeMap.entrySet().iterator();
 		
@@ -98,7 +101,7 @@ public class TestMobileAccount extends MobileTestCase {
 			UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com",pair.getKey());
 			step("Username: " + newUser.getUsername());
 			
-			if (!snapHome.createAccountViaLogin(newUser, Location.AUSTIN))
+			if (!snapHome.createAccountViaLogin(newUser))
 			{
 				failTestAndContinue("Error when creating user account.");
 			}
@@ -107,7 +110,7 @@ public class TestMobileAccount extends MobileTestCase {
 				passTest("Create account completed successfully.");
 				
 				step("Verify that correct menu is loaded based upon zipcode.");
-				isCorrectMenuLoaded(pair.getValue());
+				isCorrectMenuLoaded(pair.getValue(), true);
 				
 				step("Verify that all account information is correct.");
 				accountHome.goToAccount();
@@ -212,7 +215,7 @@ public class TestMobileAccount extends MobileTestCase {
 		}
 		
 		step("Create new Account.");
-		if (snapHome.createAccount(newUser, Location.AUSTIN))
+		if (snapHome.createAccount(newUser))
 		{
 			passTest("Success");
 		}
@@ -223,7 +226,9 @@ public class TestMobileAccount extends MobileTestCase {
 	}
 	
 	/**
-	 * Create a new shipping only customer from the SW Region.
+	 * Scroll through new user onboarding and click Get Started.
+	 * Enter a Shipping zip code.
+	 * Click on shopping basket and verify user is prompted to login.
 	 * Verify that the customer is defaulted to the Shipping Fulfillment.
 	 * Should put other verifications in later.
 	 */
@@ -234,7 +239,9 @@ public class TestMobileAccount extends MobileTestCase {
 	}
 	
 	/**
-	 * Create a new shipping only customer from the NE Region.
+	 * Scroll through new user onboarding and click Get Started.
+	 * Enter a Shipping zip code.
+	 * Click on shopping basket and verify user is prompted to login.
 	 * Verify that the customer is defaulted to the Shipping Fulfillment.
 	 * Should put other verifications in later.
 	 */
@@ -252,7 +259,7 @@ public class TestMobileAccount extends MobileTestCase {
 	@Test
 	public void testCreateLocalCustomerViaMenu_Austin()
 	{
-		createNewLocalCustomer(DefaultAustinZip);
+		createNewLocalCustomer(DefaultAustinZip, DefaultAustinStore);
 	}
 	
 	/**
@@ -263,7 +270,7 @@ public class TestMobileAccount extends MobileTestCase {
 	@Test
 	public void testCreateLocalCustomerViaMenu_Dallas()
 	{
-		createNewLocalCustomer(DefaultDallasZip);
+		createNewLocalCustomer(DefaultDallasZip, DefaultDallasStore);
 	}
 	
 	/**
@@ -274,7 +281,7 @@ public class TestMobileAccount extends MobileTestCase {
 	@Test
 	public void testCreateLocalCustomerViaMenu_Houston()
 	{
-		createNewLocalCustomer(DefaultHoustonZip);
+		createNewLocalCustomer(DefaultHoustonZip, DefaultHoustonStore);
 	}
 	
 	/**
@@ -285,69 +292,9 @@ public class TestMobileAccount extends MobileTestCase {
 	@Test
 	public void testCreateLocalCustomerViaMenu_Philly()
 	{
-		createNewLocalCustomer(DefaultPhillyZip);
+		createNewLocalCustomer(DefaultPhillyZip, DefaultPhillyStore);
 	}
 	
-	/**
-	 * Create a new user account by clicking Login from the Main Screen.
-	 * Verify data on the profile screen.
-	 */
-	@Test
-	public void testCreateAccount()
-	{
-		
-		step("testCreateAccount");
-		
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
-		step("Creating User Account: "  + newUser.getUsername());
-		
-		SnapHome snapHome = new SnapHome();
-		if (snapHome.createAccountViaLogin(newUser, Location.AUSTIN))
-		{
-			passTest("User Account was created successfully.");
-		}
-		else
-		{
-			failTest("Errors when creating user account.");
-		}
-	
-		
-		AccountHome accountHome = new AccountHome();
-		accountHome.goToAccount();
-		accountHome.goToProfile();
-		
-		ProfileHome profileHome = new ProfileHome();
-		if (newUser.getFirstName().equals(profileHome.firstName.getText()))
-		{
-			passTest("First Name Value is correct.");
-		}
-		{
-			failTestAndContinue("First Name Value did not match what was entered.");
-		}
-		if (newUser.getLastName().equals(profileHome.lastName.getText()))
-		{
-			passTest("Last Name Value is correct.");
-		}
-		{
-			failTestAndContinue("Last Name Value did not match what was entered.");
-		}
-		if (newUser.getEmail().equals(profileHome.email.getText()))
-		{
-			passTest("Email Value is correct.");
-		}
-		{
-			failTestAndContinue("Email did not match what was entered.");
-		}
-		if (newUser.getUsername().equals(profileHome.phoneNumber.getText()))
-		{
-			passTest("PhoneNumber Value is correct.");
-		}
-		{
-			failTestAndContinue("Phone Number did not match what was entered.");
-		}
-		
-	}
 	
 	/**
 	 * This is a helper function to test different Shipping Only Zipcodes
@@ -408,7 +355,7 @@ public class TestMobileAccount extends MobileTestCase {
 		}
 		
 		step("Create new Account.");
-		if (snapHome.createAccount(newUser, Location.AUSTIN))
+		if (snapHome.createAccount(newUser))
 		{
 			passTest("Success");
 		}
@@ -433,7 +380,7 @@ public class TestMobileAccount extends MobileTestCase {
 	 * This is a helper function for creating a local customer with different zip codes.
 	 * @param zipCode String with a 5 digit zip code.
 	 */
-	public void createNewLocalCustomer(String zipCode)
+	public void createNewLocalCustomer(String zipCode, String defaultStore)
 	{
 		SnapHome snapHome = new SnapHome();
 		RequestZipcodePage zipCodePage = new RequestZipcodePage();
@@ -488,7 +435,7 @@ public class TestMobileAccount extends MobileTestCase {
 		}
 		
 		step("Create new Account.");
-		if (snapHome.createAccount(newUser, Location.AUSTIN))
+		if (snapHome.createAccount(newUser))
 		{
 			passTest("Success");
 		}
@@ -497,9 +444,9 @@ public class TestMobileAccount extends MobileTestCase {
 			failTest("Error when creating new account.");
 		}
 		
-		step("Verify that the shipping menu is displayed.");
+		step("Verify that the user is defaulted to Pickup.");
 		MainMenuPage mainMenu = new MainMenuPage();
-		if (mainMenu.isPickup())
+		if (mainMenu.isPickup(defaultStore))
 		{
 			passTest("Success");
 		}
@@ -513,33 +460,32 @@ public class TestMobileAccount extends MobileTestCase {
 	 * This is a helper function to determine if the correct menu has been loaded based upon the zipcode entered.
 	 * @param customerType
 	 */
-	public void isCorrectMenuLoaded(CustomerType customerType) {
+	public void isCorrectMenuLoaded(CustomerType customerType, boolean isLoggedIn) {
 		RequestZipcodePage zipCodePage = new RequestZipcodePage();
 		ShippingMenuPage shippingMenuPage = new ShippingMenuPage();
+		LocalMenuPage localMenuPage = new LocalMenuPage();
 		
 		switch (customerType) {
 		case LOCAL:
+			if (localMenuPage.isLoaded(isLoggedIn)) {
+				passTest("Local Menu was loaded.");
+			} else {
+				failTestAndContinue("Local Menu was not loaded.");
+			}
 			break;
 			
 		case NATIONAL:
-			if (shippingMenuPage.isLoaded())
-			{
+			if (shippingMenuPage.isLoaded(isLoggedIn)) {
 				passTest("Shipping Menu was loaded.");
-			}
-			else
-			{
+			} else {
 				failTestAndContinue("Shipping Menu was not loaded.");
 			}
 			break;
 			
 		case OUT_OF_RANGE:
-			if (zipCodePage.isZipUnavailable())
-			{	
-				zipCodePage.willDo.click();
+			if (zipCodePage.isLoaded()) {	
 				passTest("Out Of Range Message was Loaded.");
-			}
-			else
-			{
+			} else {
 				failTestAndContinue("Out Of Range Message was not loaded.");
 			}
 			break;
