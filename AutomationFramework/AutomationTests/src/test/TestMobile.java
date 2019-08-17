@@ -28,6 +28,7 @@ import mobilepage.BasketPage;
 import mobilepage.CheckoutPage;
 import mobilepage.LowerNavPage;
 import mobilepage.MainMenuPage;
+import mobilepage.MainMenuPage.MenuFormat;
 import mobilepage.MealPlanMainPage;
 import mobilepage.MealPlanMenuPage;
 import mobilepage.MealPlanningPage;
@@ -44,51 +45,127 @@ public class TestMobile extends MobileTestCase {
 	 * Create an order with an existing user account, and then cancel.
 	 */
 	@Test
-	public void testCreateNewOrderAndCancel()
+	public void testCreateNewOrder()
 	{
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
-		
+//		String uniqueString = util.getUniqueString(7);
+//		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
+//		
 		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user account.", snapHome.createAccountViaLogin(newUser));
-		
+//		step("Step:  Create new user account."); 
+//		if (snapHome.createAccountViaLogin(newUser)) {
+//			passTest("Complete");
+//		} else {
+//			failTest("Could not create a new user account.");
+//		}
+//		
 		AccountHome accountHome = new AccountHome();
-		assertEquals("Step:  Add new Payment Method from the Profile Page.", "Success", accountHome.addPaymentMethod("5555555555554444", "0424", "444"));
+//		step("Step:  Add new Payment Method from the Profile Page.");
+//		String status = accountHome.addPaymentMethod("5555555555554444", "0424", "444");
+//		if (status.equals("Success")) {
+//			passTest("Complete");
+//		} else {
+//			failTest(status);
+//		}
+//		
+//		step("Step:  User is able to access the Orders Screen under Accounts.");
+//		status = accountHome.goToOrders();
+//		if (status.equals("Success")) {
+//			passTest("Complete");
+//		} else {
+//			failTest(status);
+//		}
+//		
+		OrdersPage ordersPage = new OrdersPage();	
+//		step("Verify:  Zero orders should be listed with a new account.");
+//		int numOrders = ordersPage.getNumberOfOrders();
+//		if (numOrders == 0) {
+//			passTest("Complete");
+//		} else {
+//			failTestAndContinue("Order information was listed on the orders page for a new customer.");
+//		}
 		
-		assertEquals("Step:  User is able to access the Orders Screen under Accounts.", "Success", accountHome.goToOrders());
-		
-		OrdersPage ordersPage = new OrdersPage();
-		assertEquals("Step:  User is able to access Upcoming orders.", "Success", ordersPage.goToUpcomingOrders());
-		
-		assertEquals("Verify:  Zero orders should be listed with a new account.", 0, ordersPage.getNumberOfOrders());
-		
-		assertEquals("Step:  Close the orders screen.", "Success", ordersPage.closeOrdersScreen());
-		
+		step("Step:  Login as a local customer.");
+		String status = login(LocalCustomer);
+		returnTestStatus(status);
+
 		MainMenuPage mainMenuPage = new MainMenuPage();
-		assertEquals("Step:  User is able to access the breakfast menu.", "Success", mainMenuPage.clickMenu(MenuType.BREAKFAST));
+		step("Step:  Switch to the category menu if you are not there already.");
+		status = mainMenuPage.switchToMenu(MenuFormat.CATEGORY);
+		returnTestStatus(status);
+		
+		step("Step:  User is able to access the breakfast menu.");
+		status = mainMenuPage.clickMenu(MenuType.BREAKFAST);
+		returnTestStatus(status);
 		
 		String productName = mainMenuPage.getFirstMenuItemProductName();
-		assertFalse("Step:  Product Name is retrieved successfully.", productName.startsWith("ERROR"));
+		step("Step:  Gather name of first product in the list.");
+		if (!productName.startsWith("ERROR")){
+			passTest("Complete");
+		} else {
+			failTest("Could not gather a product to add to the basket.");
+		}
 		
-		assertEquals("Step:  User is able to add first breakfast menu item to the shopping cart.", "Success", mainMenuPage.addFirstAvailableItemToCart());
-		assertEquals("Step:  User is able to access the shopping cart.", "Success", mainMenuPage.goToBasket());
+		step("Step:  User is able to add first breakfast menu item to the shopping cart."); 
+		status = mainMenuPage.addFirstAvailableItemToCart();
+		returnTestStatus(status);
+		
+		step("Step:  User is able to access the shopping cart.");
+		status =  mainMenuPage.goToBasket();
+		returnTestStatus(status);
 				
 		BasketPage basketPage = new BasketPage();
-		assertTrue("Verify: The product we added exists in the shopping basket.", basketPage.menuItemExists(productName));
+		step("Verify: The product we added exists in the shopping basket.");
+		if (basketPage.menuItemExists(productName)) {
+			passTest("Complete");
+		} else {
+			failTest("Could not locate our item in the shopping basket.");
+		}
 		
-		assertEquals("Step:  User is able to access the checkout screen.","Success", basketPage.goToCheckOut());
+		step("Step:  User is able to access the checkout screen.");
+		status = basketPage.goToCheckOut();
+		returnTestStatus(status);
 		
 		CheckoutPage checkoutPage = new CheckoutPage();
-		assertEquals("Step:  User is able to place order from the checkout screen.", "Success", checkoutPage.placeOrder());
+		step("Step:  Add new Payment Method."); 
+		status = checkoutPage.addPaymentMethod("4000 0000 0000 0077", "03/21", "586");
+		returnTestStatus(status);
 		
-		OrderSubmissionPage orderSubmissionPage = new OrderSubmissionPage();
-		assertEquals("Step:  User is able to cancel the order from the Order Details Screen.", "Success", orderSubmissionPage.cancelOrder());
-				
-		assertEquals("Step:  User is able to access the Orders Screen under Accounts.", "Success", accountHome.goToOrders());
+		step("Step:  User is able to place order from the checkout screen."); 
+		status = checkoutPage.placeOrder();
+		returnTestStatus(status);
 		
-		assertEquals("Step:  User is able to access Upcoming orders.", "Success", ordersPage.goToUpcomingOrders());
-		
-		assertEquals("Verify:  Zero orders should be listed.", 0, ordersPage.getNumberOfOrders());
+//		OrderSubmissionPage orderSubmissionPage = new OrderSubmissionPage();
+//		step("Step:  User is able to cancel the order from the Order Details Screen.");
+//		status = orderSubmissionPage.cancelOrder();
+//		if (status.equals("Success")) {
+//			passTest("Complete");
+//		} else {
+//			failTest(status);
+//		}
+//				
+//		step("Step:  User is able to access the Orders Screen under Accounts."); 
+//		status = accountHome.goToOrders();
+//		if (status.equals("Success")) {
+//			passTest("Complete");
+//		} else {
+//			failTest(status);
+//		}
+//		
+//		step("Step:  User is able to access Upcoming orders.");
+//		status = ordersPage.goToUpcomingOrders();
+//		if (status.equals("Success")) {
+//			passTest("Complete");
+//		} else {
+//			failTest(status);
+//		}
+//		
+//		step("Verify:  One Order should be listed.");
+//		int numOrders = ordersPage.getNumberOfOrders();
+//		if (numOrders == 1) {
+//			passTest("Complete");
+//		} else {
+//			failTestAndContinue("Order was still listed as active.");
+//		}
 		
 	}
 	
@@ -98,20 +175,33 @@ public class TestMobile extends MobileTestCase {
 	@Test
 	public void testEmptyShoppingBasket()
 	{
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
-		
-		SnapHome snapHome = new SnapHome();
-		assertTrue("Step:  Create new user account.", snapHome.createAccountViaLogin(newUser));
+		step("Step:  Login as a local customer.");
+		String status = login(LocalCustomer);
+		returnTestStatus(status);
 		
 		BasketPage basketPage = new BasketPage();
 		MainMenuPage mainMenuPage = new MainMenuPage();
 		
-		assertEquals("Step:  User is able to access the shopping cart after initial login.", "Success", mainMenuPage.goToBasket());
-		assertTrue("Verify:  Shopping Basket should initially be empty.", basketPage.isBasketEmpty());
+		step("Step:  Click on the shopping basket icon");
+		status = mainMenuPage.goToBasket();
+		returnTestStatus(status);
+
+		step("Verify:  Shopping Basket should initially be empty.");
+		if (basketPage.isBasketEmpty()) {
+			passTest("Complete");
+		} else {
+			failTestAndContinue("Shopping basket was not empty.");
+		}
 		
-		assertTrue("Verify:  Shop Menu button is available on an empty shopping basket.", basketPage.shopMenuButtonExists());
+		step("Verify:  Shop Menu button is available on an empty shopping basket.");
+		if (basketPage.shopMenuButtonExists()) {
+			passTest("Complete");
+		} else {
+			failTest("Could not locate the Shop Menu Button.");
+		}
+		
 		assertEquals("Step:  Click Shop Menu button.", "Success", basketPage.shopMenu());
+		
 		
 		assertEquals("Step:  User is able to access the breakfast menu.", "Success", mainMenuPage.clickMenu(MenuType.BREAKFAST));
 		
@@ -129,28 +219,6 @@ public class TestMobile extends MobileTestCase {
 		
 		assertTrue("Verify:  Shopping Basket is empty after using the Empty Basket function.", basketPage.isBasketEmpty());
 	}
-	
-	@Test
-	/**
-	 * This test verifies that all menu items exist on the main menu screen.
-	 */
-	public void testMainMenuCheck()
-	{
-		assertEquals("Verify that user login was successful.", "Success", login(StagingUser));
-		
-		MainMenuPage mainMenu = new MainMenuPage();
-		assertTrue("Verify:  Breakfast Menu Exists.", mainMenu.menuExists(MenuType.BREAKFAST));
-		assertTrue("Verify:  Lunch and Dinner Menu Exists.", mainMenu.menuExists(MenuType.LUNCH_AND_DINNER));
-		assertTrue("Verify:  Salads Menu Exists.", mainMenu.menuExists(MenuType.SALADS));
-		assertTrue("Verify:  Soups Menu Exists.", mainMenu.menuExists(MenuType.SOUPS));
-		assertTrue("Verify:  Small Bites Menu Exists.", mainMenu.menuExists(MenuType.SMALL_BITES));
-		assertTrue("Verify:  Sides Menu Exists.", mainMenu.menuExists(MenuType.SIDES));
-		assertTrue("Verify:  Snacks Menu Exists.", mainMenu.menuExists(MenuType.SNACKS));
-		assertTrue("Verify:  Drinks Menu Exists.", mainMenu.menuExists(MenuType.DRINKS));
-		assertTrue("Verify:  Sweets Menu Exists.", mainMenu.menuExists(MenuType.SWEETS));
-
-	}
-	
 	
 	
 //	/**

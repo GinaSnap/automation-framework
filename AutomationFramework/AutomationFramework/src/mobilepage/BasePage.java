@@ -16,7 +16,7 @@ public class BasePage {
 	//Bottom navigation is common to all pages.
 	public BaseMobileElement navMenu = new BaseMobileElement("Menu");
 	public BaseMobileElement navMealPlan = new BaseMobileElement("Meal Plan");
-	public BaseMobileElement navBasket = new BaseMobileElement("Basket");
+	public BaseMobileElement navBasket = new BaseMobileElement("icn basket white");
 	public BaseMobileElement navStoreLocator = new BaseMobileElement("Store Locator");
 	public BaseMobileElement navAccount = new BaseMobileElement("Account");
 	

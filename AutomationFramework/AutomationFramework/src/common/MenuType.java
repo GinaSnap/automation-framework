@@ -10,5 +10,6 @@ public enum MenuType {
 	SNACKS,
 	JUICES,
 	DRINKS,
-	SWEETS
+	SWEETS,
+	PANTRY
 }

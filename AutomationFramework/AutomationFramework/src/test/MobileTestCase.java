@@ -187,6 +187,16 @@ public class MobileTestCase extends AbstractTestCase {
 		logger.warning(String.format("FAIL:  %s", msg));
 	}
 	
+	public void returnTestStatus(String status) {
+		
+		if (status.equals("Success")) {
+			passTest("Complete");
+		} else {
+			failTest(status);
+		}
+		
+	}
+	
 	public enum QuestionType{
 		STATIC_TEXT,
 		SINGLE_SELECT,

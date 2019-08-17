@@ -15,16 +15,20 @@ import io.appium.java_client.MobileElement;
 
 public class MainMenuPage extends BasePage {
 	
-	public final BaseMobileElement breakfastMenu = new BaseMobileElement("BREAKFAST");
-	public final BaseMobileElement lunchDinnerMenu = new BaseMobileElement("LUNCH & DINNER");
-	public final BaseMobileElement saladMenu = new BaseMobileElement("SALADS");
-	public final BaseMobileElement soupMenu = new BaseMobileElement("SOUPS");
-	public final BaseMobileElement smallBitesMenu = new BaseMobileElement("SMALL BITES");
-	public final BaseMobileElement sidesMenu = new BaseMobileElement("SIDES");
-	public final BaseMobileElement snacksMenu = new BaseMobileElement("SNACKS");
-	public final BaseMobileElement juicesBlendsMenu = new BaseMobileElement("JUICES & BLENDS");
-	public final BaseMobileElement drinksMenu = new BaseMobileElement("DRINKS");
-	public final BaseMobileElement sweetsMenu = new BaseMobileElement("SWEETS");
+	public enum MenuFormat {
+		CATEGORY,
+		LIST
+	}
+	
+	public final BaseMobileElement breakfastMenu = new BaseMobileElement("breakfast");
+	public final BaseMobileElement lunchDinnerMenu = new BaseMobileElement("lunch & dinner");
+	public final BaseMobileElement saladSoupMenu = new BaseMobileElement("salads & soups");
+	public final BaseMobileElement componentsMenu = new BaseMobileElement("components");
+	public final BaseMobileElement smallBitesMenu = new BaseMobileElement("small bites");
+	public final BaseMobileElement snacksMenu = new BaseMobileElement("snacks");
+	public final BaseMobileElement drinksMenu = new BaseMobileElement("drinks");
+	public final BaseMobileElement sweetsMenu = new BaseMobileElement("sweets");
+	public final BaseMobileElement pantryMenu = new BaseMobileElement("pantry");
 	public final BaseMobileElement actionsBtn = new BaseMobileElement("Actions");
 	public final BaseMobileElement actionsSearchMenu = new BaseMobileElement("search menu");  //name
 	public final BaseMobileElement actionsNewMenuItems = new BaseMobileElement("new menu items");  //name
@@ -37,6 +41,10 @@ public class MainMenuPage extends BasePage {
 	private final BaseMobileElement deliveryFulfillment = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeStaticText[contains(@name,'DELIVERY TO')]");
 	private final BaseMobileElement shippingFulfillment = new BaseMobileElement(FindMethod.XPATH, "//XCUIElementTypeStaticText[contains(@name,'SHIPPING TO')]");
 	private final BaseMobileElement changeFulfillment = new BaseMobileElement("icn_dropdown_dark_6");
+	
+	//Navigation
+	private final BaseMobileElement toggleMenu_Category = new BaseMobileElement("btn menu categories");
+	private final BaseMobileElement toggleMenu_List = new BaseMobileElement("btn menu list");
 	
 	/**
 	 * Access the Breakfast Main Menu.
@@ -55,28 +63,25 @@ public class MainMenuPage extends BasePage {
 				lunchDinnerMenu.click();
 				break;
 			case SALADS:
-				saladMenu.click();
-				break;
-			case SOUPS:
-				soupMenu.click();
+				saladSoupMenu.click();
 				break;
 			case SMALL_BITES:
 				smallBitesMenu.click();
 				break;
 			case SIDES:
-				sidesMenu.click();
+				componentsMenu.click();
 				break;
 			case SNACKS:
 				snacksMenu.click();
-				break;
-			case JUICES:
-				juicesBlendsMenu.click();
 				break;
 			case DRINKS:
 				drinksMenu.click();
 				break;
 			case SWEETS:
 				sweetsMenu.click();
+				break;
+			case PANTRY:
+				pantryMenu.click();
 				break;
 			default:
 				break;
@@ -103,21 +108,19 @@ public class MainMenuPage extends BasePage {
 		case LUNCH_AND_DINNER:
 			return lunchDinnerMenu.exists();
 		case SALADS:
-			return saladMenu.exists();
-		case SOUPS:
-			return soupMenu.exists();
+			return saladSoupMenu.exists();
 		case SMALL_BITES:
 			return smallBitesMenu.exists();
 		case SIDES:
-			return sidesMenu.exists();
+			return componentsMenu.exists();
 		case SNACKS:
 			return snacksMenu.exists();
-		case JUICES:
-			return juicesBlendsMenu.exists();
 		case DRINKS:
 			return drinksMenu.exists();
 		case SWEETS:
 			return sweetsMenu.exists();
+		case PANTRY:
+			return pantryMenu.exists();
 		default:
 			return false;
 		}
@@ -258,5 +261,41 @@ public class MainMenuPage extends BasePage {
 	{
 		return shippingFulfillment.exists();
 	}
+	
+	public String switchToMenu(MenuFormat format) {
+		
+		switch (format) {
+		case CATEGORY:
+			if (!isCategoryMenu()) {
+				switchToCategoryMenu();
+			}
+			break;
+			
+		case LIST:
+			if (!isListMenu()) {
+				switchToListMenu();
+			}
+			break;
 
+		default:
+			break;
+		}
+		return "Success";
+	}
+	
+	public boolean isCategoryMenu() {
+		return toggleMenu_List.exists();
+	}
+	
+	public boolean isListMenu() {
+		return toggleMenu_Category.exists();
+	}
+	
+	private void switchToCategoryMenu() {
+		toggleMenu_Category.click();
+	}
+	
+	private void switchToListMenu() {
+		toggleMenu_List.click();
+	}
 }

@@ -18,6 +18,14 @@ public class CheckoutPage extends BasePage {
 	public final BaseMobileElement close = new BaseMobileElement("Close");
 	public final BaseMobileElement placeOrder = new BaseMobileElement("PLACE ORDER");
 	
+	private final BaseMobileElement paymentMethods = new BaseMobileElement("payment");
+	private final BaseMobileElement addNewCard = new BaseMobileElement("Add New Card…");
+	private final BaseMobileElement card_Number = new BaseMobileElement("card number");
+	private final BaseMobileElement card_ExpireDate = new BaseMobileElement("expiration date");
+	private final BaseMobileElement card_CVC = new BaseMobileElement("CVC");
+	private final BaseMobileElement card_Cancel = new BaseMobileElement("Cancel");
+	private final BaseMobileElement card_Done = new BaseMobileElement("Done");
+	
 	private MobileElement getCheckoutTable()
 	{
 		return MobileDriver.instance.findElementByXPath("//XCUIElementTypeTable");
@@ -43,6 +51,48 @@ public class CheckoutPage extends BasePage {
 
 		return status;
 		
+	}
+	
+	/**
+	 * Click Payments from the Checkout Page.
+	 * @return
+	 * Return "Success" if the user is able to access the account menu and click Payments.
+	 * Return error string if not.
+	 */
+	public String goToPayments()
+	{
+		String status="Success";
+		
+		try {
+			paymentMethods.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			status="Payments button is not displayed.";
+			return status;
+		}
+		
+		return status;
+	}
+	
+	public String addPaymentMethod(String cardNumber, String date, String cvc)
+	{
+		goToPayments();
+		try 
+		{
+			addNewCard.waitUntilClickable();
+			addNewCard.click();
+			card_Number.setWebValue(cardNumber);
+			card_ExpireDate.setWebValue(date);
+			card_CVC.setWebValue(cvc);
+			card_Done.click();
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Error";
+		}
+	
+		return "Success";
 	}
 
 }
