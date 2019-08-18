@@ -5,15 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.logging.Level;
-
 import org.junit.Test;
 
-import common.Location;
 import common.MealPlanOptions.DayParts;
 import common.MealPlanOptions.DaysPerWeek;
 import common.MealPlanOptions.Fulfillment;
@@ -21,8 +14,6 @@ import common.MealPlanOptions.PlanType;
 import common.MealPlanOptions.Size;
 import common.MenuType;
 import common.UserType;
-import framework.MobileDriver;
-import javafx.util.Pair;
 import mobilepage.AccountHome;
 import mobilepage.BasketPage;
 import mobilepage.CheckoutPage;
@@ -32,12 +23,8 @@ import mobilepage.MainMenuPage.MenuFormat;
 import mobilepage.MealPlanMainPage;
 import mobilepage.MealPlanMenuPage;
 import mobilepage.MealPlanningPage;
-import mobilepage.OrderSubmissionPage;
 import mobilepage.OrdersPage;
-import mobilepage.ProfileHome;
 import mobilepage.SnapHome;
-import page.RequestZipcodePage;
-import page.ShippingMenuPage;
 
 public class TestMobile extends MobileTestCase {
 	

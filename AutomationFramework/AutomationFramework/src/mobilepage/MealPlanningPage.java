@@ -51,6 +51,8 @@ public class MealPlanningPage extends BasePage {
 
 	private final BaseMobileElement startBuildingPlan = new BaseMobileElement("start");
 	private final BaseMobileElement viewAndCustomize = new BaseMobileElement("start");
+	
+	private final BaseMobileElement addressValidationServiceDown = new BaseMobileElement("Address validation service is currently down");
 
 
 	public String selectMealPlanSizeOption(Size size)
@@ -202,12 +204,31 @@ public class MealPlanningPage extends BasePage {
 			}
 			
 			//Click on the matching item from the list.
-			twoFourZeroHoneycombCir.click();
-			saveShippingAddress.click();
+			try {
+				twoFourZeroHoneycombCir.click();
+			}
+			catch (NoSuchElementException e) {
+				return "Could not find expected matching address.";
+			}
+			
+			try {
+				saveShippingAddress.click();
+			} catch (NoSuchElementException e) {
+				return "Could not find Save Shipping address button.";
+			}
 			
 			//Confirm whatever they send back at this point
-			confirmShippingAddress.waitUntilClickable();
-			confirmShippingAddress.click();
+			try {
+				confirmShippingAddress.waitUntilClickable();
+				confirmShippingAddress.click();
+			} catch (NoSuchElementException e) {
+				if (addressValidationServiceDown.exists()) {
+					return "Address Validation Service is down.";
+				}
+				else {
+					return "Could not find Confirm Address button.";
+				}
+			}
 		}
 		
 		return "Success";
