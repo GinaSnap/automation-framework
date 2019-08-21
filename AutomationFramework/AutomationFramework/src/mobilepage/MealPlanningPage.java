@@ -35,9 +35,16 @@ public class MealPlanningPage extends BasePage {
 	private final BaseMobileElement pmSnack = new BaseMobileElement("PM SNACK");
 	private final BaseMobileElement drinks = new BaseMobileElement("DRINKS");
 	
-	private final BaseMobileElement pickup = new BaseMobileElement("editPickupButton");
-	private final BaseMobileElement delivery = new BaseMobileElement("editDeliveryButton");
-	private final BaseMobileElement shipping = new BaseMobileElement("editShippingButton");
+	private final BaseMobileElement selectPickup = new BaseMobileElement(FindMethod.XPATH,"//XCUIElementTypeStaticText[contains(@name,'PICKUP')]");
+	private final BaseMobileElement editPickup = new BaseMobileElement("editPickupButton");
+
+	private final BaseMobileElement selectDelivery = new BaseMobileElement(FindMethod.XPATH,"//XCUIElementTypeStaticText[contains(@name,'DELIVERY')]");
+	private final BaseMobileElement editDelivery = new BaseMobileElement("editDeliveryButton");
+
+	private final BaseMobileElement selectShipping = new BaseMobileElement(FindMethod.XPATH,"//XCUIElementTypeStaticText[contains(@name,'SHIPPING')]");
+	private final BaseMobileElement editShipping = new BaseMobileElement("editShippingButton");
+
+	
 	private final BaseMobileElement moreOptions = new BaseMobileElement("MORE OPTIONS");
 	private final BaseMobileElement shippingOnlyText = new BaseMobileElement("This plan is currently only available for direct shipping via FedEx.");
 	private final BaseMobileElement localOnlyText = new BaseMobileElement("This plan is currently only available for local pickup or delivery.");
@@ -154,20 +161,44 @@ public class MealPlanningPage extends BasePage {
 	}
 	
 	public String selectFulfillmentOption(Fulfillment fulfillment)
+	{		
+		try
+		{
+			switch (fulfillment) {
+			case SHIPPING:
+				selectShipping.click();
+				break;
+			case DELIVERY:
+				selectDelivery.click();
+				break;
+			case PICKUP:
+				selectPickup.click();
+				break;
+			default:
+				break;
+			}
+		}
+		catch (NoSuchElementException e)
+		{
+			return "Could not find Fulfillment Option Chosen.";
+		}
+		return "Success";
+	}
+	
+	public String editFulfillmentOption(Fulfillment fulfillment)
 	{
-		clickMoreOptions();
 		
 		try
 		{
 			switch (fulfillment) {
 			case SHIPPING:
-				shipping.click();
+				editShipping.click();
 				break;
 			case DELIVERY:
-				delivery.click();
+				editDelivery.click();
 				break;
 			case PICKUP:
-				pickup.click();
+				editPickup.click();
 				break;
 			default:
 				break;
@@ -238,11 +269,11 @@ public class MealPlanningPage extends BasePage {
 	{
 		switch (fulfillment) {
 		case SHIPPING:
-			return shipping.exists();
+			return selectShipping.exists();
 		case DELIVERY:
-			return delivery.exists();
+			return selectDelivery.exists();
 		case PICKUP:
-			return pickup.exists();
+			return selectPickup.exists();
 
 		default:
 			return false;
@@ -272,7 +303,7 @@ public class MealPlanningPage extends BasePage {
 	{
 		try
 		{
-			return viewAndCustomize.exists();
+			return viewAndCustomize.isVisible();
 		}
 		catch (NoSuchElementException e)
 		{
@@ -306,7 +337,10 @@ public class MealPlanningPage extends BasePage {
 		
 		startBuildingPlan();
 		
-		selectFulfillmentOption(type);
+		status = selectFulfillmentOption(type);
+		if (!status.equals("Success")) {
+			return String.format("Could not find the [%s] fulfillment option.", type.toString());
+		}
 		
 		if (type.equals(Fulfillment.SHIPPING)) {
 			enterShippingAddress("240 Honeycomb Circle");
@@ -335,24 +369,23 @@ public class MealPlanningPage extends BasePage {
 			return "Could not find the checkout button.";
 		}
 		
-		
-		if (mealPlanningOptions.selectFulfillementDate(firstFulfillmentDay).equals("Success"))
+		status = mealPlanningOptions.selectFulfillementDate(firstFulfillmentDay);
+		if (!status.equals("Success"))
 		{	
-			mealPlanningOptions.clickSave();
+			return status;
 		}
-		else
+			
+		status = mealPlanningOptions.addCreditCard("4000000000000077", "0321", "333");
+		if (!status.equals("Success"))
 		{
-			return "Error Fulfillment Days";
+			return status;
 		}
 		
-		selectViewMenu();
-		
-		if (!mealPlanningOptions.addCreditCard("4000000000000077", "0321", "333").equals("Success"))
+		status = mealPlanningOptions.startSubscription();
+		if (!status.equals("Success"))
 		{
-			return "Error with credit card.";
+			return status;
 		}
-		
-		mealPlanningOptions.startSubscription();
 				
 		MealPlanningSubmission mealPlanningSubmission = new MealPlanningSubmission();
 		if (!mealPlanningSubmission.setupSuccess())
@@ -442,105 +475,6 @@ public class MealPlanningPage extends BasePage {
 		}
 	}
 	
-	/**
-	 * Helper Method to select the fulfillment type based upon the user's input.
-	 * @param size
-	 */
-	private void selectFulfillmentType(Fulfillment type)
-	{
-		switch (type) {
-		case PICKUP:
-			pickup.click();
-			break;
-			
-		case DELIVERY:
-			delivery.click();
-			break;
-			
-		default:
-			break;
-		}
-	}
-	
-	public String createThreeDayMealPlanOLD(UserType user)
-	{
-		Calendar today = Calendar.getInstance();
-		int dayOfMonth = today.get(Calendar.DAY_OF_MONTH);
-		int firstFulfillmentDay = dayOfMonth + 4;
-		
-		LowerNavPage lowerNav = new LowerNavPage();
-		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
-		MealPlanningMenu mealPlanningMenu = new MealPlanningMenu();
-		MealPlanningOptions mealPlanningOptions = new MealPlanningOptions();
-		
-		try
-		{
-			lowerNav.goToMealPlan();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find Meal Plan Link in the Lower Navigation.";
-		}
-		
-		try 
-		{
-			mealPlanMainPage.selectHighProtein();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find High Protein Card on Meal Planning Main Page.";
-		}
-		
-		try
-		{
-			calories1200.click();
-			threeDays.click();
-			pickup.click();
-			viewAndCustomize.click();
-		}
-		catch (Exception e)
-		{
-			return "Could not select plan calories, days, and fulfillment type.";
-		}
-		
-		try
-		{
-			mealPlanningMenu.checkOut();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Could not find the checkout button.";
-		}
-		
-		
-		if (mealPlanningOptions.selectFulfillementDate(firstFulfillmentDay).equals("Success"))
-		{	
-			mealPlanningOptions.clickSave();
-		}
-		else
-		{
-			return "Error Fulfillment Days";
-		}
-		
-		selectViewMenu();
-		
-		if (!mealPlanningOptions.addCreditCard("4000000000000077", "0321", "333").equals("Success"))
-		{
-			return "Error with credit card.";
-		}
-		
-		mealPlanningOptions.startSubscription();
-		
-		allowNotifications();
-		
-		MealPlanningSubmission mealPlanningSubmission = new MealPlanningSubmission();
-		if (!mealPlanningSubmission.setupSuccess())
-		{
-			return "Error on Submission.";
-		}
-		return "Success";
-	}
-	
 	public void waitForScreenToRefresh()
 	{
 		WWWDriver.pause(1000);
@@ -563,14 +497,5 @@ public class MealPlanningPage extends BasePage {
 	public boolean moreOptionsDisplayed() {
 		return moreOptions.exists();
 	}
-	
-	public String clickMoreOptions() {
-		try {
-			moreOptions.click();
-		}
-		catch (NoSuchElementException e) {
-			return "Could not find the More Options button.";
-		}
-		return "Success";
-	}
+
 }

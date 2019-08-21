@@ -10,6 +10,7 @@ import common.UserType;
 import element.BaseMobileElement;
 import element.NotificationWebElement;
 import framework.FindMethod;
+import page.LocalMenuPage;
 import page.RequestZipcodePage;
 import page.ShippingMenuPage;
 
@@ -185,7 +186,7 @@ public class SnapHome {
 		return createAccount(user);
 	}
 	
-	public String createAccountViaMealPlanning(UserType user)
+	public String createAccountViaMealPlanning_ShippingUser(UserType user)
 	{
 		RequestZipcodePage zipCodePage = new RequestZipcodePage();
 		
@@ -215,6 +216,45 @@ public class SnapHome {
 			return "Was not able to create a new user account.";
 		}
 		
+		return "Success";
+	}
+	
+	public String createAccountViaMealPlanning_LocalUser(UserType user)
+	{
+		RequestZipcodePage zipCodePage = new RequestZipcodePage();
+		
+		String nuOnboardingStatus = completeNewUserOnboarding();
+		if (!nuOnboardingStatus.equals("Success"))
+		{
+			return nuOnboardingStatus;
+		}
+		
+		String status = zipCodePage.enterZipCode(user.getZipCode());
+		if (!status.equals("Success")) {
+			return "Was not able to enter zip code at the end of user onboarding.";
+		}
+		
+		LowerNavPage lowerNav = new LowerNavPage();
+		status = lowerNav.goToMealPlan();
+		if (!status.equals("Success")) {
+			return "Could not find the meal plan link in the lower navigation.";
+		}
+		
+		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
+		status = mealPlanMainPage.selectLowCarb();
+		if (!status.equals("Success")) {
+			return "Could not find the Low Carb Meal Plan Card.";
+		}
+		
+		status = mealPlanMainPage.letsGetStarted();
+		if (!status.equals("Success")) {
+			return "User was not prompted to create an account.";
+		}
+		
+		if (!createAccount(user)) {
+			return "Was not able to create a new user account.";
+		}
+				
 		return "Success";
 	}
 	

@@ -306,7 +306,7 @@ public class TestMobile extends MobileTestCase {
 		System.out.println(newUser.getUsername());
 		
 		SnapHome snapHome = new SnapHome();
-		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser));
+		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning_LocalUser(newUser));
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		LowerNavPage lowerNav = new LowerNavPage();
@@ -381,60 +381,156 @@ public class TestMobile extends MobileTestCase {
 	@Test
 	public void testVerifyPlanOptions_Whole30()
 	{
-		String uniqueString = util.getUniqueString(7);
-		UserType newUser = new UserType(getUniquePhone(), DEFAULT_PWD, "SnapFN" + uniqueString, "SnapLN" + uniqueString, uniqueString + "@snapkitchen.com","78758");
-		System.out.println(newUser.getUsername());
-		
-		SnapHome snapHome = new SnapHome();
-		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser));
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		LowerNavPage lowerNav = new LowerNavPage();
 		MealPlanMainPage mealPlanMainPage = new MealPlanMainPage();
 		
-		assertEquals("Step:  Click Meal Plans from Lower Navigation.", "Success", lowerNav.goToMealPlan());
+		step("Step:  Login as a local customer.");
+		String status = login(LocalCustomer);
+		returnTestStatus(status);
 		
-		assertEquals("Step:  Select Whole30.", "Success", mealPlanMainPage.selectPlanType(PlanType.WHOLE30));
+		step("Step:  Click Meal Plans from Lower Navigation.");
+		status = lowerNav.goToMealPlan();
+		returnTestStatus(status);
 		
-		assertFalse("Verify:  View Menu button does not exist when meal plan options page is loaded.", mealPlanningPage.viewMenuExists());
+		step("Step:  Select Whole30.");
+		status = mealPlanMainPage.selectPlanType(PlanType.WHOLE30);
+		returnTestStatus(status);
 		
-		assertTrue("Verify:  3 Days Exists.", mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.THREE_DAYS));
-		assertTrue("Verify:  5 Days Exists.", mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.FIVE_DAYS));
-		assertTrue("Verify:  7 Days Exists.", mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.SEVEN_DAYS));
+		step("Step:  Click Start Building Plan.");
+		if (mealPlanningPage.startBuildingPlan()) {
+			passTest("Complete");
+		} else {
+			failTest("Could not find the Start Building Subscription button.");
+		}
 		
-		assertEquals("Step:  Select 3 Days.", "Success", mealPlanningPage.selectDaysPerWeek(DaysPerWeek.THREE_DAYS));
+		step("Verify:  View Menu button does not exist when meal plan options page is loaded.");
+		if (!mealPlanningPage.viewMenuExists()){
+			passTest("Complete");
+		} else {
+			failTest("View Menu button was not displayed.");
+		}
 		
-		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size and Days are selected.", mealPlanningPage.viewMenuExists());
+		step("Verify:  User can select Pickup."); 
+		status = mealPlanningPage.selectFulfillmentOption(Fulfillment.PICKUP);
+		returnTestStatus(status);
+		
+		step("Verify:  View Menu button does not exist when only Fulfillment Options are chosen.");
+		if (!mealPlanningPage.viewMenuExists()) {
+			passTest("Complete");
+		} else {
+			failTest("View Menu was displayed.");
+		}
+		
+		step("Verify:  3 Days Exists.");
+		if (mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.THREE_DAYS)) {
+			passTest("Complete");
+		} else {
+			failTest("3 Day Days Per Week Option did not exist.");
+		}
+		
+		step("Verify:  5 Days Exists.");
+		if (mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.FIVE_DAYS)) {
+			passTest("Complete");
+		} else {
+			failTest("5 Day Days Per Week Option did not exist.");
+		}
+		
+		step("Verify:  7 Days Exists.");
+		if (mealPlanningPage.daysPerWeekOptionExists(DaysPerWeek.SEVEN_DAYS)) {
+			passTest("Complete");
+		} else {
+			failTest("7 Day Days Per Week Option did not exist.");
+		}
 				
-		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
-		assertEquals("Step:  Select Lunch Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.LUNCH));
-		assertEquals("Step:  Select Dinner Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.DINNER));
-		assertEquals("Step:  Select Drinks Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.DRINKS));
+		step("Step:  Select 3 Days.");
+		status = mealPlanningPage.selectDaysPerWeek(DaysPerWeek.THREE_DAYS);
+		returnTestStatus(status);
 		
-		assertTrue("Verify:  Breakfast Day Part is selected.", mealPlanningPage.isDayPartSelected(DayParts.BREAKFAST));
-		assertTrue("Verify:  Lunch Day Part is selected.", mealPlanningPage.isDayPartSelected(DayParts.LUNCH));
-		assertTrue("Verify:  Dinner Day Part is selected.", mealPlanningPage.isDayPartSelected(DayParts.DINNER));
-		assertNotEquals("Verify:  AM Snack does not exist.", "Success", mealPlanningPage.toggleDayPart(DayParts.AM_SNACK));
-		assertNotEquals("Verify:  PM Snack does not exist.", "Success", mealPlanningPage.toggleDayPart(DayParts.PM_SNACK));
-		assertTrue("Verify:  Drinks Day Part is selected.", mealPlanningPage.isDayPartSelected(DayParts.DRINKS));
+		step("Verify:  View Menu button does not exist when only Fulfillment and Days Per Week are selected.");
+		if (!mealPlanningPage.viewMenuExists()) {
+			passTest("Complete");
+		} else {
+			failTest("View Menu button was displayed.");
+		}
 		
-		assertEquals("Step:  Deselect Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
-		assertEquals("Step:  Deselect Lunch Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.LUNCH));
-		assertEquals("Step:  Deselect Dinner Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.DINNER));
-		assertEquals("Step:  Deselect Drinks Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.DRINKS));
+		step("Step:  Select Breakfast Day Part.");
+		status = mealPlanningPage.toggleDayPart(DayParts.BREAKFAST);
+		returnTestStatus(status);
+		
+		step("Step:  Select Lunch Day Part.");
+		status = mealPlanningPage.toggleDayPart(DayParts.LUNCH);
+		returnTestStatus(status);
+		
+		step("Step:  Select Dinner Day Part.");
+		status = mealPlanningPage.toggleDayPart(DayParts.DINNER);
+		returnTestStatus(status);
+		
+		step("Step:  Select Drinks Day Part.");
+		status = mealPlanningPage.toggleDayPart(DayParts.DRINKS);
+		returnTestStatus(status);
+		
+		step("Verify: All day parts are selected.");
+		if (		mealPlanningPage.isDayPartSelected(DayParts.BREAKFAST) &&
+				mealPlanningPage.isDayPartSelected(DayParts.LUNCH) &&
+				mealPlanningPage.isDayPartSelected(DayParts.DINNER) &&
+				mealPlanningPage.isDayPartSelected(DayParts.DRINKS)) {
+			passTest("Complete");
+		}
+		else {
+			failTestAndContinue("Not All Day Parts were selected.");
+		}
+		
+		step("Verify:  AM Snack does not exist.");
+		status = mealPlanningPage.toggleDayPart(DayParts.AM_SNACK);
+		if (status.equals("Could not find daypart element.")) {
+			passTest("Complete");
+		}
 
-		assertFalse("Verify:  Breakfast Day Part can be deselected.", mealPlanningPage.isDayPartSelected(DayParts.BREAKFAST));
-		assertFalse("Verify:  Lunch Day Part can be deselected.", mealPlanningPage.isDayPartSelected(DayParts.LUNCH));
-		assertFalse("Verify:  Dinner Day Part can be deselected.", mealPlanningPage.isDayPartSelected(DayParts.DINNER));
-		assertFalse("Verify:  Drinks Day Part can be deselected.", mealPlanningPage.isDayPartSelected(DayParts.DRINKS));
-		
-		assertEquals("Step:  Select Breakfast Day Part.", "Success", mealPlanningPage.toggleDayPart(DayParts.BREAKFAST));
-		assertFalse("Verify:  View Menu button does not exist when only Meal Plan Size, Days and DayParts are selected.", mealPlanningPage.viewMenuExists());
-		
-		assertEquals("Verify:  User can select Pickup.", "Success", mealPlanningPage.selectFulfillmentOption(Fulfillment.PICKUP));
-		assertTrue("Verify:  View Menu button exists when all Meal Plan Options are chosen.", mealPlanningPage.viewMenuExists());
+		step("Verify:  PM Snack does not exist.");
+		status = mealPlanningPage.toggleDayPart(DayParts.PM_SNACK);
+		if (status.equals("Could not find daypart element.")) {
+			passTest("Complete");
+		}
 
-		assertEquals("Verify:  User can select Delivery.", "Success", mealPlanningPage.selectFulfillmentOption(Fulfillment.DELIVERY));
+		step("Step:  Deselect Breakfast Day Part.");
+		status =  mealPlanningPage.toggleDayPart(DayParts.BREAKFAST);
+		returnTestStatus(status);
+		
+		step("Step:  Deselect Lunch Day Part.");
+		status =  mealPlanningPage.toggleDayPart(DayParts.LUNCH);
+		returnTestStatus(status);
+		
+		step("Step:  Deselect Dinner Day Part.");
+		status =  mealPlanningPage.toggleDayPart(DayParts.DINNER);
+		returnTestStatus(status);
+		
+		step("Step:  Deselect Drinks Day Part.");
+		status =  mealPlanningPage.toggleDayPart(DayParts.DRINKS);
+		returnTestStatus(status);
+		
+		step("Verify: All day parts are selected.");
+		if (		!mealPlanningPage.isDayPartSelected(DayParts.BREAKFAST) &&
+				!mealPlanningPage.isDayPartSelected(DayParts.LUNCH) &&
+				!mealPlanningPage.isDayPartSelected(DayParts.DINNER) &&
+				!mealPlanningPage.isDayPartSelected(DayParts.DRINKS)) {
+			passTest("Complete");
+		}
+		else {
+			failTestAndContinue("Not All Day Parts were DE-selected.");
+		}
+		
+		step("Step:  Select Breakfast Day Part.");
+		status =  mealPlanningPage.toggleDayPart(DayParts.BREAKFAST);
+		returnTestStatus(status);
+		
+		step("Verify:  View Menu button exists when only Fulfillments, Days Per Week, and Day Parts are selected.");
+		if (mealPlanningPage.viewMenuExists()) {
+			passTest("Complete");
+		} else {
+			failTest("View Menu was not listed even though all required options were selected.");
+		}
 		
 	}
 	
@@ -452,7 +548,7 @@ public class TestMobile extends MobileTestCase {
 		System.out.println(newUser.getUsername());
 		
 		SnapHome snapHome = new SnapHome();
-		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser));
+		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning_LocalUser(newUser));
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		LowerNavPage lowerNav = new LowerNavPage();
@@ -528,7 +624,7 @@ public class TestMobile extends MobileTestCase {
 		System.out.println(newUser.getUsername());
 		
 		SnapHome snapHome = new SnapHome();
-		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning(newUser));
+		assertEquals("Step:  Create new user via Meal Planning Screens.", "Success", snapHome.createAccountViaMealPlanning_LocalUser(newUser));
 		
 		MealPlanningPage mealPlanningPage = new MealPlanningPage();
 		LowerNavPage lowerNav = new LowerNavPage();

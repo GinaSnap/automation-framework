@@ -32,7 +32,7 @@ public class TestCreateMealPlan extends MobileTestCase {
 		
 		SnapHome snapHome = new SnapHome();
 		step("Create Account via Meal Plan Page.");
-		String status = snapHome.createAccountViaMealPlanning(newUser);
+		String status = snapHome.createAccountViaMealPlanning_ShippingUser(newUser);
 		if (status.equals("Success")) {
 			passTest("Complete");
 		}
@@ -66,7 +66,7 @@ public class TestCreateMealPlan extends MobileTestCase {
 		
 		SnapHome snapHome = new SnapHome();
 		step("Create a new account via Meal Plan Page.");
-		String status = snapHome.createAccountViaMealPlanning(newUser);
+		String status = snapHome.createAccountViaMealPlanning_LocalUser(newUser);
 		if (status.equals("Success")) {
 			passTest("Complete");
 		}
@@ -456,39 +456,7 @@ public class TestCreateMealPlan extends MobileTestCase {
 		else {
 			failTest("Shipping Option was not displayed.");
 		}
-		
-		step("Click the More Options Button.");
-		status = mealPlanningPage.clickMoreOptions();
-		if (status.equals("Success")) {
-			passTest("Success");
-		}
-		else {
-			failTest(status);
-		}
-		
-		step("Verify that Delivery Option is displayed once the More Options button is clicked.");
-		if (mealPlanningPage.fulfillmentOptionExists(Fulfillment.DELIVERY)) {
-			passTest("Success");
-		}
-		else {
-			failTest("Delivery Option was not displayed.");
-		}
-		
-		step("Verify that Pickup Option is displayed once the More Options button is clicked.");
-		if (mealPlanningPage.fulfillmentOptionExists(Fulfillment.PICKUP)) {
-			passTest("Success");
-		}
-		else {
-			failTest("Pickup Option was not displayed.");
-		}
-		
-		step("Verify that Shipping Option is displayed after More Options button is clicked.");
-		if (mealPlanningPage.fulfillmentOptionExists(Fulfillment.SHIPPING)) {
-			passTest("Success");
-		}
-		else {
-			failTest("Shipping Option was not displayed.");
-		}
+
 	}
 
 }

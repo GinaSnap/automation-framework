@@ -1,7 +1,8 @@
 package mobilepage;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+
+import org.openqa.selenium.NoSuchElementException;
 
 import element.BaseMobileElement;
 import framework.FindMethod;
@@ -12,6 +13,7 @@ public class MealPlanningOptions extends BasePage {
 	
 	private final BaseMobileElement selectFulfillmentDate = new BaseMobileElement("choose a start date");
 	private final BaseMobileElement save = new BaseMobileElement("SAVE");
+	private final BaseMobileElement next = new BaseMobileElement("NEXT");
 	private final BaseMobileElement editPayment = new BaseMobileElement("payment");
 	private final BaseMobileElement addNewCard = new BaseMobileElement("Add New Card…");
 	private final BaseMobileElement card_Number = new BaseMobileElement("card number");
@@ -23,23 +25,31 @@ public class MealPlanningOptions extends BasePage {
 
 	public String selectFulfillementDate(int fulfillmentDay)
 	{
-//		try
-//		{
-//			selectFulfillmentDate.click();
-//		}
-//		catch (NoSuchElementException e)
-//		{
-//			return "Could Not Find Select Fulfillment Date Element";
-//		}
+		try {
+			selectFulfillmentDate.click();
+		} catch (NoSuchElementException e) {
+			return "Could Not Find Select Fulfillment Date Element";
+		}
 		
 		try {
 			BaseMobileElement firstFulfillmentDay = new BaseMobileElement(FindMethod.XPATH, String.format("//XCUIElementTypeButton[@name='%d']",fulfillmentDay));
 			firstFulfillmentDay.click();
-		}
-		catch (NoSuchElementException e)
-		{
+		} catch (NoSuchElementException e) {
 			return "The fulfillent day requested was not found on the calendar element.";
 		}
+		
+		try {
+			save.click();
+		} catch (NoSuchElementException e) {
+			return "The save button did not exist.";
+		}
+		
+		try {
+			next.click();
+		} catch (NoSuchElementException e) {
+			return "The next button did not exist.";
+		}
+		
 		return "Success";
 	}
 	
@@ -55,33 +65,23 @@ public class MealPlanningOptions extends BasePage {
 		}
 	}
 	
-	public String clickSave()
-	{
-		try
-		{
-			save.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Cannot find Save Button";
-		}
-		return "Success";
-	}
-	
 	public String addCreditCard(String cardNumber, String date, String cvc)
 	{
-		try 
-		{
+		try {
+			editPayment.waitUntilClickable();
 			editPayment.click();
 			addNewCard.click();
+		} catch (NoSuchElementException e) {
+			return "Error navigating to the Add Credit Card screen.";
+		}
+		
+		try {
 			card_Number.setWebValue(cardNumber);
 			card_ExpireDate.setWebValue(date);
 			card_CVC.setWebValue(cvc);
 			card_Done.click();
-		}
-		catch (NoSuchElementException e)
-		{
-			return "Error";
+		} catch (NoSuchElementException e) {
+			return "Error Entering Credit card information.";
 		}
 	
 		return "Success";
@@ -89,7 +89,12 @@ public class MealPlanningOptions extends BasePage {
 	
 	public String startSubscription()
 	{
-		startSubscription.click();
+		try {
+			startSubscription.click();
+		} catch (NoSuchElementException e) {
+			return "Could not locate the Start Subscription button on the Checkout screen.";
+		}
+		
 		return "Success";
 	}
 }

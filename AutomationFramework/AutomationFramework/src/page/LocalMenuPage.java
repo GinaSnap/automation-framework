@@ -2,7 +2,6 @@ package page;
 
 import org.openqa.selenium.NoSuchElementException;
 
-import common.PlanType;
 import element.BaseMobileElement;
 
 public class LocalMenuPage extends AbstractMenuPage {
