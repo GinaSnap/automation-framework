@@ -19,5 +19,17 @@ public class TestProductImages extends BaseTestCase {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testCheckKeyIngredientImages()
+	{
+		SnapAPIUtilities snapAPI = new SnapAPIUtilities();
+		try {
+			snapAPI.getProductDetailJson();;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

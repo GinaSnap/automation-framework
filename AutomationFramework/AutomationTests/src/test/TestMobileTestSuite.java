@@ -6,9 +6,10 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	TestCreateMealPlan.class, 
-	TestLogin.class, TestMobile.class, 
+	TestLogin.class, 
 	TestMobileAccount.class,
-//	TestMobile.class,
+	TestMobile.class,
+	TestMobileDataCreation.class,
 //	TestMobilePaymentType.class
 	})
 public class TestMobileTestSuite {
